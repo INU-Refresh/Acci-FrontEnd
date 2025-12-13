@@ -1,4 +1,4 @@
-# 한문철 AI - FSD 절대경로 설정 가이드
+# Acci - FSD 절대경로 설정 가이드
 
 교통사고 영상 분석 플랫폼을 위한 FSD(Feature-Sliced Design) 아키텍처 절대경로 설정 가이드입니다.
 

@@ -1,6 +1,6 @@
 # 📋 개발 컨벤션
 
-한문철 AI 프로젝트의 개발 컨벤션 가이드입니다. 이 문서는 프로젝트의 코드 작성, 커밋, PR, 브랜치 전략 등 개발 시 필요한 모든 컨벤션을 안내합니다.
+Acci 프로젝트의 개발 컨벤션 가이드입니다. 이 문서는 프로젝트의 코드 작성, 커밋, PR, 브랜치 전략 등 개발 시 필요한 모든 컨벤션을 안내합니다.
 
 ## 📋 목차
 
@@ -25,7 +25,7 @@
 
 ```bash
 # 저장소 클론
-git clone https://github.com/INU-Refresh/HanMoonChul-AI-FrontEnd.git
+git clone https://github.com/INU-Refresh/Acci-FrontEnd.git
 
 # 의존성 설치
 npm install

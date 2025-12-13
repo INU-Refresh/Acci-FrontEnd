@@ -13,7 +13,7 @@ export default function AuthPage() {
                 <path d="M6 6h8v2H6V6zm0 4h8v2H6v-2zm0 4h8v2H6v-2zm12-6h-4v8h4V8z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
-            <h1 className="text-4xl font-bold text-black">한문철 AI</h1>
+            <h1 className="text-4xl font-bold text-black">Acci</h1>
           </div>
 
           {/* Description */}

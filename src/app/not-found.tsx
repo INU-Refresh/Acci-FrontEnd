@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from "next";
 import { Button } from "@/shared/ui/button";
 
 export const metadata: Metadata = {
-  title: "페이지를 찾을 수 없습니다 - 한문철 AI",
+  title: "페이지를 찾을 수 없습니다 - Acci",
   description: "요청하신 페이지를 찾을 수 없습니다.",
 };
 
@@ -21,7 +21,7 @@ export default function NotFound() {
           <div className="h-14 sm:h-16 flex items-center justify-between gap-2">
             <Link href="/" className="flex items-center gap-1.5 sm:gap-2 shrink-0 min-w-0">
               <div className="w-7 h-7 sm:w-8 sm:h-8 bg-primary rounded flex items-center justify-center text-primary-foreground font-bold text-xs sm:text-sm shrink-0">AI</div>
-              <span className="font-semibold text-sm sm:text-base md:text-lg text-gray-900 truncate">한문철 AI</span>
+              <span className="font-semibold text-sm sm:text-base md:text-lg text-gray-900 truncate">Acci</span>
             </Link>
             <nav className="hidden md:flex items-center gap-6">
               <Link href="/analyze" className="text-sm font-medium text-gray-900 hover:text-primary transition-colors">
@@ -113,7 +113,7 @@ export default function NotFound() {
       {/* Footer */}
       <footer className="bg-gray-900 text-white border-t border-gray-800">
         <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 py-6 sm:py-8 md:py-12 max-w-7xl">
-          <div className="text-center text-sm text-gray-400">© 2025 한문철 AI. All rights reserved.</div>
+          <div className="text-center text-sm text-gray-400">© 2025 Acci. All rights reserved.</div>
         </div>
       </footer>
     </div>

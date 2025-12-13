@@ -1,13 +1,74 @@
-# 한문철 AI - 교통사고 영상 분석 플랫폼
+# Acci - 교통사고 과실비율 측정 플랫폼
 
-교통사고 영상을 AI가 분석하여 과실비율, 분석이유, 관련 판례를 제공하는 분쟁심의 지원 플랫폼입니다. Next.js 앱 라우터와 FSD(Feature-Sliced Design) 아키텍처를 사용하여 개발되었습니다.
+교통사고 영상을 AI가 분석하여 과실비율, 분석이유, 관련 판례를 제공하는 분쟁심의 지원 플랫폼입니다.
+
+<br>
+
+## 🔗 Acci 바로가기
+
+<a href="https://acci-ai.vercel.app/"><b>https://acci-ai.vercel.app/</b></a>
+
+<br>
 
 ## 🚀 기술 스택
 
-- **Frontend**: Next.js 16 (App Router), React 19, TypeScript
-- **Styling**: Tailwind CSS
-- **Architecture**: Feature-Sliced Design (FSD)
-- **Linting**: ESLint
+프론트엔드 : Next.js 16 (App Router), React 19, TypeScript
+
+스타일링 : Tailwind CSS
+
+아키텍처 : Feature-Sliced Design (FSD)
+
+린트 : ESLint
+
+상태관리 : Zustand
+
+라이브러리 : axios, shadcn-ui, clsx, tanstack-query
+
+<br>
+
+## UML 다이어그램
+
+<div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 10px;">
+  <img src="docs/images/UML_structural.png" width="300">
+  <img src="docs/images/UML_deployment.png" width="300">
+</div>
+<div style="display: flex; justify-content: center; gap: 10px;">
+  <img src="docs/images/UML_behavioral.png" width="300">
+  <img src="docs/images/UML_sequence.png" width="300">
+</div>
+
+<br>
+
+## 기능명세서
+
+<div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 10px;">
+  <img src="docs/images/기능명세서1.png" width="300">
+  <img src="docs/images/기능명세서2.png" width="300">
+</div>
+<div style="display: flex; justify-content: center; gap: 10px;">
+  <img src="docs/images/기능명세서3.png" width="300">
+  <img src="docs/images/기능명세서4.png" width="300">
+</div>
+
+<br>
+
+<!-- ## ERD 다이어그램 -->
+
+## API 명세서
+
+<div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 10px;">
+  <img src="docs/images/API명세서.png" width="600">
+</div>
+
+<br>
+
+## 프로젝트 일정표
+
+<div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 10px;">
+  <img src="docs/images/일정표.png" width="600">
+</div>
+
+<br>
 
 ## 📁 프로젝트 구조 (FSD)
 
@@ -32,6 +93,8 @@ src/
     ├── api/                 # API 클라이언트
     └── config/              # 설정 파일
 ```
+
+<br>
 
 ## 🛠️ 개발 환경 설정
 

@@ -1,5 +1,5 @@
 #!/bin/sh
 cd ../
 mkdir output
-cp -R ./HanMoonChul-AI-FrontEnd/* ./output
-cp -R ./output ./HanMoonChul-AI-FrontEnd/
+cp -R ./Acci-FrontEnd/* ./output
+cp -R ./output ./Acci-FrontEnd/

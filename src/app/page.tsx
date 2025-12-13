@@ -16,7 +16,7 @@ export default function HomePage() {
           <div className="h-14 sm:h-16 flex items-center justify-between gap-2">
             <Link href="/" className="flex items-center gap-1.5 sm:gap-2 shrink-0 min-w-0">
               <div className="w-7 h-7 sm:w-8 sm:h-8 bg-primary rounded flex items-center justify-center text-primary-foreground font-bold text-xs sm:text-sm shrink-0">AI</div>
-              <span className="font-semibold text-sm sm:text-base md:text-lg text-gray-900 truncate">한문철 AI</span>
+              <span className="font-semibold text-sm sm:text-base md:text-lg text-gray-900 truncate">Acci</span>
             </Link>
             <nav className="hidden md:flex items-center gap-6">
               <Link href="/analyze" className="text-sm font-medium text-gray-900 hover:text-primary transition-colors">
@@ -85,7 +85,7 @@ export default function HomePage() {
               교통사고 과실비율
             </h1>
             <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-xl mx-auto md:mx-0 px-1">
-              복잡한 법적 문제를 빠르고 정확하게 해결하세요. 한문철 AI가 교통사고 영상을 분석하여 객관적인 과실비율과 판단 근거를 제공합니다.
+              복잡한 법적 문제를 빠르고 정확하게 해결하세요. Acci가 교통사고 영상을 분석하여 객관적인 과실비율과 판단 근거를 제공합니다.
             </p>
             <div className="flex justify-center md:justify-start pt-2">
               <Link href="/analyze" className="w-full sm:w-auto">
@@ -118,7 +118,7 @@ export default function HomePage() {
       {/* Features Section */}
       <section className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 py-8 sm:py-12 md:py-16 lg:py-20 bg-gray-50 max-w-7xl">
         <div className="text-center mb-6 sm:mb-8 md:mb-12">
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-2 sm:mb-4 text-gray-900 px-2">한문철 AI의 특별한 기능</h2>
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-2 sm:mb-4 text-gray-900 px-2">Acci의 특별한 기능</h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
           <Card>
@@ -142,7 +142,7 @@ export default function HomePage() {
               <CardTitle>교통사고 과실비율 측정</CardTitle>
             </CardHeader>
             <CardContent>
-              <CardDescription>한문철 AI가 객관적인 교통사고 과실비율을 측정하여 제공합니다.</CardDescription>
+              <CardDescription>Acci가 객관적인 교통사고 과실비율을 측정하여 제공합니다.</CardDescription>
             </CardContent>
           </Card>
 
@@ -168,7 +168,7 @@ export default function HomePage() {
               <CardTitle>판단근거 제공</CardTitle>
             </CardHeader>
             <CardContent>
-              <CardDescription>한문철 AI가 과거 판례와 비교하여 판단 근거를 제공합니다.</CardDescription>
+              <CardDescription>Acci가 과거 판례와 비교하여 판단 근거를 제공합니다.</CardDescription>
             </CardContent>
           </Card>
 
@@ -197,7 +197,7 @@ export default function HomePage() {
               <CardTitle>관련 판례 제공</CardTitle>
             </CardHeader>
             <CardContent>
-              <CardDescription>한문철 AI가 관련된 판례를 제공합니다.</CardDescription>
+              <CardDescription>Acci가 관련된 판례를 제공합니다.</CardDescription>
             </CardContent>
           </Card>
         </div>
@@ -213,7 +213,7 @@ export default function HomePage() {
           {[
             {
               rating: 5,
-              comment: "보험사에서 불공정한 과실비율을 제시했는데, 한문철 AI로 객관적인 분석을 받을 수 있어서 정말 도움이 되었습니다.",
+              comment: "보험사에서 불공정한 과실비율을 제시했는데, Acci로 객관적인 분석을 받을 수 있어서 정말 도움이 되었습니다.",
               name: "성**",
               age: "20대, 남",
               avatar: "👤",
@@ -261,9 +261,9 @@ export default function HomePage() {
       {/* Bottom CTA Section */}
       <section className="bg-gray-100 py-8 sm:py-12 md:py-16 lg:py-20">
         <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 text-center space-y-3 sm:space-y-4 md:space-y-6 max-w-7xl">
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 px-2 leading-tight">지금 바로 한문철 AI의 과실 비율을 확인해보세요</h2>
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 px-2 leading-tight">지금 바로 Acci의 과실 비율을 확인해보세요</h2>
           <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto px-2">
-            보험사에서 불공정한 과실비율 판단을 받았다고 걱정하지 마세요. 한문철 AI가 스마트하게 도와드립니다.
+            보험사에서 불공정한 과실비율 판단을 받았다고 걱정하지 마세요. Acci가 스마트하게 도와드립니다.
           </p>
           <Link href="/analyze" className="inline-block w-full sm:w-auto">
             <Button size="lg" variant="secondary" className="gap-2 w-full sm:w-auto text-sm sm:text-base">
@@ -294,7 +294,7 @@ export default function HomePage() {
             <div className="space-y-4">
               <Link href="/" className="flex items-center gap-2">
                 <div className="w-8 h-8 bg-white text-gray-900 rounded flex items-center justify-center font-bold">AI</div>
-                <span className="font-semibold text-lg">한문철 AI</span>
+                <span className="font-semibold text-lg">Acci</span>
               </Link>
               <p className="text-sm text-gray-400">AI가 제공하는 더 쉽고 정확한 교통사고 과실비율 분석 서비스</p>
             </div>
@@ -328,12 +328,12 @@ export default function HomePage() {
             <div>
               <h3 className="font-semibold mb-4">연락처</h3>
               <ul className="space-y-2 text-sm text-gray-400">
-                <li>support@hanmuncheol.ai</li>
+                <li>support@acci.ai</li>
                 <li>전화번호: 000-0000-0000</li>
               </ul>
             </div>
           </div>
-          <div className="pt-8 border-t border-gray-800 text-center text-sm text-gray-400">© 2025 한문철 AI. All rights reserved.</div>
+          <div className="pt-8 border-t border-gray-800 text-center text-sm text-gray-400">© 2025 Acci. All rights reserved.</div>
         </div>
       </footer>
     </div>
