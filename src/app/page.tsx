@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
@@ -26,8 +25,8 @@ export default function HomePage() {
               <Link href="/judicial-precedent" className="text-sm font-medium text-gray-900 hover:text-primary transition-colors">
                 판례
               </Link>
-              <Link href="/my-page" className="text-sm font-medium text-gray-900 hover:text-primary transition-colors">
-                마이페이지
+              <Link href="/my-page/123" className="text-sm font-medium text-gray-900 hover:text-primary transition-colors">
+                마이페이지 123
               </Link>
               <Link href="/auth">
                 <Button variant="default" size="default" className="bg-black text-white">
@@ -57,11 +56,7 @@ export default function HomePage() {
           {/* Mobile Menu */}
           {mobileMenuOpen && (
             <div className="md:hidden border-t py-4 space-y-4">
-              <Link
-                href="/analyze"
-                className="block px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50 transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
+              <Link href="/analyze" className="block px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50 transition-colors" onClick={() => setMobileMenuOpen(false)}>
                 분석
               </Link>
               <Link
@@ -71,12 +66,8 @@ export default function HomePage() {
               >
                 판례
               </Link>
-              <Link
-                href="/my-page"
-                className="block px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50 transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                마이페이지
+              <Link href="/my-page/123" className="block px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                마이페이지 123
               </Link>
             </div>
           )}
@@ -311,11 +302,13 @@ export default function HomePage() {
               <h3 className="font-semibold mb-4">지원</h3>
               <ul className="space-y-2 text-sm">
                 <li>
+                  {/* @ts-expect-error - /help route will be created later */}
                   <Link href="/help" className="text-gray-400 hover:text-white transition-colors">
                     도움말
                   </Link>
                 </li>
                 <li>
+                  {/* @ts-expect-error - /contact route will be created later */}
                   <Link href="/contact" className="text-gray-400 hover:text-white transition-colors">
                     문의하기
                   </Link>

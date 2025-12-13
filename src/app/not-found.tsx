@@ -24,17 +24,16 @@ export default function NotFound() {
               <span className="font-semibold text-sm sm:text-base md:text-lg text-gray-900 truncate">한문철 AI</span>
             </Link>
             <nav className="hidden md:flex items-center gap-6">
-              {/* @ts-expect-error - Next.js typedRoutes type generation */}
               <Link href="/analyze" className="text-sm font-medium text-gray-900 hover:text-primary transition-colors">
                 분석
               </Link>
-              {/* @ts-expect-error - Next.js typedRoutes type generation */}
+
               <Link href="/judicial-precedent" className="text-sm font-medium text-gray-900 hover:text-primary transition-colors">
                 판례
               </Link>
-              {/* @ts-expect-error - Next.js typedRoutes type generation */}
-              <Link href="/my-page" className="text-sm font-medium text-gray-900 hover:text-primary transition-colors">
-                마이페이지
+
+              <Link href="/my-page/123" className="text-sm font-medium text-gray-900 hover:text-primary transition-colors">
+                마이페이지 123
               </Link>
               <Link href="/auth">
                 <Button variant="default" size="default" className="bg-black text-white">
@@ -87,7 +86,6 @@ export default function NotFound() {
                   </svg>
                 </Button>
               </Link>
-              {/* @ts-expect-error - Next.js typedRoutes type generation */}
               <Link href="/analyze">
                 <Button size="lg" variant="outline" className="w-full sm:w-auto text-sm sm:text-base">
                   분석 시작하기

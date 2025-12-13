@@ -1,5 +1,3 @@
-import { Oi } from "next/font/google";
-
 interface MyPageProps {
   id: string;
 }
