@@ -2,7 +2,7 @@
 name: Acci Issue
 about: Acci 프론트엔드 이슈를 작성합니다
 labels: 'bug, enhancement, question, task'
-title: '이슈 제목을 작성해주세요'
+title: '✨ feat : 이슈 제목'
 assignees: ''
 ---
 
