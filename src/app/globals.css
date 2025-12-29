@@ -35,6 +35,7 @@
   --primary-900: #003ca5;
 
   /* Gray Color Palette */
+  --gray-0: #ffffff;
   --gray-50: #f4f5f6;
   --gray-100: #e7ebee;
   --gray-200: #d1d7dc;
@@ -83,6 +84,7 @@
   --color-primary-900: var(--primary-900);
 
   /* Gray Color Palette */
+  --color-gray-0: var(--gray-0);
   --color-gray-50: var(--gray-50);
   --color-gray-100: var(--gray-100);
   --color-gray-200: var(--gray-200);

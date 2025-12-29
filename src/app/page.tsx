@@ -12,7 +12,7 @@ export default function HomePage() {
       <Header />
 
       {/* 1.3 첫번째 섹션 */}
-      <section className="container mx-auto px-4 sm:px-10 py-8 sm:py-32 max-w-7xl">
+      <section className="container mx-auto px-4 sm:px-10 py-10 sm:py-20 max-w-7xl">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-12 items-center">
           {/* 1.3.1 첫번째 섹션 왼쪽 */}
           <div className="space-y-3 sm:space-y-6 text-center sm:text-left">
@@ -39,7 +39,7 @@ export default function HomePage() {
       </section>
 
       {/* 1.4 두번째 섹션 */}
-      <section className="container mx-auto px-4 sm:px-10 py-8 sm:py-20 max-w-7xl">
+      <section className="container mx-auto px-4 sm:px-10 max-w-7xl">
         <div className="text-center mb-6 sm:mb-12">
           <h2 className="title-2 mb-2 sm:mb-4 text-gray-900">Acci의 특별한 기능</h2>
           <p className="body-4 text-gray-600 mt-2 max-w-[270px] mx-auto sm:max-w-none">Acci가 객관적인 교통사고 과실비율 및 판단근거, 관련 판례를 제공합니다</p>
@@ -98,7 +98,7 @@ export default function HomePage() {
       </section>
 
       {/* 1.6 네번째 섹션 */}
-      <section className="container mx-auto px-4 sm:px-10 py-8 sm:py-20 max-w-7xl">
+      <section className="container mx-auto px-4 sm:px-10 max-w-7xl">
         <div className="text-center mb-6 sm:mb-12">
           <h2 className="title-2 mb-2 text-gray-900">사용자 후기</h2>
           <p className="body-4 text-gray-600 mt-2">실제 사용자들의 생생한 경험담을 확인해보세요</p>
@@ -153,15 +153,15 @@ export default function HomePage() {
       </section>
 
       {/* 1.7 다섯번째 섹션 */}
-      <section className="py-8 sm:py-20">
-        <div className="container mx-auto px-4 sm:px-10 text-center space-y-3 sm:space-y-6 max-w-7xl">
-          <h2 className="title-2 text-gray-900 leading-tight">지금 바로 Acci의 과실비율을 확인해보세요</h2>
-          <div className="space-y-2 body-4 text-gray-600 max-w-2xl mx-auto">
+      <section className="py-8 sm:py-20 ">
+        <div className="container mx-auto px-4 sm:px-10 py-9 sm:py-10 text-center space-y-3 sm:space-y-6 max-w-7xl bg-gray-900">
+          <h2 className="title sm:title-4 text-gray-0 leading-tight">지금 바로 Acci의 과실비율을 확인해보세요</h2>
+          <div className="space-y-2 body-6 text-gray-0 max-w-2xl mx-auto">
             <p>보험사의 억울한 과실비율 판정, 더 이상 혼자 고민하지 마세요.</p>
             <p>똑똑한 AI의 도움을 언제든지 받을 수 있습니다.</p>
           </div>
           <Link href="/analyze" className="inline-block w-full sm:w-auto">
-            <Button size="lg" variant="secondary" className="gap-2 w-full sm:w-auto text-sm sm:text-base bg-white text-gray-900 hover:bg-gray-100">
+            <Button size="lg" variant="secondary" className="gap-2 w-full sm:w-auto text-sm sm:body-7 bg-white text-gray-900 hover:bg-gray-100">
               시작하기
             </Button>
           </Link>
