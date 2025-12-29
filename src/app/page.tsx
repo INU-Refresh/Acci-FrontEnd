@@ -9,37 +9,39 @@ export default function HomePage() {
       {/* Header */}
       <Header />
 
-      {/* Hero Section */}
-      <section className="container mx-auto px-6 sm:px-10 py-8 sm:py-12 md:py-16 lg:py-20 xl:py-32 bg-white max-w-7xl">
-        <div className="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center">
-          <div className="space-y-3 sm:space-y-4 md:space-y-6 text-center md:text-left">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight text-gray-900 leading-tight">
+      {/* 1.3 첫번째 섹션 */}
+      <section className="container mx-auto px-6 sm:px-10 py-8 sm:py-32 max-w-7xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-12 items-center">
+          {/* 1.3.1 첫번째 섹션 왼쪽 */}
+          <div className="space-y-3 sm:space-y-6 text-center sm:text-left">
+            <h1 className="title-1 text-gray-900 sm:title-4">
               AI가 판단하는
               <br />
               교통사고 과실비율
             </h1>
-            <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-xl mx-auto md:mx-0">Acci가 교통사고 과실비율을 빠르고 정확하게 판단해드립니다.</p>
-            <div className="flex justify-center md:justify-start pt-2">
+            <p className="text-body-8 sm:body-4 text-gray-600 max-w-xl mx-auto sm:mx-0">Acci가 교통사고 과실비율을 빠르고 정확하게 판단해드립니다.</p>
+            <div className="flex justify-center sm:justify-start">
               <Link href="/analyze" className="w-full sm:w-auto">
-                <Button size="lg" className="gap-2 w-full sm:w-auto text-sm sm:text-base bg-black text-white hover:bg-black/90">
+                <Button size="lg" className="gap-2 w-full h-14 sm:w-auto text-sm sm:text-base bg-black text-white hover:bg-black/90">
                   → 교통사고 분석하기
                 </Button>
               </Link>
             </div>
           </div>
-          <div className="bg-gray-100 rounded-lg aspect-video flex items-center justify-center text-gray-500 order-first md:order-last min-h-[200px] sm:min-h-0">
-            <p className="text-center text-xs sm:text-sm md:text-base px-2">사용하는 움짤 들어감</p>
+          {/* 1.3.2 첫번째 섹션 오른쪽 */}
+          <div className="hidden sm:flex bg-gray-100 rounded-lg aspect-video items-center justify-center text-gray-500 order-first sm:order-last min-h-[200px] sm:min-h-0">
+            <p className="text-center text-xs sm:text-base px-2">사용하는 움짤 들어감</p>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="container mx-auto px-6 sm:px-10 py-8 sm:py-12 md:py-16 lg:py-20 bg-gray-50 max-w-7xl">
-        <div className="text-center mb-6 sm:mb-8 md:mb-12">
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-2 sm:mb-4 text-gray-900">Acci의 특별한 기능</h2>
-          <p className="text-sm sm:text-base md:text-lg text-gray-600 mt-2">Acci가 객관적인 교통사고 과실비율 및 판단근거, 관련 판례를 제공합니다</p>
+      {/* 1.4 두번째 섹션 */}
+      <section className="container mx-auto px-6 sm:px-10 py-8 sm:py-20 max-w-7xl">
+        <div className="text-center mb-6 sm:mb-12">
+          <h2 className="text-xl sm:text-4xl font-bold mb-2 sm:mb-4 text-gray-900">Acci의 특별한 기능</h2>
+          <p className="text-sm sm:text-lg text-gray-600 mt-2">Acci가 객관적인 교통사고 과실비율 및 판단근거, 관련 판례를 제공합니다</p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
           <Card>
             <CardHeader>
               <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
@@ -91,7 +93,7 @@ export default function HomePage() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="sm:col-span-2 md:col-span-1">
             <CardHeader>
               <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
                 <svg
@@ -122,24 +124,24 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Repair Estimate Section */}
-      <section className="container mx-auto px-6 sm:px-10 py-8 sm:py-12 md:py-16 lg:py-20 bg-white max-w-7xl">
-        <div className="text-center mb-6 sm:mb-8 md:mb-12">
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-2 sm:mb-4 text-gray-900">Acci와 알아보는 수리비 견적</h2>
-          <p className="text-sm sm:text-base md:text-lg text-gray-600 mt-2">Acci는 파손 부위 또는 사진을 통해 예상 수리비 견적을 제공합니다</p>
+      {/* 1.5 세번째 섹션 */}
+      <section className="container mx-auto px-6 sm:px-10 py-8 sm:py-20 max-w-7xl">
+        <div className="text-center mb-6 sm:mb-12">
+          <h2 className="text-xl sm:text-4xl font-bold mb-2 sm:mb-4 text-gray-900">Acci와 알아보는 수리비 견적</h2>
+          <p className="text-sm sm:text-lg text-gray-600 mt-2">Acci는 파손 부위 또는 사진을 통해 예상 수리비 견적을 제공합니다</p>
         </div>
-        <div className="bg-gray-100 rounded-lg aspect-video flex items-center justify-center text-gray-500 min-h-[200px] sm:min-h-[300px] md:min-h-[400px]">
-          <p className="text-center text-xs sm:text-sm md:text-base px-2">수리비 견적 이미지 영역</p>
+        <div className="bg-gray-100 rounded-lg aspect-video flex items-center justify-center text-gray-500 min-h-[200px] sm:min-h-[400px]">
+          <p className="text-center text-xs sm:text-base px-2">수리비 견적 이미지 영역</p>
         </div>
       </section>
 
-      {/* User Reviews Section */}
-      <section className="container mx-auto px-6 sm:px-10 py-8 sm:py-12 md:py-16 lg:py-20 bg-white max-w-7xl">
-        <div className="text-center mb-6 sm:mb-8 md:mb-12">
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-2 text-gray-900">사용자 후기</h2>
-          <p className="text-xs sm:text-sm md:text-base text-gray-600 mt-2">실제 사용자들의 생생한 경험담을 확인해보세요</p>
+      {/* 1.6 네번째 섹션 */}
+      <section className="container mx-auto px-6 sm:px-10 py-8 sm:py-20 max-w-7xl">
+        <div className="text-center mb-6 sm:mb-12">
+          <h2 className="text-xl sm:text-4xl font-bold mb-2 text-gray-900">사용자 후기</h2>
+          <p className="text-xs sm:text-base text-gray-600 mt-2">실제 사용자들의 생생한 경험담을 확인해보세요</p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
           {[
             {
               rating: 5,
@@ -163,7 +165,7 @@ export default function HomePage() {
               avatar: "👤",
             },
           ].map((review, index) => (
-            <Card key={index}>
+            <Card key={index} className={index === 2 ? "sm:col-span-2 md:col-span-1" : ""}>
               <CardHeader>
                 <div className="flex gap-1 mb-4">
                   {Array.from({ length: review.rating }).map((_, i) => (
@@ -188,11 +190,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Bottom CTA Section */}
-      <section className="bg-gray-800 py-8 sm:py-12 md:py-16 lg:py-20">
-        <div className="container mx-auto px-6 sm:px-10 text-center space-y-3 sm:space-y-4 md:space-y-6 max-w-7xl">
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white leading-tight">지금 바로 Acci의 과실비율을 확인해보세요</h2>
-          <div className="space-y-2 text-sm sm:text-base md:text-lg text-white max-w-2xl mx-auto">
+      {/* 1.7 다섯번째 섹션 */}
+      <section className="py-8 sm:py-20">
+        <div className="container mx-auto px-6 sm:px-10 text-center space-y-3 sm:space-y-6 max-w-7xl">
+          <h2 className="text-xl sm:text-4xl font-bold text-gray-900 leading-tight">지금 바로 Acci의 과실비율을 확인해보세요</h2>
+          <div className="space-y-2 text-sm sm:text-lg text-gray-600 max-w-2xl mx-auto">
             <p>보험사의 억울한 과실비율 판정, 더 이상 혼자 고민하지 마세요.</p>
             <p>똑똑한 AI의 도움을 언제든지 받을 수 있습니다.</p>
           </div>
@@ -204,39 +206,39 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white border-t border-gray-800">
-        <div className="container mx-auto px-6 sm:px-10 py-6 sm:py-8 md:py-12 max-w-7xl">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 mb-4 sm:mb-6 md:mb-8">
+      {/* 1.8 푸터 */}
+      <footer className="text-gray-900 border-t border-gray-200">
+        <div className="container mx-auto px-6 sm:px-10 py-6 sm:py-12 max-w-7xl">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8 mb-4 sm:mb-8">
             <div className="space-y-4">
               <Link href="/" className="flex items-center gap-2">
                 <div className="w-8 h-8 bg-white text-gray-900 rounded flex items-center justify-center font-bold">AI</div>
                 <span className="font-semibold text-lg">Acci</span>
               </Link>
-              <p className="text-sm text-gray-400">AI가 제공하는 더 쉽고 정확한 교통사고 과실비율 분석 서비스</p>
+              <p className="text-sm text-gray-600">AI가 제공하는 더 쉽고 정확한 교통사고 과실비율 분석 서비스</p>
             </div>
             <div>
               <h3 className="font-semibold mb-4">지원</h3>
               <ul className="space-y-2 text-sm">
                 <li>
                   {/* @ts-expect-error - /help route will be created later */}
-                  <Link href="/help" className="text-gray-400 hover:text-white transition-colors">
+                  <Link href="/help" className="text-gray-600 hover:text-gray-900 transition-colors">
                     도움말
                   </Link>
                 </li>
                 <li>
                   {/* @ts-expect-error - /contact route will be created later */}
-                  <Link href="/contact" className="text-gray-400 hover:text-white transition-colors">
+                  <Link href="/contact" className="text-gray-600 hover:text-gray-900 transition-colors">
                     문의하기
                   </Link>
                 </li>
                 <li>
-                  <Link href="/policies/privacy-policy" className="text-gray-400 hover:text-white transition-colors">
+                  <Link href="/policies/privacy-policy" className="text-gray-600 hover:text-gray-900 transition-colors">
                     개인정보처리방침
                   </Link>
                 </li>
                 <li>
-                  <Link href="/policies/terms-of-service" className="text-gray-400 hover:text-white transition-colors">
+                  <Link href="/policies/terms-of-service" className="text-gray-600 hover:text-gray-900 transition-colors">
                     이용약관
                   </Link>
                 </li>
@@ -244,13 +246,13 @@ export default function HomePage() {
             </div>
             <div>
               <h3 className="font-semibold mb-4">연락처</h3>
-              <ul className="space-y-2 text-sm text-gray-400">
+              <ul className="space-y-2 text-sm text-gray-600">
                 <li>support@acci.ai</li>
                 <li>전화번호: 000-0000-0000</li>
               </ul>
             </div>
           </div>
-          <div className="pt-8 border-t border-gray-800 text-center text-sm text-gray-400">© 2025 Acci. All rights reserved.</div>
+          <div className="pt-8 border-t border-gray-200 text-center text-sm text-gray-600">© 2025 Acci. All rights reserved.</div>
         </div>
       </footer>
     </div>
