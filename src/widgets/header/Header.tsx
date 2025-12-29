@@ -31,7 +31,7 @@ export function Header() {
   return (
     <>
       <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/95 backdrop-blur supports-backdrop-filter:bg-white/60">
-        <div className="container mx-auto px-6 sm:px-10 max-w-7xl">
+        <div className="container mx-auto px-4 sm:px-10 max-w-7xl">
           <div className="h-14 sm:h-16 flex items-center justify-between gap-2">
             <Link href="/" className="flex items-center gap-1.5 sm:gap-2 shrink-0 min-w-0">
               <div className="w-7 h-7 sm:w-8 sm:h-8 bg-primary rounded flex items-center justify-center text-primary-foreground font-bold text-xs sm:text-sm shrink-0">로고</div>
