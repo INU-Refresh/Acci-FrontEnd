@@ -35,7 +35,6 @@
   --primary-900: #003ca5;
 
   /* Gray Color Palette */
-  --gray-0: #ffffff;
   --gray-50: #f4f5f6;
   --gray-100: #e7ebee;
   --gray-200: #d1d7dc;
@@ -84,7 +83,6 @@
   --color-primary-900: var(--primary-900);
 
   /* Gray Color Palette */
-  --color-gray-0: var(--gray-0);
   --color-gray-50: var(--gray-50);
   --color-gray-100: var(--gray-100);
   --color-gray-200: var(--gray-200);
@@ -103,106 +101,106 @@
 }
 
 /* Typography System - Heading Styles */
-.title-1 {
+@utility text-title1 {
   font-size: 36px;
   font-weight: 600;
-  line-height: 140%;
+  line-height: 150%;
   letter-spacing: -0.02em;
 }
 
-.title-2 {
+@utility text-title2 {
   font-size: 32px;
   font-weight: 600;
-  line-height: 140%;
+  line-height: 150%;
   letter-spacing: -0.02em;
 }
 
-.title-3 {
+@utility text-title3 {
   font-size: 28px;
   font-weight: 600;
-  line-height: 140%;
+  line-height: 150%;
   letter-spacing: -0.02em;
 }
 
-.title-4 {
+@utility text-title4 {
   font-size: 24px;
   font-weight: 600;
-  line-height: 140%;
+  line-height: 150%;
   letter-spacing: -0.02em;
 }
 
 /* Typography System - Body Styles */
-.body-1 {
+@utility text-body1 {
   font-size: 20px;
   font-weight: 500;
   line-height: 150%;
   letter-spacing: -0.02em;
 }
 
-.body-2 {
+@utility text-body2 {
   font-size: 20px;
   font-weight: 400;
   line-height: 150%;
   letter-spacing: -0.02em;
 }
 
-.body-3 {
+@utility text-body3 {
   font-size: 18px;
   font-weight: 500;
   line-height: 150%;
   letter-spacing: -0.02em;
 }
 
-.body-4 {
+@utility text-body4 {
   font-size: 18px;
   font-weight: 400;
   line-height: 150%;
   letter-spacing: -0.02em;
 }
 
-.body-5 {
+@utility text-body5 {
   font-size: 16px;
   font-weight: 500;
   line-height: 150%;
   letter-spacing: -0.02em;
 }
 
-.body-6 {
+@utility text-body6 {
   font-size: 16px;
   font-weight: 400;
   line-height: 150%;
   letter-spacing: -0.02em;
 }
 
-.body-7 {
+@utility text-body7 {
   font-size: 14px;
   font-weight: 500;
   line-height: 150%;
   letter-spacing: -0.02em;
 }
 
-.body-8 {
+@utility text-body8 {
   font-size: 14px;
   font-weight: 400;
   line-height: 150%;
   letter-spacing: -0.02em;
 }
 
-.body-9 {
+@utility text-body9 {
   font-size: 12px;
   font-weight: 500;
   line-height: 150%;
   letter-spacing: -0.02em;
 }
 
-.body-10 {
+@utility text-body10 {
   font-size: 12px;
   font-weight: 400;
   line-height: 150%;
   letter-spacing: -0.02em;
 }
 
-.body-11 {
+@utility text-body11 {
   font-size: 10px;
   font-weight: 400;
   line-height: 150%;
@@ -210,7 +208,7 @@
 }
 
 /* Typography System - Button Style */
-.btn-1 {
+@utility text-btn1 {
   font-size: 20px;
   font-weight: 600;
   line-height: 150%;
