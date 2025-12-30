@@ -30,3 +30,10 @@ export const KakaoIcon = React.forwardRef<SVGSVGElement, IconProps>(({ className
   </svg>
 ));
 KakaoIcon.displayName = "KakaoIcon";
+
+export const CheckIcon = React.forwardRef<SVGSVGElement, IconProps>(({ className, ...props }, ref) => (
+  <svg ref={ref} viewBox="0 0 24 24" className={cn("h-4 w-4", className)} aria-hidden="true" {...props}>
+    <path d="M20 6 9 17l-5-5" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+  </svg>
+));
+CheckIcon.displayName = "CheckIcon";
