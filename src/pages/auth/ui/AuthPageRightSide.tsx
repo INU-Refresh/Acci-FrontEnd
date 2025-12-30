@@ -3,8 +3,12 @@ import Link from "next/link";
 import AuthPageButton from "@/pages/auth/ui/AuthPageButton";
 import { GoogleIcon, KakaoIcon, NaverIcon } from "@/shared/ui/icons";
 
+const OAUTH_BASE_URL = process.env.NEXT_PUBLIC_OAUTH_BASE_URL;
 
 export default function AuthPageRightSide() {
+  const handleOAuthLogin = (provider: "kakao" | "naver" | "google") => {
+    window.location.href = `${OAUTH_BASE_URL}/${provider}`;
+  };
 
   return (
     <main className="flex flex-1 items-center justify-center px-6 py-12 md:px-10">
@@ -16,15 +20,15 @@ export default function AuthPageRightSide() {
           <div className="text-base font-normal leading-6 text-neutral-800">소셜 계정으로 간편하게 시작하세요</div>
         </div>
 
-        <AuthPageButton className="border border-gray-300 bg-white text-neutral-800 hover:bg-gray-100">
+        <AuthPageButton className="border border-gray-300 bg-white text-neutral-800 hover:bg-gray-100" onClick={() => handleOAuthLogin("google")}>
           <GoogleIcon />
           Google로 계속하기
         </AuthPageButton>
-        <AuthPageButton className="bg-[#03C75A] text-white hover:bg-[#02b052]">
+        <AuthPageButton className="bg-[#03C75A] text-white hover:bg-[#02b052]" onClick={() => handleOAuthLogin("naver")}>
           <NaverIcon className="text-white" />
           Naver로 계속하기
         </AuthPageButton>
-        <AuthPageButton className="bg-[#FEE500] text-neutral-800 hover:bg-[#e6cf00]">
+        <AuthPageButton className="bg-[#FEE500] text-neutral-800 hover:bg-[#e6cf00]" onClick={() => handleOAuthLogin("kakao")}>
           <KakaoIcon className="text-neutral-800" />
           Kakao로 계속하기
         </AuthPageButton>
