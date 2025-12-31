@@ -1,255 +1,147 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/card";
+import { Header } from "@/widgets/header/Header";
+import { Footer } from "@/widgets/footer/Footer";
+import { ShieldIcon, ClockIcon, FileIcon } from "@/shared/icons";
 
 export default function HomePage() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-gray-50">
       {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-backdrop-filter:bg-white/60">
-        <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 max-w-7xl">
-          <div className="h-14 sm:h-16 flex items-center justify-between gap-2">
-            <Link href="/" className="flex items-center gap-1.5 sm:gap-2 shrink-0 min-w-0">
-              <div className="w-7 h-7 sm:w-8 sm:h-8 bg-primary rounded flex items-center justify-center text-primary-foreground font-bold text-xs sm:text-sm shrink-0">AI</div>
-              <span className="font-semibold text-sm sm:text-base md:text-lg text-gray-900 truncate">Acci</span>
-            </Link>
-            <nav className="hidden md:flex items-center gap-6">
-              <Link href="/analyze" className="text-sm font-medium text-gray-900 hover:text-primary transition-colors">
-                분석
-              </Link>
-              <Link href="/judicial-precedent" className="text-sm font-medium text-gray-900 hover:text-primary transition-colors">
-                판례
-              </Link>
-              <Link href="/my-page/123" className="text-sm font-medium text-gray-900 hover:text-primary transition-colors">
-                마이페이지 123
-              </Link>
-              <Link href="/auth">
-                <Button variant="default" size="default" className="bg-black text-white">
-                  로그인
-                </Button>
-              </Link>
-            </nav>
-            <div className="md:hidden flex items-center gap-1.5 sm:gap-2 shrink-0">
-              <Link href="/auth">
-                <Button variant="default" size="sm" className="bg-black text-white text-xs px-2 sm:px-3 h-8 sm:h-9">
-                  로그인
-                </Button>
-              </Link>
-              <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="p-1.5 sm:p-2 text-gray-900 shrink-0" aria-label="메뉴">
-                {mobileMenuOpen ? (
-                  <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                ) : (
-                  <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                  </svg>
-                )}
-              </button>
-            </div>
-          </div>
-          {/* Mobile Menu */}
-          {mobileMenuOpen && (
-            <div className="md:hidden border-t py-4 space-y-4">
-              <Link href="/analyze" className="block px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50 transition-colors" onClick={() => setMobileMenuOpen(false)}>
-                분석
-              </Link>
-              <Link
-                href="/judicial-precedent"
-                className="block px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50 transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                판례
-              </Link>
-              <Link href="/my-page/123" className="block px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50 transition-colors" onClick={() => setMobileMenuOpen(false)}>
-                마이페이지 123
-              </Link>
-            </div>
-          )}
-        </div>
-      </header>
+      <Header />
 
-      {/* Hero Section */}
-      <section className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 py-8 sm:py-12 md:py-16 lg:py-20 xl:py-32 bg-white max-w-7xl">
-        <div className="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center">
-          <div className="space-y-3 sm:space-y-4 md:space-y-6 text-center md:text-left">
-            <div className="inline-block px-2.5 sm:px-3 py-1 bg-gray-100 rounded-full text-xs font-medium text-gray-700">AI 기반 과실 비율 판단</div>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight text-gray-900 leading-tight">
-              AI로 판단하는
+      {/* 1.3 첫번째 섹션 */}
+      <section className="container mx-auto px-4 sm:px-10 py-10 sm:py-20 max-w-7xl">
+        {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-12 items-center"> */}
+        <div className="flex gap-6 sm:gap-12 items-center">
+          {/* 1.3.1 첫번째 섹션 왼쪽 */}
+          <div className="flex-2/5 space-y-3 sm:space-y-6 text-center sm:text-left">
+            <h1 className="text-title4 text-gray-900 sm:text-title1">
+              AI가 판단하는
               <br />
               교통사고 과실비율
             </h1>
-            <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-xl mx-auto md:mx-0 px-1">
-              복잡한 법적 문제를 빠르고 정확하게 해결하세요. Acci가 교통사고 영상을 분석하여 객관적인 과실비율과 판단 근거를 제공합니다.
-            </p>
-            <div className="flex justify-center md:justify-start pt-2">
+            <p className="text-body8 sm:text-body4 text-gray-600 max-w-xl mx-auto sm:mx-0">Acci가 교통사고 과실비율을 빠르고 정확하게 판단해드립니다.</p>
+            <div className="flex justify-center sm:justify-start">
               <Link href="/analyze" className="w-full sm:w-auto">
-                <Button size="lg" className="gap-2 w-full sm:w-auto text-sm sm:text-base">
-                  시작하기
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M5 12h14" />
-                    <path d="m12 5 7 7-7 7" />
-                  </svg>
+                <Button size="lg" className="gap-2 w-full h-14 sm:w-auto text-body7 sm:text-body5 bg-black text-white hover:bg-black/90 cursor-pointer">
+                  → 교통사고 분석하기
                 </Button>
               </Link>
             </div>
           </div>
-          <div className="bg-gray-100 rounded-lg aspect-video flex items-center justify-center text-gray-500 order-first md:order-last min-h-[200px] sm:min-h-0">
-            <p className="text-center text-xs sm:text-sm md:text-base px-2">사용하는 움짤 들어감</p>
+
+          {/* 1.3.2 첫번째 섹션 오른쪽 */}
+          <div className="flex-3/5 hidden sm:flex bg-gray-100 rounded-lg aspect-video items-center justify-center text-gray-500 order-first sm:order-last max-h-[330px] mx-auto">
+            <p className="text-center text-xs sm:text-base px-2">사용하는 움짤 들어감</p>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 py-8 sm:py-12 md:py-16 lg:py-20 bg-gray-50 max-w-7xl">
-        <div className="text-center mb-6 sm:mb-8 md:mb-12">
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-2 sm:mb-4 text-gray-900 px-2">Acci의 특별한 기능</h2>
+      {/* 1.4 두번째 섹션 */}
+      <section className="container mx-auto px-4 sm:px-10 max-w-7xl">
+        <div className="text-center mb-6 sm:mb-12">
+          <h2 className="text-title4 sm:text-title2 mb-2 sm:mb-2 text-gray-900">Acci의 특별한 기능</h2>
+          <p className="text-body8 sm:text-body4 text-gray-500 max-w-[270px] mx-auto sm:max-w-none">Acci가 객관적인 교통사고 과실비율 및 판단근거, 관련 판례를 제공합니다</p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
-          <Card>
-            <CardHeader>
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="text-primary"
-                >
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
-                </svg>
-              </div>
-              <CardTitle>교통사고 과실비율 측정</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>Acci가 객관적인 교통사고 과실비율을 측정하여 제공합니다.</CardDescription>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="text-primary"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <polyline points="12 6 12 12 16 14" />
-                </svg>
-              </div>
-              <CardTitle>판단근거 제공</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>Acci가 과거 판례와 비교하여 판단 근거를 제공합니다.</CardDescription>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="text-primary"
-                >
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                  <polyline points="14 2 14 8 20 8" />
-                  <line x1="16" y1="13" x2="8" y2="13" />
-                  <line x1="16" y1="17" x2="8" y2="17" />
-                  <polyline points="10 9 9 9 8 9" />
-                </svg>
-              </div>
-              <CardTitle>관련 판례 제공</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>Acci가 관련된 판례를 제공합니다.</CardDescription>
-            </CardContent>
-          </Card>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
+          {[
+            {
+              icon: ShieldIcon,
+              title: "교통사고 과실비율 측정",
+              description: "객관적인 과실비율을 측정합니다",
+              className: "h-20 sm:h-auto",
+            },
+            {
+              icon: ClockIcon,
+              title: "판단근거 제공",
+              description: "과실비율 판단 근거를 제공합니다",
+              className: "h-20 sm:h-auto",
+            },
+            {
+              icon: FileIcon,
+              title: "관련 판례 제공",
+              description: "관련된 판례를 제공합니다",
+              className: "h-20 sm:h-auto sm:col-span-2 md:col-span-1",
+            },
+          ].map((item, index) => {
+            // const IconComponent = item.icon; // 아이콘 나오면 적용 예정
+            return (
+              <Card key={index} className={item.className}>
+                <CardHeader className="flex flex-row items-stretch gap-4 p-4 h-full sm:h-auto sm:flex-col sm:gap-0 sm:items-baseline sm:p-8">
+                  <div className="w-12 sm:w-20 h-12 sm:h-20 bg-gray-200 rounded-2xl flex items-center justify-center sm:mb-4">
+                    {
+                      // 아이콘이 나오면 적용할 예정입니다
+                      /* <IconComponent className="text-primary" /> */
+                    }
+                  </div>
+                  <div className="flex flex-col justify-between h-10 sm:h-auto my-auto">
+                    <CardTitle className="text-body7 sm:text-body3 text-gray-900">{item.title}</CardTitle>
+                    <CardDescription className="text-body8 sm:text-body6 text-gray-900">{item.description}</CardDescription>
+                  </div>
+                </CardHeader>
+              </Card>
+            );
+          })}
         </div>
       </section>
 
-      {/* User Reviews Section */}
-      <section className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 py-8 sm:py-12 md:py-16 lg:py-20 bg-white max-w-7xl">
-        <div className="text-center mb-6 sm:mb-8 md:mb-12">
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-2 text-gray-900 px-2">사용자 후기</h2>
-          <p className="text-xs sm:text-sm md:text-base text-gray-600 mt-2 px-2">실제 사용자들의 생생한 경험담을 확인해보세요</p>
+      {/* 1.5 세번째 섹션 */}
+      <section className="container mx-auto px-4 sm:px-10 py-8 sm:py-20 max-w-7xl">
+        <div className="text-center mb-6">
+          <h2 className="text-title4 sm:text-title2 mb-2 text-gray-900">Acci와 알아보는 수리비 견적</h2>
+          <p className="text-body8 sm:text-body4 text-gray-500">Acci는 파손 부위 또는 사진을 통해 예상 수리비 견적을 제공합니다</p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+        <div className="bg-gray-200 rounded-lg aspect-video flex items-center justify-center text-gray-500 min-h-36 sm:max-h-[360px] mx-auto">
+          <p className="text-center text-xs sm:text-base px-2">수리비 견적 이미지 영역</p>
+        </div>
+      </section>
+
+      {/* 1.6 네번째 섹션 */}
+      <section className="container mx-auto px-4 sm:px-10 max-w-7xl">
+        <div className="text-center mb-6">
+          <h2 className="text-title4 sm:text-title2 mb-2 text-gray-900">사용자 후기</h2>
+          <p className="text-body8 sm:text-body4 text-gray-500">실제 사용자들의 생생한 경험담을 확인해보세요</p>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
           {[
             {
               rating: 5,
-              comment: "보험사에서 불공정한 과실비율을 제시했는데, Acci로 객관적인 분석을 받을 수 있어서 정말 도움이 되었습니다.",
-              name: "성**",
-              age: "20대, 남",
-              avatar: "👤",
+              comment: "교수님 차량과의 교통사고 후 과실 비율이 궁금했는데, Acci가 자세하고 정확하게 사고를 분석해주어서 큰 도움이 되었습니다.",
+              name: "성*준",
+              age: "20대 남자",
             },
             {
               rating: 5,
-              comment: "판례와 비교 분석까지 제공해주니 법적 근거가 명확해서 보험사와 협상할 때 큰 도움이 됐어요.",
-              name: "김**",
-              age: "30대, 남성",
-              avatar: "👤",
+              comment: "보험사의 과실 비율 판정 기다리기 힘들었는데, Acci 덕분에 빠르게 대응할 수 있었어요. ",
+              name: "정*환",
+              age: "20대 남자",
             },
             {
               rating: 5,
-              comment: "복잡한 교통사고 상황을 AI가 정확하게 분석해주니 신뢰할 수 있었습니다. 추천합니다!",
-              name: "임**",
-              age: "40대, 여성",
-              avatar: "👤",
+              comment: "제가 겪은 상황과 비슷한 판례들을 알 수 있어서 좋았어요",
+              name: "유*영",
+              age: "20대 여자",
             },
           ].map((review, index) => (
-            <Card key={index}>
+            <Card key={index} className={index === 2 ? "sm:col-span-2 md:col-span-1" : ""}>
               <CardHeader>
                 <div className="flex gap-1 mb-4">
                   {Array.from({ length: review.rating }).map((_, i) => (
-                    <svg key={i} xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="text-yellow-500">
+                    <svg key={i} xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="text-[#FACC15]">
                       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                     </svg>
                   ))}
                 </div>
-                <CardDescription className="text-base">{review.comment}</CardDescription>
+                <CardDescription className="sm:min-h-28 text-body8 sm:text-body4">{review.comment}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-lg">{review.avatar}</div>
+                  <div className="w-16 h-16 rounded-full bg-[#d9d9d9] flex items-center justify-center text-lg">{/* 프사가 들어가면 되지 않을까...? */}</div>
                   <div>
-                    <p className="font-medium">{review.name}</p>
-                    <p className="text-sm text-muted-foreground">{review.age}</p>
+                    <p className="text-body5">{review.name}</p>
+                    <p className="text-body8 text-muted-foreground">{review.age}</p>
                   </div>
                 </div>
               </CardContent>
@@ -258,84 +150,29 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Bottom CTA Section */}
-      <section className="bg-gray-100 py-8 sm:py-12 md:py-16 lg:py-20">
-        <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 text-center space-y-3 sm:space-y-4 md:space-y-6 max-w-7xl">
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 px-2 leading-tight">지금 바로 Acci의 과실 비율을 확인해보세요</h2>
-          <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto px-2">
-            보험사에서 불공정한 과실비율 판단을 받았다고 걱정하지 마세요. Acci가 스마트하게 도와드립니다.
-          </p>
+      {/* 1.7 다섯번째 섹션 */}
+      <section className="pt-8 sm:pt-20">
+        <div className="mx-auto py-10 text-center space-y-3 sm:space-y-6 bg-gray-800">
+          {/* ~639px */}
+          <h2 className="block sm:hidden text-body5 text-gray-0 leading-tight">
+            <p>지금 바로 Acci의</p>
+            <p>과실비율을 확인해보세요</p>
+          </h2>
+          {/* 640px~ */}
+          <h2 className="hidden sm:block text-title1 text-gray-0 leading-tight">지금 바로 Acci의 과실비율을 확인해보세요</h2>
+
+          <div className="text-body10 sm:text-body6 text-gray-0 max-w-2xl mx-auto flex flex-col gap-1">
+            <p>복잡한 과실비율 산정, 더 이상 고민하지 마세요</p>
+            <p>Acci의 도움을 언제든지 받을 수 있습니다</p>
+          </div>
           <Link href="/analyze" className="inline-block w-full sm:w-auto">
-            <Button size="lg" variant="secondary" className="gap-2 w-full sm:w-auto text-sm sm:text-base">
-              시작하기
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M5 12h14" />
-                <path d="m12 5 7 7-7 7" />
-              </svg>
-            </Button>
+            <Button className="gap-2 text-sm text-body7 bg-white text-gray-900 hover:bg-gray-100 w-[200px] h-11 cursor-pointer">시작하기</Button>
           </Link>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white border-t border-gray-800">
-        <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 py-6 sm:py-8 md:py-12 max-w-7xl">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 mb-4 sm:mb-6 md:mb-8">
-            <div className="space-y-4">
-              <Link href="/" className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-white text-gray-900 rounded flex items-center justify-center font-bold">AI</div>
-                <span className="font-semibold text-lg">Acci</span>
-              </Link>
-              <p className="text-sm text-gray-400">AI가 제공하는 더 쉽고 정확한 교통사고 과실비율 분석 서비스</p>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-4">지원</h3>
-              <ul className="space-y-2 text-sm">
-                <li>
-                  {/* @ts-expect-error - /help route will be created later */}
-                  <Link href="/help" className="text-gray-400 hover:text-white transition-colors">
-                    도움말
-                  </Link>
-                </li>
-                <li>
-                  {/* @ts-expect-error - /contact route will be created later */}
-                  <Link href="/contact" className="text-gray-400 hover:text-white transition-colors">
-                    문의하기
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/policies/privacy-policy" className="text-gray-400 hover:text-white transition-colors">
-                    개인정보처리방침
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/policies/terms-of-service" className="text-gray-400 hover:text-white transition-colors">
-                    이용약관
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-4">연락처</h3>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li>support@acci.ai</li>
-                <li>전화번호: 000-0000-0000</li>
-              </ul>
-            </div>
-          </div>
-          <div className="pt-8 border-t border-gray-800 text-center text-sm text-gray-400">© 2025 Acci. All rights reserved.</div>
-        </div>
-      </footer>
+      {/* 1.8 푸터 */}
+      <Footer />
     </div>
   );
 }
