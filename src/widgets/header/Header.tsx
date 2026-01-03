@@ -69,13 +69,13 @@ export function Header() {
             </Link>
             {/* PC Navigation - visible on md and above */}
             <nav className="hidden md:flex items-center gap-6">
-              <Link href="/analyze" className="text-body2 text-gray-900 hover:text-primary transition-colors cursor-pointer">
+              <Link href="/analyze" className="text-body5 text-gray-900 hover:text-primary transition-colors cursor-pointer">
                 분석
               </Link>
-              <Link href={repairEstimatePath} className="text-body2 text-gray-900 hover:text-primary transition-colors cursor-pointer">
+              <Link href={repairEstimatePath} className="text-body5 text-gray-900 hover:text-primary transition-colors cursor-pointer">
                 수리비견적
               </Link>
-              <Link href={myPagePath} className="text-body2 text-gray-900 hover:text-primary transition-colors cursor-pointer">
+              <Link href={myPagePath} className="text-body5 text-gray-900 hover:text-primary transition-colors cursor-pointer">
                 마이페이지
               </Link>
               {isAuthenticated && user ? (
@@ -88,7 +88,7 @@ export function Header() {
                 </Link>
               ) : (
                 <Link href="/auth" className="cursor-pointer">
-                  <Button className="text-body2 bg-gray-900 text-gray-0 hover:bg-gray-800 py-2 px-4 w-20 cursor-pointer">
+                  <Button className="text-body5 bg-gray-900 text-gray-0 hover:bg-gray-800 py-2 px-4 w-20 cursor-pointer">
                     로그인
                   </Button>
                 </Link>
@@ -154,7 +154,7 @@ export function Header() {
             <nav className="flex-1">
               <Link
                 href="/analyze"
-                className="flex items-center h-14 px-8 py-3 text-sm font-medium text-gray-900 hover:bg-gray-50 rounded-md transition-colors cursor-pointer"
+                className="flex items-center h-14 px-8 py-3 text-body5 font-medium text-gray-900 hover:bg-gray-50 rounded-md transition-colors cursor-pointer"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 분석
@@ -162,7 +162,7 @@ export function Header() {
               {/* Repair Estimate Menu Item */}
               <Link
                 href={repairEstimatePath}
-                className="flex items-center h-14 px-8 py-3 text-sm font-medium text-gray-900 hover:bg-gray-50 rounded-md transition-colors cursor-pointer"
+                className="flex items-center h-14 px-8 py-3 text-body5 font-medium text-gray-900 hover:bg-gray-50 rounded-md transition-colors cursor-pointer"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 수리비 견적
@@ -170,7 +170,7 @@ export function Header() {
               {/* My Page Menu Item */}
               <Link
                 href={myPagePath}
-                className="flex items-center h-14 px-8 py-3 text-sm font-medium text-gray-900 hover:bg-gray-50 rounded-md transition-colors cursor-pointer"
+                className="flex items-center h-14 px-8 py-3 text-body5 font-medium text-gray-900 hover:bg-gray-50 rounded-md transition-colors cursor-pointer"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 마이페이지
@@ -192,8 +192,8 @@ export function Header() {
                       {user?.name?.[0]?.toUpperCase() || "U"}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm font-medium text-gray-900 truncate">{user?.name}</p>
-                      <p className="text-xs text-gray-500 truncate">{user?.email}</p>
+                      <p className="text-body5 font-medium text-gray-900 truncate">{user?.name}</p>
+                      <p className="text-body5 text-gray-500 truncate">{user?.email}</p>
                     </div>
                   </div>
                   <Link href="/auth" onClick={() => setMobileMenuOpen(false)} className="w-full cursor-pointer">
