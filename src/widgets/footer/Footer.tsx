@@ -31,7 +31,7 @@ export function Footer() {
             </div>
             <div>
               <h3 className="text-body-5 mb-4">이메일</h3>
-              <ul className="space-y-2 text-gray-600">
+              <ul className="space-y-2 text-body-5 text-gray-400">
                 <li>acciai2025@gmail.com</li>
               </ul>
             </div>
