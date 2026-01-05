@@ -21,7 +21,7 @@ export default function AuthPageRightSide() {
         </div>
 
         <AuthPageButton className="border border-gray-300 bg-white text-neutral-800 hover:bg-gray-100" onClick={() => handleOAuthLogin("google")}>
-          <GoogleIcon />
+          <GoogleIcon /> 
           Google로 계속하기
         </AuthPageButton>
         <AuthPageButton className="bg-[#03C75A] text-white hover:bg-[#02b052]" onClick={() => handleOAuthLogin("naver")}>
@@ -32,15 +32,6 @@ export default function AuthPageRightSide() {
           <KakaoIcon className="text-neutral-800" />
           Kakao로 계속하기
         </AuthPageButton>
-
-        <div className="inline-flex h-12 items-center justify-center gap-2.5 py-5">
-          <span className="h-px w-28 bg-gray-300" aria-hidden />
-          <span className="text-xs font-normal leading-4 text-gray-500">또는</span>
-          <span className="h-px w-28 bg-gray-300" aria-hidden />
-        </div>
-
-        <AuthPageButton className="rounded-lg bg-neutral-800 text-white">비회원으로 계속하기</AuthPageButton>
-
         <div className="inline-flex w-72 items-center justify-center gap-2.5 pb-4">
           <p className="text-xs font-normal leading-4 text-gray-500">
             로그인함으로써{" "}
