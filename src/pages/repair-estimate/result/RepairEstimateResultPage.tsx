@@ -76,8 +76,8 @@ export function RepairEstimateResultPage({ id }: RepairEstimateResultPageProps) 
 
         {/* 다시 계산하기 버튼 */}
         <div className="flex flex-col items-center pb-10 w-full">
-          <Link href="/repair-estimate" className="w-full md:w-[560px] px-6">
-            <Button size="lg" className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-4 rounded-lg w-full">
+          <Link href="/repair-estimate" className="w-full md:w-[560px]">
+            <Button size="lg" className="h-14 bg-gray-900 hover:bg-gray-800 text-white px-8 py-4 rounded-lg w-full">
               예상 수리비 다시 계산하기
             </Button>
           </Link>
