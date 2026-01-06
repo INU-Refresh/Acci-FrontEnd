@@ -28,10 +28,6 @@ export default function NotFound() {
                 분석
               </Link>
 
-              <Link href="/judicial-precedent" className="text-sm font-medium text-gray-900 hover:text-primary transition-colors">
-                판례
-              </Link>
-
               <Link href="/my-page/123" className="text-sm font-medium text-gray-900 hover:text-primary transition-colors">
                 마이페이지 123
               </Link>
