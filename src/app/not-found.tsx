@@ -1,6 +1,8 @@
 import Link from "next/link";
 import type { Metadata, Viewport } from "next";
 import { Button } from "@/shared/ui/button";
+import { Header } from "@/widgets/header/Header";
+import { Footer } from "@/widgets/footer/Footer";
 
 export const metadata: Metadata = {
   title: "페이지를 찾을 수 없습니다 - Acci",
@@ -16,41 +18,7 @@ export default function NotFound() {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-backdrop-filter:bg-white/60">
-        <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 max-w-7xl">
-          <div className="h-14 sm:h-16 flex items-center justify-between gap-2">
-            <Link href="/" className="flex items-center gap-1.5 sm:gap-2 shrink-0 min-w-0">
-              <div className="w-7 h-7 sm:w-8 sm:h-8 bg-primary rounded flex items-center justify-center text-primary-foreground font-bold text-xs sm:text-sm shrink-0">AI</div>
-              <span className="font-semibold text-sm sm:text-base md:text-lg text-gray-900 truncate">Acci</span>
-            </Link>
-            <nav className="hidden md:flex items-center gap-6">
-              <Link href="/analyze" className="text-sm font-medium text-gray-900 hover:text-primary transition-colors">
-                분석
-              </Link>
-
-              <Link href="/judicial-precedent" className="text-sm font-medium text-gray-900 hover:text-primary transition-colors">
-                판례
-              </Link>
-
-              <Link href="/my-page/123" className="text-sm font-medium text-gray-900 hover:text-primary transition-colors">
-                마이페이지 123
-              </Link>
-              <Link href="/auth">
-                <Button variant="default" size="default" className="bg-black text-white">
-                  로그인
-                </Button>
-              </Link>
-            </nav>
-            <div className="md:hidden flex items-center gap-1.5 sm:gap-2 shrink-0">
-              <Link href="/auth">
-                <Button variant="default" size="sm" className="bg-black text-white text-xs px-2 sm:px-3 h-8 sm:h-9">
-                  로그인
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       {/* 404 Content */}
       <main className="flex-1 flex items-center justify-center px-3 sm:px-4 md:px-6 lg:px-8 py-12 sm:py-16 md:py-20 lg:py-24">
@@ -86,36 +54,13 @@ export default function NotFound() {
                   </svg>
                 </Button>
               </Link>
-              <Link href="/analyze">
-                <Button size="lg" variant="outline" className="w-full sm:w-auto text-sm sm:text-base">
-                  분석 시작하기
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M5 12h14" />
-                    <path d="m12 5 7 7-7 7" />
-                  </svg>
-                </Button>
-              </Link>
             </div>
           </div>
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white border-t border-gray-800">
-        <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 py-6 sm:py-8 md:py-12 max-w-7xl">
-          <div className="text-center text-sm text-gray-400">© 2025 Acci. All rights reserved.</div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

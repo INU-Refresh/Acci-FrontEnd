@@ -1,0 +1,9 @@
+{
+  "github.copilot.chat.useProjectTemplates": true,
+  "github.copilot.chat.mcpServers": {
+    "figma": {
+      "command": "npx",
+      "args": ["-y", "@figma/mcp-server-figma"]
+    }
+  }
+}
