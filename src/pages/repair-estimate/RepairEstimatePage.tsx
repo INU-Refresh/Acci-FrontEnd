@@ -165,7 +165,7 @@ export default function RepairEstimatePage() {
               <label className="text-body9 sm:text-body5 text-gray-900">3D 모델 선택</label>
             </div>
 
-            <div className="bg-gray-50 rounded-lg p-6 flex items-center justify-center min-h-[400px]">
+            <div className="bg-gray-50 rounded-lg p-6 flex items-center justify-center h-[600px]">
               {selectedModel && modelFileName ? (
                 <CarModelViewer modelName={modelFileName} className="w-full h-full" />
               ) : (
