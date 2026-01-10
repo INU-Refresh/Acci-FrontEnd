@@ -3,7 +3,8 @@
 import { Footer } from "@/widgets/footer/Footer";
 import { Header } from "@/widgets/header/Header";
 import { Button } from "@/shared/ui/button";
-import { useState } from "react";
+import { CarModelViewer } from "@/widgets/car-model-viewer/CarModelViewer";
+import { useState, useEffect } from "react";
 
 // 브랜드별 차종 데이터
 const VEHICLE_MODELS: Record<string, string[]> = {
@@ -16,6 +17,22 @@ export default function RepairEstimatePage() {
   const [selectedBrand, setSelectedBrand] = useState<string>("");
   const [selectedModel, setSelectedModel] = useState<string>("");
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
+  const [modelFileName, setModelFileName] = useState<string>("");
+
+  // 차종에 따른 모델 파일명 매핑
+  const getModelFileName = (brand: string, model: string): string => {
+    // 현재 CompactCar.glb 파일 사용
+    return "CompactCar";
+  };
+
+  useEffect(() => {
+    if (selectedBrand && selectedModel) {
+      const fileName = getModelFileName(selectedBrand, selectedModel);
+      setModelFileName(fileName);
+    } else {
+      setModelFileName("");
+    }
+  }, [selectedBrand, selectedModel]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -148,8 +165,12 @@ export default function RepairEstimatePage() {
               <label className="text-body9 sm:text-body5 text-gray-900">3D 모델 선택</label>
             </div>
 
-            <div className="bg-gray-50 rounded-lg p-6 flex items-center justify-center min-h-[143px]">
-              <p className="text-body9 sm:text-body7 text-gray-400">{selectedModel ? "3D 모델 준비중입니다" : "차종을 선택해주세요"}</p>
+            <div className="bg-gray-50 rounded-lg p-6 flex items-center justify-center min-h-[400px]">
+              {selectedModel && modelFileName ? (
+                <CarModelViewer modelName={modelFileName} className="w-full h-full" />
+              ) : (
+                <p className="text-body9 sm:text-body7 text-gray-400">차종을 선택해주세요</p>
+              )}
             </div>
           </div>
         </section>
