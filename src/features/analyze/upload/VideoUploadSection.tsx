@@ -15,6 +15,7 @@ export function VideoUploadSection() {
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const resetUpload = () => {
@@ -22,6 +23,12 @@ export function VideoUploadSection() {
     setUploadProgress(0);
     setUploadError(null);
     setSelectedFileName(null);
+    setPreviewUrl((currentUrl) => {
+      if (currentUrl) {
+        URL.revokeObjectURL(currentUrl);
+      }
+      return null;
+    });
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -57,6 +64,12 @@ export function VideoUploadSection() {
     }
     setUploadError(null);
     setSelectedFileName(file.name);
+    setPreviewUrl((currentUrl) => {
+      if (currentUrl) {
+        URL.revokeObjectURL(currentUrl);
+      }
+      return URL.createObjectURL(file);
+    });
     setUploadState("uploading");
     setUploadProgress(0);
   };
@@ -81,10 +94,18 @@ export function VideoUploadSection() {
     return () => window.clearTimeout(timer);
   }, [uploadProgress, uploadState]);
 
+  useEffect(() => {
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
+
   return (
     <div className="flex w-full flex-col items-center gap-4 md:gap-6">
       {uploadState === "uploading" && <UploadLoading progress={uploadProgress} onCancel={handleCancelRequest} />}
-      {uploadState === "ready" && <UploadReadyCard onCancel={handleCancelRequest} />}
+      {uploadState === "ready" && <UploadReadyCard onCancel={handleCancelRequest} previewUrl={previewUrl} />}
       {uploadState === "idle" && <VideoUploadCard onFileChange={handleFileChange} fileInputRef={fileInputRef} errorMessage={uploadError} />}
       {uploadState === "ready" && (
         <div className="w-full max-w-xl md:hidden">
