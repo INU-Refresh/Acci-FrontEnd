@@ -1,11 +1,11 @@
 "use client";
 
-import type React from "react";
-import { useEffect, useRef, useState } from "react";
 import { UploadCancelModal } from "@/features/analyze/upload/UploadCancelModal";
 import { UploadLoading } from "@/features/analyze/upload/UploadLoading";
 import { UploadReadyCard } from "@/features/analyze/upload/UploadReadyCard";
 import { VideoUploadCard } from "@/features/analyze/upload/VideoUploadCard";
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
 
 type UploadState = "idle" | "uploading" | "ready";
 
@@ -67,16 +67,18 @@ export function VideoUploadSection() {
     }
 
     const timer = window.setTimeout(() => {
-      setUploadProgress((prev) => Math.min(prev + 10, 100));
+      setUploadProgress((prev) => {
+        const nextValue = Math.min(prev + 10, 100);
+        // 더미 구현부분 -> 실제 API 업로드 로직으로 대체 필요
+        // 부가적인 이펙트 방지를 위해 setUploadState를 여기서 호출
+        if (nextValue >= 100) {
+          setUploadState("ready");
+        }
+        return nextValue;
+      });
     }, 280);
 
     return () => window.clearTimeout(timer);
-  }, [uploadState, uploadProgress]);
-
-  useEffect(() => {
-    if (uploadState === "uploading" && uploadProgress >= 100) {
-      setUploadState("ready");
-    }
   }, [uploadProgress, uploadState]);
 
   return (
