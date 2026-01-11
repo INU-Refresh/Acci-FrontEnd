@@ -37,3 +37,11 @@ export const CheckIcon = React.forwardRef<SVGSVGElement, IconProps>(({ className
   </svg>
 ));
 CheckIcon.displayName = "CheckIcon";
+
+export const CloseIcon = React.forwardRef<SVGSVGElement, IconProps>(({ className, ...props }, ref) => (
+  <svg ref={ref} viewBox="0 0 24 24" className={cn("h-4 w-4", className)} aria-hidden="true" {...props}>
+    <path d="M18 6L6 18" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+    <path d="M6 6L18 18" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+  </svg>
+));
+CloseIcon.displayName = "CloseIcon";
