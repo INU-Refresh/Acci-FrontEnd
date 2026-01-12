@@ -5,6 +5,7 @@ import { UploadLoading } from "@/features/analyze/upload/UploadLoading";
 import { UploadReadyCard } from "@/features/analyze/upload/UploadReadyCard";
 import { VideoUploadCard } from "@/features/analyze/upload/VideoUploadCard";
 import type React from "react";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 type UploadState = "idle" | "uploading" | "ready";
@@ -109,9 +110,9 @@ export function VideoUploadSection() {
       {uploadState === "idle" && <VideoUploadCard onFileChange={handleFileChange} fileInputRef={fileInputRef} errorMessage={uploadError} />}
       {uploadState === "ready" && (
         <div className="w-full max-w-xl md:hidden">
-          <button type="button" className="w-full rounded-lg bg-gray-900 py-3 text-body7 text-white">
+          <Link href="/analyze/loading" className="block w-full rounded-lg bg-gray-900 py-3 text-body7 text-white text-center">
             AI 분석하기
-          </button>
+          </Link>
         </div>
       )}
       <UploadCancelModal

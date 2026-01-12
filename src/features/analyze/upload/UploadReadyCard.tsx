@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { UploadCardHeader } from "@/features/analyze/upload/UploadCardHeader";
 
 type UploadReadyCardProps = {
@@ -16,9 +17,9 @@ export function UploadReadyCard({ onCancel, previewUrl }: UploadReadyCardProps) 
           <div className="aspect-3/2 md:aspect-auto md:h-72" aria-label="업로드된 영상 미리보기" />
         )}
       </div>
-      <button type="button" className="mt-6 hidden w-full rounded-lg bg-gray-900 py-4 text-body7 text-white md:block md:text-body5">
+      <Link href="/analyze/loading" className="mt-6 hidden w-full rounded-lg bg-gray-900 py-4 text-body7 text-white md:block md:text-body5 text-center">
         AI 분석하기
-      </button>
+      </Link>
     </div>
   );
 }
