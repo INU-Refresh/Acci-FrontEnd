@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { UploadCardHeader } from "@/features/analyze/upload/UploadCardHeader";
+import Link from "next/link";
 
 type UploadReadyCardProps = {
   onCancel: () => void;
