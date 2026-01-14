@@ -6,7 +6,7 @@ import { Button } from "@/shared/ui/button";
 import { CarModelViewer } from "@/widgets/car-model-viewer/CarModelViewer";
 import { type ChangeEvent, useMemo, useState } from "react";
 import { VEHICLES, BRAND_LABELS } from "@/entities/vehicle";
-import { SelectField } from "@/pages/repair-estimate/ui/SelectField";
+import { SelectField } from "@/features/repair-estimate/ui/SelectField";
 
 export default function RepairEstimatePage() {
   const [selectedBrand, setSelectedBrand] = useState<string>("");
