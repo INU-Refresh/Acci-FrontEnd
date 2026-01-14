@@ -1,8 +1,14 @@
+export type Brand = "hyundai" | "kia" | "genesis";
+
+export type VehicleType = "sedan" | "suv" | "van" | "truck" | "hatchback" | "mpv";
+
+export type Segment = "compact" | "mid-size" | "full-size" | "light-duty" | "mini" | "luxury" | "compact-luxury" | "mid-size-luxury" | "full-size-luxury";
+
 export type VehicleInfo = {
-  brand: string;
+  brand: Brand;
   model: string;
-  vehicleType: string;
-  segment: string;
+  vehicleType: VehicleType;
+  segment: Segment;
 };
 
 export const VEHICLES: VehicleInfo[] = [
