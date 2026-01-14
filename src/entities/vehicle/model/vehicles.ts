@@ -1,6 +1,6 @@
 export type Brand = "hyundai" | "kia" | "genesis";
 
-export type VehicleType = "sedan" | "suv" | "van" | "truck" | "hatchback" | "mpv";
+export type VehicleType = "sedan" | "suv" | "truck" | "hatchback";
 
 export type Segment = "compact" | "mid-size" | "full-size" | "light-duty" | "mini" | "luxury" | "compact-luxury" | "mid-size-luxury" | "full-size-luxury";
 
@@ -18,7 +18,6 @@ export const VEHICLES: VehicleInfo[] = [
   { brand: "hyundai", model: "그랜저", vehicleType: "sedan", segment: "full-size" },
   { brand: "hyundai", model: "싼타페", vehicleType: "suv", segment: "mid-size" },
   { brand: "hyundai", model: "팰리세이드", vehicleType: "suv", segment: "full-size" },
-  { brand: "hyundai", model: "스타렉스", vehicleType: "van", segment: "full-size" },
   { brand: "hyundai", model: "포터", vehicleType: "truck", segment: "light-duty" },
 
   // Kia
@@ -31,7 +30,6 @@ export const VEHICLES: VehicleInfo[] = [
   { brand: "kia", model: "레이", vehicleType: "hatchback", segment: "mini" },
   { brand: "kia", model: "스포티지", vehicleType: "suv", segment: "compact" },
   { brand: "kia", model: "쏘렌토", vehicleType: "suv", segment: "mid-size" },
-  { brand: "kia", model: "카니발", vehicleType: "mpv", segment: "full-size" },
   { brand: "kia", model: "봉고", vehicleType: "truck", segment: "light-duty" },
 
   // Genesis
