@@ -10,16 +10,16 @@ export default function LoadingPage() {
   const [remainingSeconds, setRemainingSeconds] = useState(10);
 
   useEffect(() => {
-    let secondsLeft = 10;
-    setRemainingSeconds(secondsLeft);
-
     const interval = window.setInterval(() => {
-      secondsLeft -= 1;
-      setRemainingSeconds(secondsLeft);
-      if (secondsLeft <= 0) {
-        window.clearInterval(interval);
-        router.push("/analyze/result/1");
-      }
+      setRemainingSeconds((prevSeconds) => {
+        const nextSeconds = prevSeconds - 1;
+        if (nextSeconds <= 0) {
+          window.clearInterval(interval);
+          router.push("/analyze/result/1");
+          return 0;
+        }
+        return nextSeconds;
+      });
     }, 1000);
 
     return () => window.clearInterval(interval);
