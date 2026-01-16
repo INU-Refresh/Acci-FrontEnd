@@ -13,17 +13,18 @@ export default function LoadingPage() {
     const interval = window.setInterval(() => {
       setRemainingSeconds((prevSeconds) => {
         const nextSeconds = prevSeconds - 1;
-        if (nextSeconds <= 0) {
-          window.clearInterval(interval);
-          router.push("/analyze/result/1");
-          return 0;
-        }
-        return nextSeconds;
+        return nextSeconds <= 0 ? 0 : nextSeconds;
       });
     }, 1000);
 
     return () => window.clearInterval(interval);
-  }, [router]);
+  }, []);
+
+  useEffect(() => {
+    if (remainingSeconds === 0) {
+      router.push("/analyze/result/1");
+    }
+  }, [remainingSeconds, router]);
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
