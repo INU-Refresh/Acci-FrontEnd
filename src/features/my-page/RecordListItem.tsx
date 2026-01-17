@@ -1,12 +1,15 @@
+import Link from "next/link";
+
 type RecordListItemProps = {
   title: string;
   date: string;
   detail: string;
   dotColorClassName?: string;
+  href?: string;
 };
 
-export function RecordListItem({ title, date, detail, dotColorClassName = "bg-[#00C853]" }: RecordListItemProps) {
-  return (
+export function RecordListItem({ title, date, detail, dotColorClassName = "bg-[#00C853]", href }: RecordListItemProps) {
+  const content = (
     <div className="flex items-center justify-between rounded-lg border border-gray-100 bg-white p-4">
       <div className="flex items-center gap-4">
         <div className="h-12 w-12 rounded-lg bg-gray-100" aria-hidden="true" />
@@ -25,5 +28,15 @@ export function RecordListItem({ title, date, detail, dotColorClassName = "bg-[#
         <path d="M4 2l4 4-4 4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </div>
+  );
+
+  if (!href) {
+    return content;
+  }
+
+  return (
+    <Link href={href} className="block">
+      {content}
+    </Link>
   );
 }
