@@ -11,6 +11,7 @@ export function ProfileCard({ name, email }: ProfileCardProps) {
       <div className="flex items-center gap-4">
         <div className="h-16 w-16 rounded-full bg-gray-100" aria-hidden="true" />
         <div className="flex flex-col">
+          {/* TODO [Minjun]: 사용자 프로필 API 연동 */}
           <p className="text-body3 text-gray-900">{name}</p>
           <p className="text-body8 text-gray-500">{email}</p>
         </div>

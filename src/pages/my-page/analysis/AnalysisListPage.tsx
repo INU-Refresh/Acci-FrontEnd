@@ -3,6 +3,7 @@ import { Header } from "@/widgets/header/Header";
 import { RecordListPageSection } from "@/widgets/my-page/RecordListPageSection";
 
 export default function AnalysisListPage() {
+  // TODO [Minjun]: 최근 분석 기록 API 연동
   const records = [
     { id: "1", title: "교차로 충돌 사고", date: "2026.01.01", detail: "과실비율 30:70", href: "/analyze/result/1" },
     { id: "2", title: "교차로 충돌 사고", date: "2026.01.01", detail: "과실비율 30:70", href: "/analyze/result/2" },
