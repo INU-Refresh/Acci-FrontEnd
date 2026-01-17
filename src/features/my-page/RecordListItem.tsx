@@ -33,9 +33,10 @@ export function RecordListItem({ title, date, detail, dotColorClassName = "bg-[#
   if (!href) {
     return content;
   }
-
+  // Next.js에서 typed routes가 활성화되어있음
+  // -> 따라서 href를 as never로 캐스팅하여 전달함 (임시 방편이라서 추후 개선 필요함. 배포 중단되는거 방지용으로 우회 빌드 통과 수단이니까 다시 캐스팅 해줘야함)
   return (
-    <Link href={href} className="block">
+    <Link href={href as never} className="block">
       {content}
     </Link>
   );

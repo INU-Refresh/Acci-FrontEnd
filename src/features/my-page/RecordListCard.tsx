@@ -1,7 +1,7 @@
 import Link from "next/link";
 
-import { Card } from "@/shared/ui/card";
 import { RecordListItem } from "@/features/my-page/RecordListItem";
+import { Card } from "@/shared/ui/card";
 
 type RecordItem = {
   id: string;
@@ -24,7 +24,9 @@ export function RecordListCard({ title, items, moreHref, showMore = true }: Reco
       <div className="flex items-center justify-between">
         <p className="text-body3 text-gray-900">{title}</p>
         {showMore && moreHref ? (
-          <Link href={moreHref} className="text-body7 text-gray-300">
+          // Next.js에서 typed routes가 활성화되어있음
+          // -> 따라서 href를 as never로 캐스팅하여 전달함 (임시 방편이라서 추후 개선 필요함. 배포 중단되는거 방지용으로 우회 빌드 통과 수단이니까 다시 캐스팅 해줘야함)
+          <Link href={moreHref as never} className="text-body7 text-gray-300">
             더보기
           </Link>
         ) : null}
