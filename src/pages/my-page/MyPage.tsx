@@ -1,11 +1,21 @@
-export default function MyPage() {
+import { MyPageSection } from "@/widgets/my-page/MyPageSection";
+import { Footer } from "@/widgets/footer/Footer";
+import { Header } from "@/widgets/header/Header";
+
+type MyPageProps = {
+  id?: string;
+};
+
+export default function MyPage({ id }: MyPageProps) {
+  void id;
+
   return (
-    <div className="min-h-screen bg-white">
-      <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 max-w-7xl py-8 sm:py-12 md:py-16">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6">마이페이지</h1>
-        <p className="text-gray-600">마이페이지입니다.</p>
-      </div>
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <Header />
+      <main className="flex flex-1 justify-center px-4 pb-10 pt-4 md:pb-16 md:pt-10">
+        <MyPageSection />
+      </main>
+      <Footer />
     </div>
   );
 }
-
