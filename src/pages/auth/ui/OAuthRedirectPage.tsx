@@ -37,6 +37,7 @@ export default function OAuthRedirectPage() {
     const exchangeToken = async () => {
       try {
         // Authorization Code를 서버로 보내 Access Token을 발급받습니다.
+        // Flow: /oauth2/redirect?code=... -> /api/v1/auth/token (POST) -> accessToken 수신
         const { accessToken } = await exchangeOAuthCode(code);
 
         if (accessToken) {
