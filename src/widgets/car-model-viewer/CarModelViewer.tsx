@@ -9,9 +9,12 @@ interface CarModelProps {
   modelPath: string;
 }
 
+type ClickState = 0 | 1 | 2 | 3; // 0: 클릭 안함, 1: 노랑, 2: 주황, 3: 빨강
+
 function CarModel({ modelPath }: CarModelProps) {
   const { scene } = useGLTF(modelPath);
   const [hoveredMesh, setHoveredMesh] = useState<THREE.Mesh | null>(null);
+  const [clickStateMaps] = useState(() => new Map<THREE.Mesh, ClickState>());
   const originalColors = useMemo(() => new Map<THREE.Mesh, THREE.Color>(), []);
 
   useEffect(() => {
@@ -32,28 +35,63 @@ function CarModel({ modelPath }: CarModelProps) {
 
   useCursor(!!hoveredMesh);
 
+  const getColorByClickState = (state: ClickState): string => {
+    const colorMap: Record<ClickState, string> = {
+      0: "#0000ff", // 호버: 파랑
+      1: "#ffff00", // 1번 클릭: 노랑
+      2: "#ffa500", // 2번 클릭: 주황
+      3: "#ff0000", // 3번 클릭: 빨강
+    };
+    return colorMap[state];
+  };
+
+  const updateMeshColor = (mesh: THREE.Mesh, state: ClickState) => {
+    const material = mesh.material as THREE.MeshStandardMaterial;
+    if (material?.color) {
+      material.color.set(getColorByClickState(state));
+    }
+  };
+
   const handlePointerOver = (event: ThreeEvent<PointerEvent>) => {
     event.stopPropagation();
     const mesh = event.object as THREE.Mesh;
-    setHoveredMesh(mesh);
-    const material = mesh.material as THREE.MeshStandardMaterial;
-    if (material?.color) {
-      material.color.set("#ff0000");
+    const currentState = clickStateMaps.get(mesh) || 0;
+    // 클릭된 상태가 없으면 호버 색상(파랑) 적용
+    if (currentState === 0) {
+      setHoveredMesh(mesh);
+      updateMeshColor(mesh, 0);
     }
   };
 
   const handlePointerOut = (event: ThreeEvent<PointerEvent>) => {
     event.stopPropagation();
     const mesh = event.object as THREE.Mesh;
-    const originalColor = originalColors.get(mesh);
-    if (originalColor) {
-      const material = mesh.material as THREE.MeshStandardMaterial;
-      material.color.copy(originalColor);
+    const currentState = clickStateMaps.get(mesh) || 0;
+    
+    // 클릭된 상태가 없으면 원래 색상으로 복원
+    if (currentState === 0) {
+      const originalColor = originalColors.get(mesh);
+      if (originalColor) {
+        const material = mesh.material as THREE.MeshStandardMaterial;
+        material.color.copy(originalColor);
+      }
+      setHoveredMesh(null);
     }
-    setHoveredMesh(null);
   };
 
-  return <primitive object={scene} onPointerOver={handlePointerOver} onPointerOut={handlePointerOut} />;
+  const handleClick = (event: ThreeEvent<MouseEvent>) => {
+    event.stopPropagation();
+    const mesh = event.object as THREE.Mesh;
+    
+    // 클릭 상태 순환: 0 -> 1 -> 2 -> 3 -> 0
+    const currentState = clickStateMaps.get(mesh) || 0;
+    const nextState: ClickState = ((currentState + 1) % 4) as ClickState;
+    
+    clickStateMaps.set(mesh, nextState);
+    updateMeshColor(mesh, nextState);
+  };
+
+  return <primitive object={scene} onPointerOver={handlePointerOver} onPointerOut={handlePointerOut} onClick={handleClick} />;
 }
 
 interface CarModelViewerProps {
