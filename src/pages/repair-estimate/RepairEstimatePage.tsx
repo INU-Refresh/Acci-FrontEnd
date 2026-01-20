@@ -22,13 +22,19 @@ export default function RepairEstimatePage() {
   const modelSelectOptions = useMemo(() => modelOptions.map((model) => ({ value: model, label: model })), [modelOptions]);
   const yearSelectOptions = useMemo(() => yearOptions.map((year) => ({ value: year.toString(), label: `${year}년` })), [yearOptions]);
 
-  // 모델명에 따른 모델 파일명 매핑
+  // 차량 타입에 따른 3D 모델 파일명 매핑
   const getModelFileName = (brand: string, model: string): string => {
     const vehicle = VEHICLES.find((item) => item.brand === brand && item.model === model);
     if (!vehicle) return "";
 
-    // 현재 CompactCar.glb 파일 사용
-    return "CompactCar";
+    // vehicleType에 따라 .glb 파일명 매핑
+    const modelFileMap: Record<string, string> = {
+      sedan: "Sedan",
+      hatchback: "Hatchback",
+      suv: "SUV",
+    };
+
+    return modelFileMap[vehicle.vehicleType] || "";
   };
 
   const modelFileName = useMemo(() => {

@@ -1,8 +1,9 @@
 "use client";
 
-import { Canvas } from "@react-three/fiber";
-import { Environment, OrbitControls, Stage, useGLTF } from "@react-three/drei";
-import { Suspense } from "react";
+import { Canvas, type ThreeEvent } from "@react-three/fiber";
+import { Environment, OrbitControls, Stage, useCursor, useGLTF } from "@react-three/drei";
+import { Suspense, useEffect, useMemo, useState } from "react";
+import * as THREE from "three";
 
 interface CarModelProps {
   modelPath: string;
@@ -10,7 +11,49 @@ interface CarModelProps {
 
 function CarModel({ modelPath }: CarModelProps) {
   const { scene } = useGLTF(modelPath);
-  return <primitive object={scene} />;
+  const [hoveredMesh, setHoveredMesh] = useState<THREE.Mesh | null>(null);
+  const originalColors = useMemo(() => new Map<THREE.Mesh, THREE.Color>(), []);
+
+  useEffect(() => {
+    // 독립적인 색상 변경을 위해 재질을 클론하고 기본 색상을 저장
+    scene.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        if (child.material) {
+          child.material = (child.material as THREE.Material).clone();
+        }
+        const mesh = child as THREE.Mesh;
+        const material = mesh.material as THREE.MeshStandardMaterial;
+        if (material?.color) {
+          originalColors.set(mesh, material.color.clone());
+        }
+      }
+    });
+  }, [scene, originalColors]);
+
+  useCursor(!!hoveredMesh);
+
+  const handlePointerOver = (event: ThreeEvent<PointerEvent>) => {
+    event.stopPropagation();
+    const mesh = event.object as THREE.Mesh;
+    setHoveredMesh(mesh);
+    const material = mesh.material as THREE.MeshStandardMaterial;
+    if (material?.color) {
+      material.color.set("#ff0000");
+    }
+  };
+
+  const handlePointerOut = (event: ThreeEvent<PointerEvent>) => {
+    event.stopPropagation();
+    const mesh = event.object as THREE.Mesh;
+    const originalColor = originalColors.get(mesh);
+    if (originalColor) {
+      const material = mesh.material as THREE.MeshStandardMaterial;
+      material.color.copy(originalColor);
+    }
+    setHoveredMesh(null);
+  };
+
+  return <primitive object={scene} onPointerOver={handlePointerOver} onPointerOut={handlePointerOut} />;
 }
 
 interface CarModelViewerProps {
