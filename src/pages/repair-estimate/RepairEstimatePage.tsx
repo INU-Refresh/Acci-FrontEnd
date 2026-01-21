@@ -13,6 +13,7 @@ export default function RepairEstimatePage() {
   const [selectedModel, setSelectedModel] = useState<string>("");
   const [selectedYear, setSelectedYear] = useState<string>("");
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
+  const [toast, setToast] = useState<{ message: string; visible: boolean }>({ message: "", visible: false });
 
   const brandOptions = useMemo(() => Array.from(new Set(VEHICLES.map(({ brand }) => brand))), []);
   const modelOptions = useMemo(() => VEHICLES.filter((vehicle) => vehicle.brand === selectedBrand).map(({ model }) => model), [selectedBrand]);
@@ -44,9 +45,22 @@ export default function RepairEstimatePage() {
     return "";
   }, [selectedBrand, selectedModel]);
 
+  const showToast = (message: string) => {
+    setToast({ message, visible: true });
+    setTimeout(() => {
+      setToast({ message: "", visible: false });
+    }, 3000);
+  };
+
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setUploadedImages(Array.from(e.target.files));
+      const files = Array.from(e.target.files);
+      if (files.length > 5) {
+        showToast("최대 5개의 파일만 업로드할 수 있습니다.");
+        setUploadedImages(files.slice(0, 5));
+      } else {
+        setUploadedImages(files);
+      }
     }
   };
 
@@ -59,6 +73,23 @@ export default function RepairEstimatePage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
+      {/* 토스트 메시지 */}
+      {toast.visible && (
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 animate-in fade-in slide-in-from-top-2 duration-300">
+          <div className="bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
+            </svg>
+            <span className="text-body9 sm:text-body7">{toast.message}</span>
+          </div>
+        </div>
+      )}
+
       <Header />
 
       <main className="flex-1">
@@ -118,10 +149,11 @@ export default function RepairEstimatePage() {
               <label className="text-body9 sm:text-body5 text-gray-900">파손 사진 업로드</label>
             </div>
 
-            <div className="bg-gray-50 rounded-lg p-6 flex flex-col gap-4 items-center justify-center min-h-[143px]">
+            {/* 파일 선택 영역 */}
+            <div className="bg-gray-50 rounded-lg p-6 flex flex-col gap-4 items-center justify-center min-h-[143px] mb-4">
               <div className="flex flex-col items-center text-body9 sm:text-body7 text-gray-400">
                 <p>파손 사진을 업로드하세요</p>
-                <p>파일 드래그 혹은 선택</p>
+                <p>파일 드래그 혹은 선택 (최대 5개)</p>
               </div>
               <label htmlFor="file-upload">
                 <Button
@@ -133,8 +165,23 @@ export default function RepairEstimatePage() {
                 </Button>
               </label>
               <input id="file-upload" type="file" multiple accept="image/*" onChange={handleFileChange} className="hidden" />
-              {uploadedImages.length > 0 && <p className="text-body9 sm:text-body7 text-gray-500">{uploadedImages.length}개 파일 선택됨</p>}
             </div>
+
+            {/* 업로드된 파일 목록 */}
+            {uploadedImages.length > 0 && (
+              <div className="border border-gray-200 rounded-lg p-4">
+                <p className="text-body9 sm:text-body7 text-gray-700 font-medium mb-3">선택된 파일 ({uploadedImages.length}/5)</p>
+                <div className="space-y-2">
+                  {uploadedImages.map((file, index) => (
+                    <div key={index} className="flex items-center gap-2 text-body9 sm:text-body7 text-gray-600 bg-gray-50 rounded px-3 py-2">
+                      <span className="text-gray-400">{index + 1}.</span>
+                      <span className="truncate flex-1">{file.name}</span>
+                      <span className="text-gray-400 text-xs">{(file.size / 1024).toFixed(1)}KB</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* 3D 모델 선택 */}
@@ -147,10 +194,10 @@ export default function RepairEstimatePage() {
             </div>
 
             <div className="bg-gray-50 rounded-lg p-6 flex items-center justify-center h-[600px]">
-              {selectedModel && modelFileName ? (
+              {selectedBrand && selectedModel && selectedYear && modelFileName ? (
                 <CarModelViewer modelName={modelFileName} className="w-full h-full" />
               ) : (
-                <p className="text-body9 sm:text-body7 text-gray-400">모델명을 선택해주세요</p>
+                <p className="text-body9 sm:text-body7 text-gray-400">브랜드, 모델명, 연식을 모두 선택해주세요</p>
               )}
             </div>
           </div>
