@@ -55,6 +55,8 @@ function CarModel({ modelPath }: CarModelProps) {
   const handlePointerOver = (event: ThreeEvent<PointerEvent>) => {
     event.stopPropagation();
     const mesh = event.object as THREE.Mesh;
+    // Body 메쉬는 호버 무시
+    if (mesh.name === "Body") return;
     const currentState = clickStateMaps.get(mesh) || 0;
     // 클릭된 상태가 없으면 호버 색상(파랑) 적용
     if (currentState === 0) {
@@ -66,8 +68,10 @@ function CarModel({ modelPath }: CarModelProps) {
   const handlePointerOut = (event: ThreeEvent<PointerEvent>) => {
     event.stopPropagation();
     const mesh = event.object as THREE.Mesh;
+    // Body 메쉬는 포인터 아웃 무시
+    if (mesh.name === "Body") return;
     const currentState = clickStateMaps.get(mesh) || 0;
-    
+
     // 클릭된 상태가 없으면 원래 색상으로 복원
     if (currentState === 0) {
       const originalColor = originalColors.get(mesh);
@@ -82,11 +86,13 @@ function CarModel({ modelPath }: CarModelProps) {
   const handleClick = (event: ThreeEvent<MouseEvent>) => {
     event.stopPropagation();
     const mesh = event.object as THREE.Mesh;
-    
+    // Body 메쉬는 클릭 무시
+    if (mesh.name === "Body") return;
+
     // 클릭 상태 순환: 0 -> 1 -> 2 -> 3 -> 0
     const currentState = clickStateMaps.get(mesh) || 0;
     const nextState: ClickState = ((currentState + 1) % 4) as ClickState;
-    
+
     clickStateMaps.set(mesh, nextState);
     updateMeshColor(mesh, nextState);
   };
