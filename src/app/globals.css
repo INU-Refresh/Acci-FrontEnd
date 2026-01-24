@@ -1,4 +1,3 @@
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 @import "tailwindcss";
 
 :root {
@@ -84,7 +83,7 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --font-sans: "Pretendard", var(--font-geist-sans), sans-serif;
+  --font-sans: var(--font-pretendard), "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
   --font-mono: var(--font-geist-mono);
   --color-gradient-001: var(--gradient-001);
 
