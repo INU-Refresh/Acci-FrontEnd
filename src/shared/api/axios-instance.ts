@@ -85,7 +85,7 @@ axiosInstance.interceptors.response.use(
       try {
         // 리프레시 토큰으로 새 액세스 토큰 요청
         const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000"}/api/auth/refresh`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000"}/api/v1/auth/refresh`,
           {},
           {
             withCredentials: true,
