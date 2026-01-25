@@ -7,7 +7,7 @@ import { exchangeOAuthCode } from "@/features/auth/api/oauth-api";
 
 const DEFAULT_REDIRECT_PATH = "/";
 
-export function OAuthRedirectScreen() {
+export default function OAuthRedirectScreen() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);

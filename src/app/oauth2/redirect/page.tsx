@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 
-import { OAuthRedirectScreen } from "@/features/auth/oauth/ui/OAuthRedirectScreen";
+import OAuthRedirectScreen from "@/features/auth/oauth/ui/OAuthRedirectScreen";
 
 export default function Page() {
   return (
