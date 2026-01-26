@@ -3,35 +3,93 @@
 import { Footer } from "@/widgets/footer/Footer";
 import { Header } from "@/widgets/header/Header";
 import { Button } from "@/shared/ui/button";
-import { useState } from "react";
-
-// 브랜드별 차종 데이터
-const VEHICLE_MODELS: Record<string, string[]> = {
-  hyundai: ["아반떼", "소나타", "그랜저", "싼타페", "팰리세이드", "스타렉스", "포터"],
-  kia: ["K3", "K5", "K7", "K8", "K9", "모닝", "레이", "스포티지", "쏘렌토", "카니발", "봉고"],
-  genesis: ["G70", "G80", "G90", "GV60", "GV70", "GV80"],
-};
+import { CarModelViewer } from "@/widgets/car-model-viewer/CarModelViewer";
+import { type ChangeEvent, useMemo, useState } from "react";
+import { VEHICLES, BRAND_LABELS } from "@/entities/vehicle";
+import { SelectField } from "@/features/repair-estimate/ui/SelectField";
 
 export default function RepairEstimatePage() {
   const [selectedBrand, setSelectedBrand] = useState<string>("");
   const [selectedModel, setSelectedModel] = useState<string>("");
+  const [selectedYear, setSelectedYear] = useState<string>("");
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
+  const [toast, setToast] = useState<{ message: string; visible: boolean }>({ message: "", visible: false });
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const brandOptions = useMemo(() => Array.from(new Set(VEHICLES.map(({ brand }) => brand))), []);
+  const modelOptions = useMemo(() => VEHICLES.filter((vehicle) => vehicle.brand === selectedBrand).map(({ model }) => model), [selectedBrand]);
+  const yearOptions = useMemo(() => Array.from({ length: 2026 - 2011 + 1 }, (_, i) => 2011 + i), []);
+
+  const brandSelectOptions = useMemo(() => brandOptions.map((brand) => ({ value: brand, label: BRAND_LABELS[brand] ?? brand })), [brandOptions]);
+  const modelSelectOptions = useMemo(() => modelOptions.map((model) => ({ value: model, label: model })), [modelOptions]);
+  const yearSelectOptions = useMemo(() => yearOptions.map((year) => ({ value: year.toString(), label: `${year}년` })), [yearOptions]);
+
+  // 차량 타입에 따른 3D 모델 파일명 매핑
+  const getModelFileName = (brand: string, model: string): string => {
+    const vehicle = VEHICLES.find((item) => item.brand === brand && item.model === model);
+    if (!vehicle) return "";
+
+    // vehicleType에 따라 .glb 파일명 매핑
+    const modelFileMap: Record<string, string> = {
+      sedan: "Sedan",
+      hatchback: "Hatchback",
+      suv: "SUV",
+    };
+
+    return modelFileMap[vehicle.vehicleType] || "";
+  };
+
+  const modelFileName = useMemo(() => {
+    if (selectedBrand && selectedModel) {
+      return getModelFileName(selectedBrand, selectedModel);
+    }
+    return "";
+  }, [selectedBrand, selectedModel]);
+
+  const showToast = (message: string) => {
+    setToast({ message, visible: true });
+    setTimeout(() => {
+      setToast({ message: "", visible: false });
+    }, 3000);
+  };
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setUploadedImages(Array.from(e.target.files));
+      const files = Array.from(e.target.files);
+      if (files.length > 5) {
+        showToast("최대 5개의 파일만 업로드할 수 있습니다.");
+        setUploadedImages(files.slice(0, 5));
+      } else {
+        setUploadedImages(files);
+      }
     }
   };
 
-  const handleBrandChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleBrandChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setSelectedBrand(e.target.value);
-    setSelectedModel(""); // 브랜드 변경 시 차종 초기화
+    setSelectedModel(""); // 브랜드 변경 시 모델명 초기화
   };
 
-  const isFormValid = selectedBrand && selectedModel;
+  const isFormValid = !!selectedBrand && !!selectedModel && !!selectedYear;
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
+      {/* 토스트 메시지 */}
+      {toast.visible && (
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 animate-in fade-in slide-in-from-top-2 duration-300">
+          <div className="bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
+            </svg>
+            <span className="text-body9 sm:text-body7">{toast.message}</span>
+          </div>
+        </div>
+      )}
+
       <Header />
 
       <main className="flex-1">
@@ -50,58 +108,29 @@ export default function RepairEstimatePage() {
           </div>
 
           {/* 차량 브랜드 선택 */}
-          <div className="w-full sm:w-[560px] bg-white rounded-2xl p-6 mb-4">
-            <div className="flex gap-4 items-center">
-              <div className="bg-gray-300 rounded flex items-center justify-center size-6 shrink-0">
-                <span className="text-body9 sm:text-body5 text-white">1</span>
-              </div>
-              <div className="flex-1 flex items-center justify-between">
-                <label className="text-body9 sm:text-body5 text-gray-900">
-                  차량 브랜드 선택 <span className="text-red-500">*</span>
-                </label>
-                <select
-                  value={selectedBrand}
-                  onChange={handleBrandChange}
-                  className="w-40 text-body9 sm:text-body5 text-gray-300 border-none bg-transparent cursor-pointer focus:outline-none"
-                >
-                  <option value="">브랜드를 선택하세요</option>
-                  <option value="hyundai">현대</option>
-                  <option value="kia">기아</option>
-                  <option value="genesis">제네시스</option>
-                </select>
-              </div>
-            </div>
-          </div>
+          <SelectField number={1} label="차량 브랜드 선택" placeholder="브랜드를 선택하세요" value={selectedBrand} onChange={handleBrandChange} options={brandSelectOptions} />
 
-          {/* 차종 선택 */}
-          <div className="w-full sm:w-[560px] bg-white rounded-2xl p-6">
-            <div className="flex gap-4 items-center">
-              <div className="bg-gray-300 rounded flex items-center justify-center size-6 shrink-0">
-                <span className="text-body9 sm:text-body5 text-white">2</span>
-              </div>
+          {/* 모델명 선택 */}
+          <SelectField
+            number={2}
+            label="모델명 선택"
+            placeholder="모델명을 선택하세요"
+            value={selectedModel}
+            onChange={(e) => setSelectedModel(e.target.value)}
+            options={modelSelectOptions}
+            disabled={!selectedBrand}
+          />
 
-              <div className="flex-1 flex items-center justify-between">
-                <label className="text-body9 sm:text-body5 text-gray-900">
-                  차종 선택 <span className="text-red-500">*</span>
-                </label>
-
-                <select
-                  value={selectedModel}
-                  onChange={(e) => setSelectedModel(e.target.value)}
-                  disabled={!selectedBrand}
-                  className="w-40 text-body9 sm:text-body5 text-gray-300 border-none bg-transparent cursor-pointer focus:outline-none disabled:cursor-not-allowed"
-                >
-                  <option value="">차종을 선택하세요</option>
-                  {selectedBrand &&
-                    VEHICLE_MODELS[selectedBrand]?.map((model) => (
-                      <option key={model} value={model}>
-                        {model}
-                      </option>
-                    ))}
-                </select>
-              </div>
-            </div>
-          </div>
+          {/* 연식 선택 */}
+          <SelectField
+            number={3}
+            label="연식 선택"
+            placeholder="연식을 선택하세요"
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(e.target.value)}
+            options={yearSelectOptions}
+            disabled={!selectedBrand || !selectedModel}
+          />
         </section>
 
         {/* 선택 입력 섹션 */}
@@ -115,15 +144,16 @@ export default function RepairEstimatePage() {
           <div className="w-full sm:w-[560px] bg-white rounded-2xl p-6 mb-4">
             <div className="flex gap-4 items-center mb-6">
               <div className="bg-gray-300 rounded flex items-center justify-center size-6 shrink-0">
-                <span className="text-body9 sm:text-body5 text-white">3</span>
+                <span className="text-body9 sm:text-body5 text-white">4</span>
               </div>
               <label className="text-body9 sm:text-body5 text-gray-900">파손 사진 업로드</label>
             </div>
 
-            <div className="bg-gray-50 rounded-lg p-6 flex flex-col gap-4 items-center justify-center min-h-[143px]">
+            {/* 파일 선택 영역 */}
+            <div className="bg-gray-50 rounded-lg p-6 flex flex-col gap-4 items-center justify-center min-h-[143px] mb-4">
               <div className="flex flex-col items-center text-body9 sm:text-body7 text-gray-400">
                 <p>파손 사진을 업로드하세요</p>
-                <p>파일 드래그 혹은 선택</p>
+                <p>파일 드래그 혹은 선택 (최대 5개)</p>
               </div>
               <label htmlFor="file-upload">
                 <Button
@@ -135,21 +165,40 @@ export default function RepairEstimatePage() {
                 </Button>
               </label>
               <input id="file-upload" type="file" multiple accept="image/*" onChange={handleFileChange} className="hidden" />
-              {uploadedImages.length > 0 && <p className="text-body9 sm:text-body7 text-gray-500">{uploadedImages.length}개 파일 선택됨</p>}
             </div>
+
+            {/* 업로드된 파일 목록 */}
+            {uploadedImages.length > 0 && (
+              <div className="border border-gray-200 rounded-lg p-4">
+                <p className="text-body9 sm:text-body7 text-gray-700 font-medium mb-3">선택된 파일 ({uploadedImages.length}/5)</p>
+                <div className="space-y-2">
+                  {uploadedImages.map((file, index) => (
+                    <div key={index} className="flex items-center gap-2 text-body9 sm:text-body7 text-gray-600 bg-gray-50 rounded px-3 py-2">
+                      <span className="text-gray-400">{index + 1}.</span>
+                      <span className="truncate flex-1">{file.name}</span>
+                      <span className="text-gray-400 text-xs">{(file.size / 1024).toFixed(1)}KB</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* 3D 모델 선택 */}
           <div className="w-full sm:w-[560px] bg-white rounded-2xl p-6">
             <div className="flex gap-4 items-center mb-6">
               <div className="bg-gray-300 rounded flex items-center justify-center size-6 shrink-0">
-                <span className="text-body9 sm:text-body5 text-white">4</span>
+                <span className="text-body9 sm:text-body5 text-white">5</span>
               </div>
               <label className="text-body9 sm:text-body5 text-gray-900">3D 모델 선택</label>
             </div>
 
-            <div className="bg-gray-50 rounded-lg p-6 flex items-center justify-center min-h-[143px]">
-              <p className="text-body9 sm:text-body7 text-gray-400">{selectedModel ? "3D 모델 준비중입니다" : "차종을 선택해주세요"}</p>
+            <div className="bg-gray-50 rounded-lg p-6 flex items-center justify-center h-[600px]">
+              {selectedBrand && selectedModel && selectedYear && modelFileName ? (
+                <CarModelViewer modelName={modelFileName} className="w-full h-full" />
+              ) : (
+                <p className="text-body9 sm:text-body7 text-gray-400">브랜드, 모델명, 연식을 모두 선택해주세요</p>
+              )}
             </div>
           </div>
         </section>

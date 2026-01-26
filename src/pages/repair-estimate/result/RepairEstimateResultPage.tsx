@@ -17,7 +17,8 @@ const mockData = {
   replacementCost: "710만원",
 };
 
-function RepairEstimateResultPage({ id }: RepairEstimateResultPageProps) {
+
+export default function RepairEstimateResultPage({ id }: RepairEstimateResultPageProps) {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
