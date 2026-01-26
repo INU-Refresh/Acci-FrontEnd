@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export function Footer() {
   return (
@@ -8,8 +9,7 @@ export function Footer() {
           {/* 로고 영역 */}
           <div className="space-y-4 flex-1">
             <Link href="/" className="flex items-center gap-2 cursor-pointer">
-              {/* 로고로 대체될 부분입니다 */}
-              <div className="w-24 h-10 bg-gray-700 text-gray-0 rounded flex items-center justify-center font-bold">로고 영역</div>
+              <Image src="/ACCI_Logo_v1.svg" alt="Acci Logo" width={64} height={64} className="w-16" />
             </Link>
           </div>
 
@@ -19,13 +19,19 @@ export function Footer() {
               <h3 className="text-body-5 mb-4">지원</h3>
               <ul className="space-y-2 text-body-5 text-gray-400">
                 <li>
-                  <Link href="/policies/privacy-policy" className="cursor-pointer">개인정보처리방침</Link>
+                  <Link href="/policies/privacy-policy" className="cursor-pointer">
+                    개인정보처리방침
+                  </Link>
                 </li>
                 <li>
-                  <Link href="/policies/terms-of-service" className="cursor-pointer">이용약관</Link>
+                  <Link href="/policies/terms-of-service" className="cursor-pointer">
+                    이용약관
+                  </Link>
                 </li>
                 <li>
-                  <Link href="/policies/cookie-policy" className="cursor-pointer">쿠키 정책</Link>
+                  <Link href="/policies/cookie-policy" className="cursor-pointer">
+                    쿠키 정책
+                  </Link>
                 </li>
               </ul>
             </div>
