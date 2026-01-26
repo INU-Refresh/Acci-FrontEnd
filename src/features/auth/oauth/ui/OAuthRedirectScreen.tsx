@@ -14,14 +14,7 @@ export default function OAuthRedirectScreen() {
 
   // 리다이렉트 쿼리에서 인증 코드를 가져옵니다.
   const code = useMemo(() => (searchParams ? searchParams.get("code") : null), [searchParams]);
-  const redirectPath = useMemo(() => {
-    // state 또는 sessionStorage에 저장된 경로를 우선 복귀 경로로 사용합니다.
-    const state = searchParams?.get("state");
-    const storedRedirect = typeof window !== "undefined" ? sessionStorage.getItem("postLoginRedirect") : null;
-    return (state && state.startsWith("/")) || (storedRedirect && storedRedirect.startsWith("/"))
-      ? state || storedRedirect || DEFAULT_REDIRECT_PATH
-      : DEFAULT_REDIRECT_PATH;
-  }, [searchParams]);
+  const redirectPath = DEFAULT_REDIRECT_PATH;
 
   useEffect(() => {
     if (!code) {
