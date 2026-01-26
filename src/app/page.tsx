@@ -1,9 +1,10 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/card";
 import { Header } from "@/widgets/header/Header";
 import { Footer } from "@/widgets/footer/Footer";
-import { ShieldIcon, ClockIcon, FileIcon } from "@/shared/icons";
+import { StarIcon, ScalesIcon, ReasonIcon, JudicialPrecedentIcon } from "@/shared/icons";
 
 export default function HomePage() {
   return (
@@ -14,17 +15,17 @@ export default function HomePage() {
       {/* 1.3 첫번째 섹션 */}
       <section className="container mx-auto px-4 sm:px-10 py-10 sm:py-20 max-w-7xl">
         {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-12 items-center"> */}
-        <div className="flex gap-6 sm:gap-12 items-center">
+        <div className="flex flex-col sm:flex-row gap-6 sm:gap-12 sm:items-center ">
           {/* 1.3.1 첫번째 섹션 왼쪽 */}
-          <div className="flex-2/5 space-y-3 sm:space-y-6 text-center sm:text-left">
+          <div className="flex-2/5 space-y-3 sm:space-y-6 text-left">
             <h1 className="text-title4 text-gray-900 sm:text-title1">
               AI가 판단하는
               <br />
               교통사고 과실비율
             </h1>
-            <p className="text-body8 sm:text-body4 text-gray-600 max-w-xl mx-auto sm:mx-0">Acci가 교통사고 과실비율을 빠르고 정확하게 판단해드립니다.</p>
-            <div className="flex justify-center sm:justify-start">
-              <Link href="/analyze" className="w-full sm:w-auto">
+            <p className="text-body8 sm:text-body4 text-gray-600 max-w-xl">Acci가 교통사고 과실비율을 빠르고 정확하게 판단해드립니다.</p>
+            <div className="flex justify-start">
+              <Link href="/analyze" className="w-[200px] sm:w-auto">
                 <Button size="lg" className="gap-2 w-full h-14 sm:w-auto text-body7 sm:text-body5 bg-black text-white hover:bg-black/90 cursor-pointer">
                   → 교통사고 분석하기
                 </Button>
@@ -33,8 +34,8 @@ export default function HomePage() {
           </div>
 
           {/* 1.3.2 첫번째 섹션 오른쪽 */}
-          <div className="flex-3/5 hidden sm:flex bg-gray-100 rounded-lg aspect-video items-center justify-center text-gray-500 order-first sm:order-last max-h-[330px] mx-auto">
-            <p className="text-center text-xs sm:text-base px-2">사용하는 움짤 들어감</p>
+          <div className="w-full sm:flex-3/5 rounded-lg items-center justify-center sm:order-last max-h-[330px] mx-auto">
+            <Image src="/images/balance-car.png" alt="과실비율 균형" width={500} height={330} priority className="w-full h-auto" />
           </div>
         </div>
       </section>
@@ -48,33 +49,29 @@ export default function HomePage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
           {[
             {
-              icon: ShieldIcon,
+              icon: ScalesIcon,
               title: "교통사고 과실비율 측정",
               description: "객관적인 과실비율을 측정합니다",
               className: "h-20 sm:h-auto",
             },
             {
-              icon: ClockIcon,
+              icon: ReasonIcon,
               title: "판단근거 제공",
               description: "과실비율 판단 근거를 제공합니다",
               className: "h-20 sm:h-auto",
             },
             {
-              icon: FileIcon,
+              icon: JudicialPrecedentIcon,
               title: "관련 판례 제공",
               description: "관련된 판례를 제공합니다",
               className: "h-20 sm:h-auto sm:col-span-2 md:col-span-1",
             },
           ].map((item, index) => {
-            // const IconComponent = item.icon; // 아이콘 나오면 적용 예정
             return (
               <Card key={index} className={item.className}>
                 <CardHeader className="flex flex-row items-stretch gap-4 p-4 h-full sm:h-auto sm:flex-col sm:gap-0 sm:items-baseline sm:p-8">
-                  <div className="w-12 sm:w-20 h-12 sm:h-20 bg-gray-200 rounded-2xl flex items-center justify-center sm:mb-4">
-                    {
-                      // 아이콘이 나오면 적용할 예정입니다
-                      /* <IconComponent className="text-primary" /> */
-                    }
+                  <div className="w-12 sm:w-20 h-12 sm:h-20 rounded-2xl flex items-center justify-center sm:mb-4">
+                    <item.icon />
                   </div>
                   <div className="flex flex-col justify-between h-10 sm:h-auto my-auto">
                     <CardTitle className="text-body7 sm:text-body3 text-gray-900">{item.title}</CardTitle>
@@ -129,9 +126,7 @@ export default function HomePage() {
               <CardHeader>
                 <div className="flex gap-1 mb-4">
                   {Array.from({ length: review.rating }).map((_, i) => (
-                    <svg key={i} xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="text-[#FACC15]">
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                    </svg>
+                    <StarIcon key={i} />
                   ))}
                 </div>
                 <CardDescription className="sm:min-h-28 text-body8 sm:text-body4">{review.comment}</CardDescription>
