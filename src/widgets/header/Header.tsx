@@ -70,7 +70,7 @@ export function Header() {
           <div className="flex items-center justify-between gap-2 my-auto h-12.5 sm:h-19">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-1.5 sm:gap-2 shrink-0 min-w-0 cursor-pointer">
-              <img src="/ACCI_Logo_v1.svg" alt="Acci Logo" className="w-8 h-8 sm:w-12 sm:h-12 shrink-0" />
+              <img src="/ACCI_Logo_v2.svg" alt="Acci Logo" className="w-8 h-8 sm:w-12 sm:h-12 shrink-0" />
             </Link>
             {/* PC Navigation - visible on md and above */}
             <nav className="hidden md:flex items-center gap-6">
