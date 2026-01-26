@@ -1,11 +1,59 @@
-import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import { ReactQueryProvider } from "@/shared/lib/react-query";
+import type { Metadata, Viewport } from "next";
+import localFont from "next/font/local";
+import { Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const pretendard = localFont({
+  variable: "--font-pretendard",
+  display: "swap",
+  src: [
+    {
+      path: "../../public/fonts/pretendard/Pretendard-Thin.woff2",
+      weight: "100",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/pretendard/Pretendard-ExtraLight.woff2",
+      weight: "200",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/pretendard/Pretendard-Light.woff2",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/pretendard/Pretendard-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/pretendard/Pretendard-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/pretendard/Pretendard-SemiBold.woff2",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/pretendard/Pretendard-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/pretendard/Pretendard-ExtraBold.woff2",
+      weight: "800",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/pretendard/Pretendard-Black.woff2",
+      weight: "900",
+      style: "normal",
+    },
+  ],
 });
 
 const geistMono = Geist_Mono({
@@ -40,8 +88,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+    <html lang="ko" className="font-sans">
+      <body className={`${pretendard.variable} ${geistMono.variable} antialiased font-sans`}>
         <ReactQueryProvider>{children}</ReactQueryProvider>
       </body>
     </html>

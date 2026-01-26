@@ -23,6 +23,9 @@ export default function OAuthButton({ provider, className, onClick, ...props }: 
       console.error("[Auth] : env파일에 NEXT_PUBLIC_OAUTH_BASE_URL 누락됨. 추가 필요.");
       return;
     }
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("postLoginRedirect", `${window.location.pathname}${window.location.search}`);
+    }
     window.location.href = `${OAUTH_BASE_URL}/${provider}`;
   };
 

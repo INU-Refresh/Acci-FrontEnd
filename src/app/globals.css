@@ -21,6 +21,9 @@
   --input: #e2e8f0;
   --ring: #0a0e27;
   --radius: 0.5rem;
+  
+  /* Gradient */
+  --gradient-001: linear-gradient(-46deg, #0063ed 0%, #61a5ff 100%); 
 
   /* Primary Color Palette */
   --primary-50: #ebf5ff;
@@ -33,6 +36,18 @@
   --primary-700: #0063ed;
   --primary-800: #0049c8;
   --primary-900: #003ca5;
+
+  /* Secondary Color Palette */
+  --secondary-50: #fef2f2;
+  --secondary-100: #ffcccc;
+  --secondary-200: #ffb2b2;
+  --secondary-300: #ff999a;
+  --secondary-400: #ff8080;
+  --secondary-500: #ff6666;
+  --secondary-600: #ff4d4d;
+  --secondary-700: #ff3333;
+  --secondary-800: #ff1b1a;
+  --secondary-900: #f00000;
 
   /* Gray Color Palette */
   --gray-0: #ffffff;
@@ -68,8 +83,9 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-pretendard), "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
   --font-mono: var(--font-geist-mono);
+  --color-gradient-001: var(--gradient-001);
 
   /* Primary Color Palette */
   --color-primary-50: var(--primary-50);
@@ -82,6 +98,18 @@
   --color-primary-700: var(--primary-700);
   --color-primary-800: var(--primary-800);
   --color-primary-900: var(--primary-900);
+
+  /* Secondary Color Palette */
+  --color-secondary-50: var(--secondary-50);
+  --color-secondary-100: var(--secondary-100);
+  --color-secondary-200: var(--secondary-200);
+  --color-secondary-300: var(--secondary-300);
+  --color-secondary-400: var(--secondary-400);
+  --color-secondary-500: var(--secondary-500);
+  --color-secondary-600: var(--secondary-600);
+  --color-secondary-700: var(--secondary-700);
+  --color-secondary-800: var(--secondary-800);
+  --color-secondary-900: var(--secondary-900);
 
   /* Gray Color Palette */
   --color-gray-0: var(--gray-0);
@@ -229,9 +257,4 @@
   font-weight: 600;
   line-height: 150%;
   letter-spacing: -0.02em;
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
 }
