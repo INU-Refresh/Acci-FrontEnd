@@ -65,9 +65,15 @@ export const metadata: Metadata = {
   title: "Acci - 교통사고 영상 분석 플랫폼",
   description: "교통사고 영상을 AI가 분석하여 과실비율, 분석이유, 관련 판례를 제공하는 분쟁심의 지원 플랫폼",
   keywords: ["교통사고", "AI분석", "과실비율", "분쟁심의", "법률지원", "영상분석", "판례"],
-  authors: [{ name: "Team Refresh" }],
+  authors: [{ name: "Acci" }],
   icons: {
     icon: "/ACCI_Logo_v1.svg",
+  },
+  verification: {
+    google: "y_egnBGXVEkUBQg6bOPRj8Mtz2p-DY4y7Rcd486fxVE",
+    other: {
+      "naver-site-verification": "3585ca81373ada8434143f3ad6e2563bec4d341a",
+    },
   },
   openGraph: {
     title: "Acci - 교통사고 영상 분석 플랫폼",
