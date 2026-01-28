@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { VEHICLES, BRAND_LABELS } from "@/entities/vehicle";
+import type { DamageDetail } from "@/entities/vehicle/types";
 
 interface RepairEstimateState {
   // 차량 정보
@@ -12,6 +13,12 @@ interface RepairEstimateState {
   // 업로드된 이미지
   uploadedImages: File[];
 
+  // 파손 부위 선택
+  damageDetails: DamageDetail[];
+
+  // 사용자 설명
+  userDescription: string;
+
   // 선택 옵션들
   brandSelectOptions: Array<{ value: string; label: string }>;
   modelSelectOptions: Array<{ value: string; label: string }>;
@@ -22,6 +29,10 @@ interface RepairEstimateState {
   setSelectedModel: (model: string) => void;
   setSelectedYear: (year: string) => void;
   setUploadedImages: (images: File[]) => void;
+  setDamageDetails: (details: DamageDetail[]) => void;
+  addDamageDetail: (detail: DamageDetail) => void;
+  removeDamageDetail: (index: number) => void;
+  setUserDescription: (description: string) => void;
   removeImage: (index: number) => void;
   clearImages: () => void;
   reset: () => void;
@@ -68,6 +79,8 @@ export const useRepairEstimateStore = create<RepairEstimateState>()(
       brandSelectOptions: getBrandOptions(),
       modelSelectOptions: [],
       yearSelectOptions: getYearOptions(),
+      damageDetails: [],
+      userDescription: "",
 
       setSelectedBrand: (brand) => {
         set({
@@ -94,6 +107,24 @@ export const useRepairEstimateStore = create<RepairEstimateState>()(
         set({ uploadedImages: images });
       },
 
+      setDamageDetails: (details) => {
+        set({ damageDetails: details });
+      },
+
+      addDamageDetail: (detail) => {
+        const { damageDetails } = get();
+        set({ damageDetails: [...damageDetails, detail] });
+      },
+
+      removeDamageDetail: (index) => {
+        const { damageDetails } = get();
+        set({ damageDetails: damageDetails.filter((_, i) => i !== index) });
+      },
+
+      setUserDescription: (description) => {
+        set({ userDescription: description });
+      },
+
       removeImage: (index) => {
         const { uploadedImages } = get();
         set({
@@ -115,6 +146,8 @@ export const useRepairEstimateStore = create<RepairEstimateState>()(
           brandSelectOptions: getBrandOptions(),
           modelSelectOptions: [],
           yearSelectOptions: getYearOptions(),
+          damageDetails: [],
+          userDescription: "",
         });
       },
     }),
