@@ -1,13 +1,8 @@
+import { useRepairEstimateStore } from "@/shared/store/repair-estimate-store";
 import { CarModelViewer } from "@/widgets/car-model-viewer/CarModelViewer";
 
-interface ModelViewerSectionProps {
-  selectedBrand: string;
-  selectedModel: string;
-  selectedYear: string;
-  modelFileName: string;
-}
-
-export function ModelViewerSection({ selectedBrand, selectedModel, selectedYear, modelFileName }: ModelViewerSectionProps) {
+export function ModelViewerSection() {
+  const { selectedBrand, selectedModel, selectedYear, modelFileName } = useRepairEstimateStore();
   const isReady = selectedBrand && selectedModel && selectedYear && modelFileName;
 
   return (

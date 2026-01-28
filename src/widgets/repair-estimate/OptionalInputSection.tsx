@@ -1,17 +1,11 @@
 import { ImageUploadSection } from "./ImageUploadSection";
 import { ModelViewerSection } from "./ModelViewerSection";
-import { ChangeEvent } from "react";
 
 interface OptionalInputSectionProps {
-  selectedBrand: string;
-  selectedModel: string;
-  selectedYear: string;
-  modelFileName: string;
-  uploadedImages: File[];
-  onFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onExceedLimit?: (message: string) => void;
 }
 
-export function OptionalInputSection({ selectedBrand, selectedModel, selectedYear, modelFileName, uploadedImages, onFileChange }: OptionalInputSectionProps) {
+export function OptionalInputSection({ onExceedLimit }: OptionalInputSectionProps) {
   return (
     <section className="flex flex-col items-center w-full px-4 sm:px-0 pt-10">
       <div className="w-full sm:w-[560px] pb-4">
@@ -20,10 +14,10 @@ export function OptionalInputSection({ selectedBrand, selectedModel, selectedYea
       </div>
 
       {/* 파손 사진 업로드 */}
-      <ImageUploadSection uploadedImages={uploadedImages} onFileChange={onFileChange} />
+      <ImageUploadSection onExceedLimit={onExceedLimit} />
 
       {/* 3D 모델 선택 */}
-      <ModelViewerSection selectedBrand={selectedBrand} selectedModel={selectedModel} selectedYear={selectedYear} modelFileName={modelFileName} />
+      <ModelViewerSection />
     </section>
   );
 }

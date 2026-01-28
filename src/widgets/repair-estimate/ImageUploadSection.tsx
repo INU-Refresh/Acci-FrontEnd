@@ -1,12 +1,27 @@
 import { ChangeEvent } from "react";
+import { useRepairEstimateStore } from "@/shared/store/repair-estimate-store";
 import { Button } from "@/shared/ui/button";
 
 interface ImageUploadSectionProps {
-  uploadedImages: File[];
-  onFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onExceedLimit?: (message: string) => void;
 }
 
-export function ImageUploadSection({ uploadedImages, onFileChange }: ImageUploadSectionProps) {
+export function ImageUploadSection({ onExceedLimit }: ImageUploadSectionProps) {
+  const uploadedImages = useRepairEstimateStore((state) => state.uploadedImages);
+  const setUploadedImages = useRepairEstimateStore((state) => state.setUploadedImages);
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const files = Array.from(e.target.files);
+      if (files.length > 5) {
+        onExceedLimit?.(`최대 5개의 파일만 업로드할 수 있습니다.`);
+        setUploadedImages(files.slice(0, 5));
+      } else {
+        setUploadedImages(files);
+      }
+    }
+  };
+
   return (
     <div className="w-full sm:w-[560px] bg-white rounded-2xl p-6 mb-4">
       <div className="flex gap-4 items-center mb-6">
@@ -31,7 +46,7 @@ export function ImageUploadSection({ uploadedImages, onFileChange }: ImageUpload
             파일 선택하기
           </Button>
         </label>
-        <input id="file-upload" type="file" multiple accept="image/*" onChange={onFileChange} className="hidden" />
+        <input id="file-upload" type="file" multiple accept="image/*" onChange={handleFileChange} className="hidden" />
       </div>
 
       {/* 업로드된 파일 목록 */}

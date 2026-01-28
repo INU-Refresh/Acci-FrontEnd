@@ -2,34 +2,16 @@
 
 import { Footer } from "@/widgets/footer/Footer";
 import { Header } from "@/widgets/header/Header";
-import { useRepairEstimateForm, useToast, useImageUpload } from "@/features/repair-estimate/hooks";
+import { useToast } from "@/features/repair-estimate/hooks";
+import { useRepairEstimateStore } from "@/shared/store/repair-estimate-store";
 import { TitleSection, RepairEstimateFormSection, OptionalInputSection, SubmitSection, ToastMessage } from "@/widgets/repair-estimate";
 
 export default function RepairEstimatePage() {
-  const {
-    selectedBrand,
-    selectedModel,
-    selectedYear,
-    modelFileName,
-    isFormValid,
-    brandSelectOptions,
-    modelSelectOptions,
-    yearSelectOptions,
-    handleBrandChange,
-    handleModelChange,
-    handleYearChange,
-  } = useRepairEstimateForm();
-
   const { toast, showToast } = useToast();
-
-  const { uploadedImages, handleFileChange: handleImageChange } = useImageUpload({
-    maxFiles: 5,
-    onExceedLimit: showToast,
-  });
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    handleImageChange(e);
-  };
+  const selectedBrand = useRepairEstimateStore((state) => state.selectedBrand);
+  const selectedModel = useRepairEstimateStore((state) => state.selectedModel);
+  const selectedYear = useRepairEstimateStore((state) => state.selectedYear);
+  const uploadedImages = useRepairEstimateStore((state) => state.uploadedImages);
 
   const handleSubmit = () => {
     // TODO: 예상 수리비 결과 페이지로 이동
@@ -50,28 +32,11 @@ export default function RepairEstimatePage() {
       <main className="flex-1">
         <TitleSection title="수리비 견적" description="파손 사진을 업로드하면 Acci가 예상 수리비 견적을 제공합니다" />
 
-        <RepairEstimateFormSection
-          selectedBrand={selectedBrand}
-          selectedModel={selectedModel}
-          selectedYear={selectedYear}
-          brandSelectOptions={brandSelectOptions}
-          modelSelectOptions={modelSelectOptions}
-          yearSelectOptions={yearSelectOptions}
-          onBrandChange={handleBrandChange}
-          onModelChange={handleModelChange}
-          onYearChange={handleYearChange}
-        />
+        <RepairEstimateFormSection />
 
-        <OptionalInputSection
-          selectedBrand={selectedBrand}
-          selectedModel={selectedModel}
-          selectedYear={selectedYear}
-          modelFileName={modelFileName}
-          uploadedImages={uploadedImages}
-          onFileChange={handleFileChange}
-        />
+        <OptionalInputSection onExceedLimit={showToast} />
 
-        <SubmitSection isFormValid={isFormValid} onSubmit={handleSubmit} />
+        <SubmitSection onSubmit={handleSubmit} />
       </main>
 
       <Footer />

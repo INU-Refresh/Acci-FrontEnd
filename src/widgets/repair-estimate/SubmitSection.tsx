@@ -1,11 +1,13 @@
+import { useRepairEstimateStore, selectIsFormValid } from "@/shared/store/repair-estimate-store";
 import { Button } from "@/shared/ui/button";
 
 interface SubmitSectionProps {
-  isFormValid: boolean;
   onSubmit: () => void;
 }
 
-export function SubmitSection({ isFormValid, onSubmit }: SubmitSectionProps) {
+export function SubmitSection({ onSubmit }: SubmitSectionProps) {
+  const isFormValid = useRepairEstimateStore(selectIsFormValid);
+
   return (
     <section className="flex flex-col items-center w-full px-4 sm:px-0 pt-4 pb-10">
       <Button
