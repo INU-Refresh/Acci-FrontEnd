@@ -1,5 +1,6 @@
 "use client";
 
+import { uploadAnalysis } from "@/features/analyze/upload/api/upload-analysis";
 import { UploadCancelModal } from "@/features/analyze/upload/UploadCancelModal";
 import { UploadLoading } from "@/features/analyze/upload/UploadLoading";
 import { UploadReadyCard } from "@/features/analyze/upload/UploadReadyCard";
@@ -18,8 +19,11 @@ export function VideoUploadSection() {
   const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const uploadAbortRef = useRef<AbortController | null>(null);
 
   const resetUpload = () => {
+    uploadAbortRef.current?.abort();
+    uploadAbortRef.current = null;
     setUploadState("idle");
     setUploadProgress(0);
     setUploadError(null);
@@ -48,7 +52,7 @@ export function VideoUploadSection() {
     resetUpload();
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) {
       return;
@@ -73,27 +77,29 @@ export function VideoUploadSection() {
     });
     setUploadState("uploading");
     setUploadProgress(0);
-  };
+    uploadAbortRef.current?.abort();
+    const controller = new AbortController();
+    uploadAbortRef.current = controller;
 
-  useEffect(() => {
-    if (uploadState !== "uploading" || uploadProgress >= 100) {
-      return;
-    }
-
-    const timer = window.setTimeout(() => {
-      setUploadProgress((prev) => {
-        const nextValue = Math.min(prev + 10, 100);
-        // 더미 구현부분 -> 실제 API 업로드 로직으로 대체 필요
-        // 부가적인 이펙트 방지를 위해 setUploadState를 여기서 호출
-        if (nextValue >= 100) {
-          setUploadState("ready");
-        }
-        return nextValue;
+    try {
+      const response = await uploadAnalysis({
+        file,
+        signal: controller.signal,
+        onProgress: (percent) => setUploadProgress(percent),
       });
-    }, 280);
 
-    return () => window.clearTimeout(timer);
-  }, [uploadProgress, uploadState]);
+      console.log("[Upload] response:", response);
+      setUploadProgress(100);
+      setUploadState("ready");
+      // TODO [Minjun]: 분석 시작 단계에서 response.analysisId를 활용해 결과 조회 라우팅 필요
+    } catch (error) {
+      if ((error as { code?: string }).code === "ERR_CANCELED") {
+        return;
+      }
+      setUploadError("업로드에 실패했습니다. 다시 시도해주세요.");
+      setUploadState("idle");
+    }
+  };
 
   useEffect(() => {
     return () => {
