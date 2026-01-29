@@ -88,6 +88,7 @@ export function VideoUploadSection() {
         onProgress: (percent) => setUploadProgress(percent),
       });
 
+      console.log("[Upload] response:", response);
       setUploadProgress(100);
       setUploadState("ready");
       // TODO [Minjun]: 분석 시작 단계에서 response.analysisId를 활용해 결과 조회 라우팅 필요
