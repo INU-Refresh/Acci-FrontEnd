@@ -84,6 +84,7 @@ axiosInstance.interceptors.response.use(
         );
 
         if (response.status >= 200 && response.status < 300) {
+          console.log("[Auth] refresh 성공");
           processQueue(null, null);
           isRefreshing = false;
 
@@ -91,6 +92,7 @@ axiosInstance.interceptors.response.use(
         }
       } catch (refreshError) {
         // 리프레시 토큰 갱신 실패
+        console.log("[Auth] refresh 실패");
         processQueue(refreshError as Error, null);
         isRefreshing = false;
 
