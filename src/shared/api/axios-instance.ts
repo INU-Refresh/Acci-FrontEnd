@@ -29,18 +29,9 @@ const processQueue = (error: Error | null, token: string | null = null) => {
   failedQueue = [];
 };
 
-// Request Interceptor: 로컬스토리지에서 액세스 토큰을 자동으로 헤더에 추가
+// Request Interceptor: 쿠키 기반 인증을 사용하므로 별도 헤더 주입은 하지 않습니다.
 axiosInstance.interceptors.request.use(
   (config) => {
-    // 클라이언트 사이드에서만 실행
-    if (typeof window !== "undefined") {
-      const accessToken = localStorage.getItem("accessToken");
-
-      if (accessToken) {
-        config.headers.Authorization = `Bearer ${accessToken}`;
-      }
-    }
-
     return config;
   },
   (error) => {
@@ -64,9 +55,6 @@ axiosInstance.interceptors.response.use(
           failedQueue.push({ resolve, reject });
         })
           .then((token) => {
-            if (originalRequest.headers) {
-              originalRequest.headers.Authorization = `Bearer ${token}`;
-            }
             return axiosInstance(originalRequest);
           })
           .catch((err) => {
