@@ -1,8 +1,6 @@
 import axiosInstance from "@/shared/api/axios-instance";
 
 type OAuthExchangeResponse = {
-  grantType: string;
-  accessToken: string;
   accessTokenExpiresIn: number;
 };
 

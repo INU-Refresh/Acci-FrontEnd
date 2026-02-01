@@ -29,19 +29,16 @@ export default function OAuthRedirectScreen() {
 
     const exchangeToken = async () => {
       try {
-        // Authorization Code를 서버로 보내 Access Token을 발급받습니다.
-        // Flow: /oauth2/redirect?code=... -> /api/v1/auth/token (POST) -> accessToken 수신
-        const { accessToken } = await exchangeOAuthCode(code);
-
-        if (accessToken) {
-          // Access Token은 응답 바디로 내려오므로 로컬에 저장합니다.
-          localStorage.setItem("accessToken", accessToken);
-        }
+        // Authorization Code를 서버로 보내 토큰을 발급받습니다.
+        // Flow: /oauth2/redirect?code=... -> /api/v1/auth/token (POST)
+        await exchangeOAuthCode(code);
+        console.log("[Auth] OAuth code 교환 성공");
 
         // TODO [Minjun]: 사용자 프로필 조회 후 인증 상태 업데이트
         // 토큰 교환이 끝나면 원래 페이지로 이동합니다.
         router.replace(redirectPath as never);
       } catch (error) {
+        console.log("[Auth] OAuth code 교환 실패");
         setErrorMessage("로그인에 실패했습니다. 다시 시도해주세요.");
       }
     };

@@ -29,18 +29,9 @@ const processQueue = (error: Error | null, token: string | null = null) => {
   failedQueue = [];
 };
 
-// Request Interceptor: 로컬스토리지에서 액세스 토큰을 자동으로 헤더에 추가
+// Request Interceptor: 쿠키 기반 인증을 사용하므로 별도 헤더 주입은 하지 않습니다.
 axiosInstance.interceptors.request.use(
   (config) => {
-    // 클라이언트 사이드에서만 실행
-    if (typeof window !== "undefined") {
-      const accessToken = localStorage.getItem("accessToken");
-
-      if (accessToken) {
-        config.headers.Authorization = `Bearer ${accessToken}`;
-      }
-    }
-
     return config;
   },
   (error) => {
@@ -64,9 +55,6 @@ axiosInstance.interceptors.response.use(
           failedQueue.push({ resolve, reject });
         })
           .then((token) => {
-            if (originalRequest.headers) {
-              originalRequest.headers.Authorization = `Bearer ${token}`;
-            }
             return axiosInstance(originalRequest);
           })
           .catch((err) => {
@@ -95,28 +83,22 @@ axiosInstance.interceptors.response.use(
           }
         );
 
-        const { accessToken: newAccessToken } = response.data;
-
-        if (newAccessToken) {
-          localStorage.setItem("accessToken", newAccessToken);
-          if (originalRequest.headers) {
-            originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-          }
-
-          processQueue(null, newAccessToken);
+        if (response.status >= 200 && response.status < 300) {
+          console.log("[Auth] refresh 성공");
+          processQueue(null, null);
           isRefreshing = false;
 
           return axiosInstance(originalRequest);
         }
       } catch (refreshError) {
         // 리프레시 토큰 갱신 실패
+        console.log("[Auth] refresh 실패");
         processQueue(refreshError as Error, null);
         isRefreshing = false;
 
         // 클라이언트 사이드에서만 정리
         if (typeof window !== "undefined") {
-          // 로컬스토리지와 쿠키 정리
-          localStorage.removeItem("accessToken");
+          // 쿠키 기반 인증이므로 클라이언트 저장소 정리는 최소화합니다.
           Cookies.remove("refreshToken");
 
           // 로그인 페이지로 리다이렉트
