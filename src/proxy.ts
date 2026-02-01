@@ -7,7 +7,7 @@ function hasAuthCookie(request: NextRequest) {
   return AUTH_COOKIE_NAMES.some((name) => request.cookies.get(name));
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
 
   // 인증 쿠키가 없으면 로그인 페이지로 이동합니다.
