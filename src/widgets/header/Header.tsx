@@ -3,6 +3,7 @@
 import { cn } from "@/shared/lib/utils";
 import { useAuthStore } from "@/shared/store/auth-store";
 import { Button } from "@/shared/ui/button";
+import { LogoutButton } from "@/features/auth/logout/ui/LogoutButton";
 import type { Route } from "next";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -88,13 +89,7 @@ export function Header() {
                 마이페이지
               </Link>
               {isAuthenticated && user ? (
-                <Link href={ROUTES.myPage} className="flex items-center gap-2 cursor-pointer">
-                  <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-sm font-semibold">
-                    {/* 여기는 프로필 사진 자리입니다. API가 완성되면 추가하도록 하겠습니다 */}
-                    {user.name?.[0]?.toUpperCase() || "U"}
-                  </div>
-                  <span className="text-sm font-medium text-gray-900">{user.name}</span>
-                </Link>
+                <LogoutButton className="text-body5 text-gray-400" />
               ) : (
                 <Link href="/auth" className="cursor-pointer">
                   <Button className="text-body5 bg-gray-900 text-gray-0 hover:bg-gray-800 py-2 px-4 w-20 cursor-pointer">로그인</Button>
@@ -195,9 +190,7 @@ export function Header() {
                       <p className="text-xs text-gray-500 truncate">{user?.email}</p>
                     </div>
                   </div>
-                  <Link href="/auth" onClick={() => setMobileMenuOpen(false)} className="w-full cursor-pointer">
-                    <Button className="w-full bg-gray-900 text-white hover:bg-gray-800 py-2 font-medium cursor-pointer">로그인</Button>
-                  </Link>
+                  <LogoutButton className="w-full justify-start" />
                 </div>
               )}
             </div>

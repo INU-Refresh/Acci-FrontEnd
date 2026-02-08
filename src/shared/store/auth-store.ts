@@ -16,6 +16,7 @@ interface AuthState {
 }
 
 export const useAuthStore = create<AuthState>()(
+  // 쿠키 기반으로 전환되어서 localStorage 미들웨어는 제거했습니다.
   devtools(
     (set) => ({
       user: null,
@@ -23,7 +24,6 @@ export const useAuthStore = create<AuthState>()(
       setUser: (user) => set({ user, isAuthenticated: !!user }),
       logout: () => {
         set({ user: null, isAuthenticated: false });
-        localStorage.removeItem("accessToken");
       },
     }),
     { name: "AuthStore" }
