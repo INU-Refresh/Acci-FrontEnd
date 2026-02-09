@@ -15,7 +15,7 @@ export function RepairEstimateFormSection() {
 
   return (
     <section className="flex flex-col items-center w-full px-4 sm:px-0">
-      <div className="w-full sm:w-[560px] pt-10 pb-4">
+      <div className="w-full max-w-[840px] pt-10 pb-4">
         <h2 className="text-body7 sm:text-body1 text-gray-700 text-left">필수 입력</h2>
       </div>
 

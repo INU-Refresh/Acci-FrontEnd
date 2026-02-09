@@ -13,7 +13,7 @@ export function SubmitSection({ onSubmit }: SubmitSectionProps) {
       <Button
         disabled={!isFormValid}
         onClick={onSubmit}
-        className={`w-full sm:w-[560px] py-4 rounded-lg text-body9 sm:text-body5 h-14 ${
+        className={`w-full max-w-[840px] py-4 rounded-lg text-body9 sm:text-body5 h-14 ${
           isFormValid ? "bg-gray-900 text-white hover:bg-gray-900/90 cursor-pointer" : "bg-gray-200 text-white cursor-not-allowed"
         }`}
       >

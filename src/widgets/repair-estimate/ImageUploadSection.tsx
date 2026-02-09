@@ -23,7 +23,7 @@ export function ImageUploadSection({ onExceedLimit }: ImageUploadSectionProps) {
   };
 
   return (
-    <div className="w-full sm:w-[560px] bg-white rounded-2xl p-6 mb-4">
+    <div className="w-full max-w-[840px] bg-white rounded-2xl p-6 mb-4">
       <div className="flex gap-4 items-center mb-6">
         <div className="bg-gray-300 rounded flex items-center justify-center size-6 shrink-0">
           <span className="text-body9 sm:text-body5 text-white">4</span>

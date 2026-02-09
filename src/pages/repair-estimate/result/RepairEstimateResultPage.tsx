@@ -32,7 +32,7 @@ export default function RepairEstimateResultPage({ id }: RepairEstimateResultPag
 
         {/* 예상 수리비 카드 */}
         <div className="flex flex-col items-center pb-4 w-full">
-          <div className="bg-white flex flex-col gap-6 p-6 rounded-2xl w-full md:w-[560px] mx-6">
+          <div className="bg-white flex flex-col gap-6 p-6 rounded-2xl w-full max-w-[840px] mx-6">
             {/* 총 수리비 안내 */}
             <div className="flex flex-col items-center justify-center w-full">
               <p className="text-body3 text-gray-500 text-center">
@@ -65,18 +65,18 @@ export default function RepairEstimateResultPage({ id }: RepairEstimateResultPag
 
         {/* 파손 부위 카드 */}
         <div className="flex flex-col items-center justify-center pb-4 w-full">
-          <div className="bg-white flex flex-col gap-6 p-6 rounded-2xl w-full md:w-[560px] mx-6">
+          <div className="bg-white flex flex-col gap-6 p-6 rounded-2xl w-full max-w-[840px] mx-6">
             <div className="flex items-center w-full">
               <p className="text-body3 text-gray-900">파손 부위</p>
             </div>
             {/* 파손 부위 이미지 플레이스홀더 */}
-            <div className="aspect-[3/2] bg-gray-50 rounded-lg w-full" />
+            <div className="aspect-3/2 bg-gray-50 rounded-lg w-full" />
           </div>
         </div>
 
         {/* 다시 계산하기 버튼 */}
         <div className="flex flex-col items-center pb-10 w-full">
-          <Link href="/repair-estimate" className="w-full md:w-[560px]">
+          <Link href="/repair-estimate" className="w-full max-w-[840px] mx-6">
             <Button size="lg" className="h-14 bg-gray-900 hover:bg-gray-800 text-white px-8 py-4 rounded-lg w-full">
               예상 수리비 다시 계산하기
             </Button>
