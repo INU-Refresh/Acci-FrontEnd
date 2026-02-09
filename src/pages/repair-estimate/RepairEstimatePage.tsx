@@ -38,8 +38,8 @@ export default function RepairEstimatePage() {
         partNameKr: detail.part_name_kr,
         partNameEn: detail.part_name_en,
         damageSeverity: detail.damage_severity,
+        description: detail.damage_label || "",
       })),
-      userDescription: userDescription || "",
     };
 
     try {
