@@ -15,6 +15,7 @@ interface RepairEstimateState {
 
   // 파손 부위 선택
   damageDetails: DamageDetail[];
+  selectedPartIds: string[];
 
   // 사용자 설명
   userDescription: string;
@@ -32,6 +33,9 @@ interface RepairEstimateState {
   setDamageDetails: (details: DamageDetail[]) => void;
   addDamageDetail: (detail: DamageDetail) => void;
   removeDamageDetail: (index: number) => void;
+  addSelectedPartId: (partId: string) => void;
+  removeSelectedPartId: (partId: string) => void;
+  clearSelectedPartIds: () => void;
   setUserDescription: (description: string) => void;
   removeImage: (index: number) => void;
   clearImages: () => void;
@@ -81,12 +85,14 @@ export const useRepairEstimateStore = create<RepairEstimateState>()(
       yearSelectOptions: getYearOptions(),
       damageDetails: [],
       userDescription: "",
+      selectedPartIds: [],
 
       setSelectedBrand: (brand) => {
         set({
           selectedBrand: brand,
           selectedModel: "",
           modelFileName: "",
+          selectedPartIds: [],
           modelSelectOptions: getModelOptions(brand),
         });
       },
@@ -96,6 +102,7 @@ export const useRepairEstimateStore = create<RepairEstimateState>()(
         set({
           selectedModel: model,
           modelFileName: getModelFileName(selectedBrand, model),
+          selectedPartIds: [],
         });
       },
 
@@ -119,6 +126,21 @@ export const useRepairEstimateStore = create<RepairEstimateState>()(
       removeDamageDetail: (index) => {
         const { damageDetails } = get();
         set({ damageDetails: damageDetails.filter((_, i) => i !== index) });
+      },
+
+      addSelectedPartId: (partId) => {
+        const { selectedPartIds } = get();
+        if (selectedPartIds.includes(partId)) return;
+        set({ selectedPartIds: [...selectedPartIds, partId] });
+      },
+
+      removeSelectedPartId: (partId) => {
+        const { selectedPartIds } = get();
+        set({ selectedPartIds: selectedPartIds.filter((id) => id !== partId) });
+      },
+
+      clearSelectedPartIds: () => {
+        set({ selectedPartIds: [] });
       },
 
       setUserDescription: (description) => {
@@ -148,6 +170,7 @@ export const useRepairEstimateStore = create<RepairEstimateState>()(
           yearSelectOptions: getYearOptions(),
           damageDetails: [],
           userDescription: "",
+          selectedPartIds: [],
         });
       },
     }),
