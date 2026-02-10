@@ -1,23 +1,62 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Header } from "@/widgets/header/Header";
 import { Footer } from "@/widgets/footer/Footer";
 import { Button } from "@/shared/ui/button";
+import axiosInstance from "@/shared/api/axios-instance";
 
 interface RepairEstimateResultPageProps {
   id: string;
 }
 
-// 임시 데이터 - 실제로는 API에서 가져올 데이터
-const mockData = {
-  carModel: "현대(HYUNDAI) 아반떼",
-  totalCost: "800만원",
-  panelRepairCost: "90만원",
-  replacementCost: "710만원",
-};
+type RepairEstimateStatus = "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED";
+
+interface RepairEstimateResultResponse {
+  status?: RepairEstimateStatus;
+  vehicleName?: string;
+  totalCost?: string;
+  panelRepairCost?: string;
+  replacementCost?: string;
+}
 
 export default function RepairEstimateResultPage({ id }: RepairEstimateResultPageProps) {
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [result, setResult] = useState<RepairEstimateResultResponse | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchResult = async () => {
+      setIsLoading(true);
+      setErrorMessage(null);
+
+      try {
+        const response = await axiosInstance.get(`/api/v1/repair-estimates/${id}`);
+        console.log(response.data);
+        if (!isMounted) return;
+
+        setResult(response.data);
+      } catch (error) {
+        if (!isMounted) return;
+        setErrorMessage("견적 결과를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
+      } finally {
+        if (!isMounted) return;
+        setIsLoading(false);
+      }
+    };
+
+    if (id) {
+      fetchResult();
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, [id]);
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
@@ -33,33 +72,69 @@ export default function RepairEstimateResultPage({ id }: RepairEstimateResultPag
         {/* 예상 수리비 카드 */}
         <div className="flex flex-col items-center pb-4 w-full">
           <div className="bg-white flex flex-col gap-6 p-6 rounded-2xl w-full max-w-[840px] mx-6">
-            {/* 총 수리비 안내 */}
-            <div className="flex flex-col items-center justify-center w-full">
-              <p className="text-body3 text-gray-500 text-center">
-                {mockData.carModel}의 예상 수리비는 <span className="text-primary-700">{mockData.totalCost}</span>입니다
-              </p>
-            </div>
-
-            {/* 세부 비용 */}
-            <div className="flex flex-col gap-2 w-full">
-              {/* 판금 부위 */}
-              <div className="bg-gray-50 flex items-center justify-between px-6 py-4 rounded-lg w-full">
-                <p className="text-body7 text-gray-900">판금 부위</p>
-                <p className="text-body7 text-gray-900">{mockData.panelRepairCost}</p>
+            {isLoading && (
+              <div className="flex items-center justify-center w-full py-10">
+                <p className="text-body4 text-gray-500">견적 결과를 불러오는 중입니다...</p>
               </div>
+            )}
 
-              {/* 교체 부위 */}
-              <div className="bg-gray-50 flex items-center justify-between px-6 py-4 rounded-lg w-full">
-                <p className="text-body7 text-gray-900">교체 부위</p>
-                <p className="text-body7 text-gray-900">{mockData.replacementCost}</p>
+            {!isLoading && errorMessage && (
+              <div className="flex items-center justify-center w-full py-10">
+                <p className="text-body4 text-red-500">{errorMessage}</p>
               </div>
+            )}
 
-              {/* 합계 */}
-              <div className="bg-gray-50 flex items-center justify-between px-6 py-4 rounded-lg w-full">
-                <p className="text-body7 text-gray-900">합계</p>
-                <p className="text-body7 text-primary-700">{mockData.totalCost}</p>
+            {!isLoading && !errorMessage && (result?.status === "PENDING" || result?.status === "PROCESSING") && (
+              <div className="flex flex-col items-center justify-center w-full py-10 gap-2">
+                <p className="text-body4 text-gray-700">견적을 계산 중입니다.</p>
+                <p className="text-body9 text-gray-500">잠시만 기다려주세요.</p>
               </div>
-            </div>
+            )}
+
+            {!isLoading && !errorMessage && result?.status === "FAILED" && (
+              <div className="flex flex-col items-center justify-center w-full py-10 gap-2">
+                <p className="text-body4 text-red-500">견적 계산에 실패했습니다.</p>
+                <p className="text-body9 text-gray-500">다시 시도하거나 고객센터에 문의해주세요.</p>
+              </div>
+            )}
+
+            {!isLoading && !errorMessage && result?.status === "COMPLETED" && (
+              <>
+                {/* 총 수리비 안내 */}
+                <div className="flex flex-col items-center justify-center w-full">
+                  <p className="text-body3 text-gray-500 text-center">
+                    {result.vehicleName ?? "차량"}의 예상 수리비는 <span className="text-primary-700">{result.totalCost ?? "-"}</span>입니다
+                  </p>
+                </div>
+
+                {/* 세부 비용 */}
+                <div className="flex flex-col gap-2 w-full">
+                  {/* 판금 부위 */}
+                  <div className="bg-gray-50 flex items-center justify-between px-6 py-4 rounded-lg w-full">
+                    <p className="text-body7 text-gray-900">판금 부위</p>
+                    <p className="text-body7 text-gray-900">{result.panelRepairCost ?? "-"}</p>
+                  </div>
+
+                  {/* 교체 부위 */}
+                  <div className="bg-gray-50 flex items-center justify-between px-6 py-4 rounded-lg w-full">
+                    <p className="text-body7 text-gray-900">교체 부위</p>
+                    <p className="text-body7 text-gray-900">{result.replacementCost ?? "-"}</p>
+                  </div>
+
+                  {/* 합계 */}
+                  <div className="bg-gray-50 flex items-center justify-between px-6 py-4 rounded-lg w-full">
+                    <p className="text-body7 text-gray-900">합계</p>
+                    <p className="text-body7 text-primary-700">{result.totalCost ?? "-"}</p>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {!isLoading && !errorMessage && !result?.status && (
+              <div className="flex items-center justify-center w-full py-10">
+                <p className="text-body4 text-gray-500">견적 상태를 확인할 수 없습니다.</p>
+              </div>
+            )}
           </div>
         </div>
 
@@ -76,7 +151,7 @@ export default function RepairEstimateResultPage({ id }: RepairEstimateResultPag
 
         {/* 다시 계산하기 버튼 */}
         <div className="flex flex-col items-center pb-10 w-full">
-          <Link href="/repair-estimate" className="w-full max-w-[840px] mx-6">
+          <Link href="/repair-estimate" className="w-full max-w-[840px] mx-6 ">
             <Button size="lg" className="h-14 bg-gray-900 hover:bg-gray-800 text-white px-8 py-4 rounded-lg w-full">
               예상 수리비 다시 계산하기
             </Button>
