@@ -4,7 +4,7 @@
   "private": true,
   "description": "교통사고 영상을 AI가 분석하여 과실비율, 분석이유, 관련 판례를 제공하는 분쟁심의 지원 플랫폼",
   "scripts": {
-    "dev": "next dev -H local.acci-ai.site",
+    "dev": "next dev",
     "dev:ssl": "concurrently \"next dev\" \"local-ssl-proxy --source 3001 --target 3000 --cert local.acci-ai.site.pem --key local.acci-ai.site-key.pem\" \"HTTPS 서버 접속: https://local.acci-ai.site:3001\"",
     "build": "next build --webpack",
     "start": "next start",
