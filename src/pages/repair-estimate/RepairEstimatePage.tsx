@@ -7,9 +7,11 @@ import { useRepairEstimateStore } from "@/shared/store/repair-estimate-store";
 import axiosInstance from "@/shared/api/axios-instance";
 import { VEHICLES } from "@/entities/vehicle";
 import { TitleSection, RepairEstimateFormSection, OptionalInputSection, SubmitSection, ToastMessage } from "@/widgets/repair-estimate";
+import { useRouter } from "next/navigation";
 
 export default function RepairEstimatePage() {
   const { toast, showToast } = useToast();
+  const router = useRouter();
   const selectedBrand = useRepairEstimateStore((state) => state.selectedBrand);
   const selectedModel = useRepairEstimateStore((state) => state.selectedModel);
   const selectedYear = useRepairEstimateStore((state) => state.selectedYear);
@@ -43,10 +45,18 @@ export default function RepairEstimatePage() {
     };
 
     try {
-      console.log(payload);
-      await axiosInstance.post("/api/v1/repair-estimates", payload);
+      const response = await axiosInstance.post("/api/v1/repair-estimates", payload);
+      const estimateId =
+        response.data?.id ?? response.data?.estimateId ?? response.data?.resultId ?? response.data?.data?.id ?? response.data?.data?.estimateId ?? response.data?.data?.resultId;
+
+      console.log(response.data);
+      if (!estimateId) {
+        showToast("견적 결과 ID를 찾을 수 없습니다. 잠시 후 다시 시도해주세요.");
+        return;
+      }
+
       showToast("수리비 견적 요청을 전송했습니다.");
-      // TODO: 예상 수리비 결과 페이지로 이동
+      router.push(`/repair-estimate/result/${estimateId}`);
     } catch (error) {
       showToast("요청 전송에 실패했습니다. 잠시 후 다시 시도해주세요.");
     }
