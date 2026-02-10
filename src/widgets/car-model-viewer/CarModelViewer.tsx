@@ -7,11 +7,12 @@ import * as THREE from "three";
 
 interface CarModelProps {
   modelPath: string;
+  onSelectPart?: (partId: string, selected: boolean) => void;
 }
 
-type ClickState = 0 | 1 | 2 | 3; // 0: 클릭 안함, 1: 노랑, 2: 주황, 3: 빨강
+type ClickState = 0 | 1; // 0: 선택 안함, 1: 선택됨
 
-function CarModel({ modelPath }: CarModelProps) {
+function CarModel({ modelPath, onSelectPart }: CarModelProps) {
   const { scene } = useGLTF(modelPath);
   const [hoveredMesh, setHoveredMesh] = useState<THREE.Mesh | null>(null);
   const [clickStateMaps] = useState(() => new Map<THREE.Mesh, ClickState>());
@@ -38,9 +39,7 @@ function CarModel({ modelPath }: CarModelProps) {
   const getColorByClickState = (state: ClickState): string => {
     const colorMap: Record<ClickState, string> = {
       0: "#0000ff", // 호버: 파랑
-      1: "#ffff00", // 1번 클릭: 노랑
-      2: "#ffa500", // 2번 클릭: 주황
-      3: "#ff0000", // 3번 클릭: 빨강
+      1: "#ffff00", // 선택됨: 노랑
     };
     return colorMap[state];
   };
@@ -49,6 +48,14 @@ function CarModel({ modelPath }: CarModelProps) {
     const material = mesh.material as THREE.MeshStandardMaterial;
     if (material?.color) {
       material.color.set(getColorByClickState(state));
+    }
+  };
+
+  const restoreOriginalColor = (mesh: THREE.Mesh) => {
+    const originalColor = originalColors.get(mesh);
+    if (originalColor) {
+      const material = mesh.material as THREE.MeshStandardMaterial;
+      material.color.copy(originalColor);
     }
   };
 
@@ -74,11 +81,7 @@ function CarModel({ modelPath }: CarModelProps) {
 
     // 클릭된 상태가 없으면 원래 색상으로 복원
     if (currentState === 0) {
-      const originalColor = originalColors.get(mesh);
-      if (originalColor) {
-        const material = mesh.material as THREE.MeshStandardMaterial;
-        material.color.copy(originalColor);
-      }
+      restoreOriginalColor(mesh);
       setHoveredMesh(null);
     }
   };
@@ -89,12 +92,26 @@ function CarModel({ modelPath }: CarModelProps) {
     // Body 메쉬는 클릭 무시
     if (mesh.name === "Body") return;
 
-    // 클릭 상태 순환: 0 -> 1 -> 2 -> 3 -> 0
+    // 클릭 시 선택 토글: 0 <-> 1
     const currentState = clickStateMaps.get(mesh) || 0;
-    const nextState: ClickState = ((currentState + 1) % 4) as ClickState;
+    const nextState: ClickState = currentState === 1 ? 0 : 1;
 
     clickStateMaps.set(mesh, nextState);
-    updateMeshColor(mesh, nextState);
+
+    onSelectPart?.(mesh.name, nextState === 1);
+
+    if (nextState === 1) {
+      updateMeshColor(mesh, 1);
+      setHoveredMesh(null);
+      return;
+    }
+
+    // 선택 해제 시: 호버 중이면 호버 색상, 아니면 원래 색상
+    if (hoveredMesh === mesh) {
+      updateMeshColor(mesh, 0);
+    } else {
+      restoreOriginalColor(mesh);
+    }
   };
 
   return <primitive object={scene} onPointerOver={handlePointerOver} onPointerOut={handlePointerOut} onClick={handleClick} />;
@@ -103,6 +120,7 @@ function CarModel({ modelPath }: CarModelProps) {
 interface CarModelViewerProps {
   modelName: string;
   className?: string;
+  onSelectPart?: (partId: string, selected: boolean) => void;
 }
 
 // 3D 자동차 모델 뷰어 컴포넌트
@@ -124,7 +142,7 @@ interface CarModelViewerProps {
  * minPolarAngle : 카메라의 최소 세로 각도 (라디안)
  * maxPolarAngle : 카메라의 최대 세로 각도 (라디안)
  */
-export function CarModelViewer({ modelName, className = "" }: CarModelViewerProps) {
+export function CarModelViewer({ modelName, className = "", onSelectPart }: CarModelViewerProps) {
   const modelPath = `/models/${modelName}.glb`;
 
   return (
@@ -132,7 +150,7 @@ export function CarModelViewer({ modelName, className = "" }: CarModelViewerProp
       <Canvas shadows camera={{ position: [200, 30, -150], fov: 10 }} style={{ background: "transparent" }}>
         <Suspense fallback={null}>
           <Stage environment="city" intensity={0.5} adjustCamera={false}>
-            <CarModel modelPath={modelPath} />
+            <CarModel modelPath={modelPath} onSelectPart={onSelectPart} />
           </Stage>
           <OrbitControls enablePan={false} enableZoom={true} minDistance={3} maxDistance={8} minPolarAngle={Math.PI / 3} maxPolarAngle={Math.PI / 1.9} />
         </Suspense>

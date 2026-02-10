@@ -4,7 +4,7 @@ export type Brand = "hyundai" | "kia" | "genesis";
 
 export type VehicleType = "sedan" | "suv" | "hatchback";
 
-export type Segment = "compact" | "mid-size" | "full-size" | "light-duty" | "mini" | "luxury" | "compact-luxury" | "mid-size-luxury" | "full-size-luxury";
+export type Segment = "compact" | "mid_size" | "full_size" | "light_duty" | "mini" | "luxury" | "compact_luxury" | "mid_size_luxury" | "full_size_luxury";
 
 export type Year = 2011 | 2012 | 2013 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026;
 
