@@ -13,7 +13,7 @@ type SelectFieldProps = {
 
 export function SelectField({ number, label, placeholder, value, onChange, options, disabled = false, required = true }: SelectFieldProps) {
   return (
-    <div className="w-full sm:w-[560px] bg-white rounded-2xl p-6 mb-4">
+    <div className="w-full max-w-[840px] bg-white rounded-2xl p-6 mb-4">
       <div className="flex gap-4 items-center">
         <div className="bg-gray-300 rounded flex items-center justify-center size-6 shrink-0">
           <span className="text-body9 sm:text-body5 text-white">{number}</span>
