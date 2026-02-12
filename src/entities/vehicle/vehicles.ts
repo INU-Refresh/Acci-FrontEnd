@@ -4,36 +4,36 @@ export type { Brand, VehicleType, Segment, VehicleInfo, BodySection, PartInfo, D
 
 export const VEHICLES: VehicleInfo[] = [
   // Hyundai
-  { brand: "hyundai", model: "아반떼", vehicleType: "sedan", segment: "compact" },
-  { brand: "hyundai", model: "소나타", vehicleType: "sedan", segment: "mid_size" },
-  { brand: "hyundai", model: "그랜저", vehicleType: "sedan", segment: "full_size" },
-  { brand: "hyundai", model: "싼타페", vehicleType: "suv", segment: "mid_size" },
-  { brand: "hyundai", model: "팰리세이드", vehicleType: "suv", segment: "full_size" },
+  { brand: "현대", model: "아반떼", vehicleType: "sedan", segment: "compact" },
+  { brand: "현대", model: "소나타", vehicleType: "sedan", segment: "mid_size" },
+  { brand: "현대", model: "그랜저", vehicleType: "sedan", segment: "full_size" },
+  { brand: "현대", model: "싼타페", vehicleType: "suv", segment: "mid_size" },
+  { brand: "현대", model: "팰리세이드", vehicleType: "suv", segment: "full_size" },
 
   // Kia
-  { brand: "kia", model: "K3", vehicleType: "sedan", segment: "compact" },
-  { brand: "kia", model: "K5", vehicleType: "sedan", segment: "mid_size" },
-  { brand: "kia", model: "K7", vehicleType: "sedan", segment: "full_size" },
-  { brand: "kia", model: "K8", vehicleType: "sedan", segment: "full_size" },
-  { brand: "kia", model: "K9", vehicleType: "sedan", segment: "luxury" },
-  { brand: "kia", model: "모닝", vehicleType: "hatchback", segment: "mini" },
-  { brand: "kia", model: "레이", vehicleType: "hatchback", segment: "mini" },
-  { brand: "kia", model: "스포티지", vehicleType: "suv", segment: "compact" },
-  { brand: "kia", model: "쏘렌토", vehicleType: "suv", segment: "mid_size" },
+  { brand: "기아", model: "K3", vehicleType: "sedan", segment: "compact" },
+  { brand: "기아", model: "K5", vehicleType: "sedan", segment: "mid_size" },
+  { brand: "기아", model: "K7", vehicleType: "sedan", segment: "full_size" },
+  { brand: "기아", model: "K8", vehicleType: "sedan", segment: "full_size" },
+  { brand: "기아", model: "K9", vehicleType: "sedan", segment: "luxury" },
+  { brand: "기아", model: "모닝", vehicleType: "hatchback", segment: "mini" },
+  { brand: "기아", model: "레이", vehicleType: "hatchback", segment: "mini" },
+  { brand: "기아", model: "스포티지", vehicleType: "suv", segment: "compact" },
+  { brand: "기아", model: "쏘렌토", vehicleType: "suv", segment: "mid_size" },
 
   // Genesis
-  { brand: "genesis", model: "G70", vehicleType: "sedan", segment: "compact_luxury" },
-  { brand: "genesis", model: "G80", vehicleType: "sedan", segment: "mid_size_luxury" },
-  { brand: "genesis", model: "G90", vehicleType: "sedan", segment: "full_size_luxury" },
-  { brand: "genesis", model: "GV60", vehicleType: "suv", segment: "compact_luxury" },
-  { brand: "genesis", model: "GV70", vehicleType: "suv", segment: "mid_size_luxury" },
-  { brand: "genesis", model: "GV80", vehicleType: "suv", segment: "full_size_luxury" },
+  { brand: "제네시스", model: "G70", vehicleType: "sedan", segment: "compact_luxury" },
+  { brand: "제네시스", model: "G80", vehicleType: "sedan", segment: "mid_size_luxury" },
+  { brand: "제네시스", model: "G90", vehicleType: "sedan", segment: "full_size_luxury" },
+  { brand: "제네시스", model: "GV60", vehicleType: "suv", segment: "compact_luxury" },
+  { brand: "제네시스", model: "GV70", vehicleType: "suv", segment: "mid_size_luxury" },
+  { brand: "제네시스", model: "GV80", vehicleType: "suv", segment: "full_size_luxury" },
 ];
 
 export const BRAND_LABELS: Record<string, string> = {
-  hyundai: "현대",
-  kia: "기아",
-  genesis: "제네시스",
+  현대: "현대",
+  기아: "기아",
+  제네시스: "제네시스",
 };
 
 // ===== 공통 파손 부위 =====

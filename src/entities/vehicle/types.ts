@@ -1,6 +1,6 @@
 // ===== 차량 관련 타입 =====
 
-export type Brand = "hyundai" | "kia" | "genesis";
+export type Brand = "현대" | "기아" | "제네시스";
 
 export type VehicleType = "sedan" | "suv" | "hatchback";
 
