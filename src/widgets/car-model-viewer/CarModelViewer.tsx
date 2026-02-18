@@ -8,11 +8,13 @@ import * as THREE from "three";
 interface CarModelProps {
   modelPath: string;
   onSelectPart?: (partId: string, selected: boolean) => void;
+  selectedPartIds?: string[];
+  interactive?: boolean;
 }
 
 type ClickState = 0 | 1; // 0: 선택 안함, 1: 선택됨
 
-function CarModel({ modelPath, onSelectPart }: CarModelProps) {
+function CarModel({ modelPath, onSelectPart, selectedPartIds, interactive = true }: CarModelProps) {
   const { scene } = useGLTF(modelPath);
   const [hoveredMesh, setHoveredMesh] = useState<THREE.Mesh | null>(null);
   const [clickStateMaps] = useState(() => new Map<THREE.Mesh, ClickState>());
@@ -60,6 +62,7 @@ function CarModel({ modelPath, onSelectPart }: CarModelProps) {
   };
 
   const handlePointerOver = (event: ThreeEvent<PointerEvent>) => {
+    if (!interactive) return;
     event.stopPropagation();
     const mesh = event.object as THREE.Mesh;
     // Body 메쉬는 호버 무시
@@ -73,6 +76,7 @@ function CarModel({ modelPath, onSelectPart }: CarModelProps) {
   };
 
   const handlePointerOut = (event: ThreeEvent<PointerEvent>) => {
+    if (!interactive) return;
     event.stopPropagation();
     const mesh = event.object as THREE.Mesh;
     // Body 메쉬는 포인터 아웃 무시
@@ -87,6 +91,7 @@ function CarModel({ modelPath, onSelectPart }: CarModelProps) {
   };
 
   const handleClick = (event: ThreeEvent<MouseEvent>) => {
+    if (!interactive) return;
     event.stopPropagation();
     const mesh = event.object as THREE.Mesh;
     // Body 메쉬는 클릭 무시
@@ -114,6 +119,27 @@ function CarModel({ modelPath, onSelectPart }: CarModelProps) {
     }
   };
 
+  useEffect(() => {
+    if (!selectedPartIds) return;
+    const selectedSet = new Set(selectedPartIds);
+
+    scene.traverse((child) => {
+      if (!(child instanceof THREE.Mesh)) return;
+      if (child.name === "Body") return;
+
+      const mesh = child as THREE.Mesh;
+      const isSelected = selectedSet.has(mesh.name);
+      clickStateMaps.set(mesh, isSelected ? 1 : 0);
+
+      if (isSelected) {
+        updateMeshColor(mesh, 1);
+        return;
+      }
+
+      restoreOriginalColor(mesh);
+    });
+  }, [scene, selectedPartIds, clickStateMaps, originalColors]);
+
   return <primitive object={scene} onPointerOver={handlePointerOver} onPointerOut={handlePointerOut} onClick={handleClick} />;
 }
 
@@ -121,6 +147,8 @@ interface CarModelViewerProps {
   modelName: string;
   className?: string;
   onSelectPart?: (partId: string, selected: boolean) => void;
+  selectedPartIds?: string[];
+  interactive?: boolean;
 }
 
 // 3D 자동차 모델 뷰어 컴포넌트
@@ -142,7 +170,7 @@ interface CarModelViewerProps {
  * minPolarAngle : 카메라의 최소 세로 각도 (라디안)
  * maxPolarAngle : 카메라의 최대 세로 각도 (라디안)
  */
-export function CarModelViewer({ modelName, className = "", onSelectPart }: CarModelViewerProps) {
+export function CarModelViewer({ modelName, className = "", onSelectPart, selectedPartIds, interactive = true }: CarModelViewerProps) {
   const modelPath = `/models/${modelName}.glb`;
 
   return (
@@ -150,7 +178,7 @@ export function CarModelViewer({ modelName, className = "", onSelectPart }: CarM
       <Canvas shadows camera={{ position: [200, 30, -150], fov: 10 }} style={{ background: "transparent" }}>
         <Suspense fallback={null}>
           <Stage environment="city" intensity={0.5} adjustCamera={false}>
-            <CarModel modelPath={modelPath} onSelectPart={onSelectPart} />
+            <CarModel modelPath={modelPath} onSelectPart={onSelectPart} selectedPartIds={selectedPartIds} interactive={interactive} />
           </Stage>
           <OrbitControls enablePan={false} enableZoom={true} minDistance={3} maxDistance={8} minPolarAngle={Math.PI / 3} maxPolarAngle={Math.PI / 1.9} />
         </Suspense>
