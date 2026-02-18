@@ -49,6 +49,11 @@ axiosInstance.interceptors.response.use(
 
     // 401 에러이고, 아직 재시도하지 않은 요청인 경우
     if (error.response?.status === 401 && !originalRequest._retry) {
+      const requestUrl = originalRequest.url ?? "";
+      // /users/me 같은 인증 상태 확인 요청은 리다이렉트 없이 실패 처리합니다.
+      if (requestUrl.includes("/api/v1/users/me")) {
+        return Promise.reject(error);
+      }
       if (isRefreshing) {
         // 이미 토큰 갱신이 진행 중이면 대기
         return new Promise((resolve, reject) => {
