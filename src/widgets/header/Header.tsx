@@ -4,11 +4,13 @@ import { cn } from "@/shared/lib/utils";
 import { useAuthStore } from "@/shared/store/auth-store";
 import { Button } from "@/shared/ui/button";
 import { LogoutButton } from "@/features/auth/logout/ui/LogoutButton";
+import { useSyncUser } from "@/features/auth/me/ui/use-sync-user";
 import type { Route } from "next";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export function Header() {
+  useSyncUser();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [headerVisible, setHeaderVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);

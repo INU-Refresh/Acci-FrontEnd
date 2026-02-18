@@ -3,14 +3,16 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
 interface User {
-  id: string;
   email: string;
   name: string;
+  profileImage?: string | null;
+  role?: string | null;
 }
 
 interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
+  authEpoch: number;
   setUser: (user: User | null) => void;
   logout: () => void;
 }
@@ -21,9 +23,10 @@ export const useAuthStore = create<AuthState>()(
     (set) => ({
       user: null,
       isAuthenticated: false,
+      authEpoch: 0,
       setUser: (user) => set({ user, isAuthenticated: !!user }),
       logout: () => {
-        set({ user: null, isAuthenticated: false });
+        set((state) => ({ user: null, isAuthenticated: false, authEpoch: state.authEpoch + 1 }));
       },
     }),
     { name: "AuthStore" }
