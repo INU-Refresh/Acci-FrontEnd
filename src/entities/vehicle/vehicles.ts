@@ -36,6 +36,36 @@ export const BRAND_LABELS: Record<string, string> = {
   genesis: "제네시스",
 };
 
+// 한글 브랜드명을 영어로 변환하는 맵 (백엔드 응답 처리용)
+export const KOREAN_TO_ENGLISH_BRAND: Record<string, string> = {
+  현대: "hyundai",
+  기아: "kia",
+  제네시스: "genesis",
+};
+
+/**
+ * 브랜드명을 영어로 정규화합니다.
+ * 한글이면 영어로 변환, 이미 영어면 그대로 반환
+ */
+export const normalizeBrand = (brand: string): string => {
+  return KOREAN_TO_ENGLISH_BRAND[brand] || brand.toLowerCase();
+};
+
+// vehicleType 한글-영어 맵핑
+const KOREAN_TO_ENGLISH_VEHICLE_TYPE: Record<string, string> = {
+  세단: "sedan",
+  해치백: "hatchback",
+  suv: "suv",
+};
+
+/**
+ * vehicleType을 영어로 정규화합니다.
+ * 한글이면 영어로 변환, 이미 영어면 그대로 반환
+ */
+export const normalizeVehicleType = (vehicleType: string): string => {
+  return KOREAN_TO_ENGLISH_VEHICLE_TYPE[vehicleType] || vehicleType.toLowerCase();
+};
+
 // ===== 공통 파손 부위 =====
 
 // 모든 차종 공통 Front 부위
@@ -140,4 +170,73 @@ export const DAMAGE_SEVERITY_LABELS: Record<DamageSeverity, string> = {
   dent: "찌그러짐",
   crack: "균열",
   severe: "반파",
+};
+
+// Part ID를 3D 모델 메쉬 이름으로 변환하는 매핑
+export const PART_ID_TO_MESH_NAME: Record<string, string> = {
+  // Front parts
+  "windshield-glass": "Front_WindshieldGlass",
+  hood: "Front_Hood",
+  "radiator-grille": "Front_RadiatorGrille",
+  "front-bumper-cover": "Front_FrontBumperCover",
+  "head-lamp-lh": "Front_HeadLampLH",
+  "head-lamp-rh": "Front_HeadLampRH",
+
+  // Upper parts
+  "roof-panel": "Upper_RoofPanel",
+
+  // Rear parts (sedan)
+  "sedan-back-glass": "Rear_BackGlass",
+  "sedan-trunk-lid": "Rear_TrunkLid",
+
+  // Rear parts (hatchback)
+  "hatchback-back-door": "Rear_BackDoor",
+  "hatchback-back-door-glass": "Rear_BackDoorGlass",
+
+  // Rear parts (suv)
+  "suv-rear-spoiler": "Rear_RearSpoiler",
+  "suv-tailgate-glass": "Rear_TailgateGlass",
+  "suv-tailgate": "Rear_Tailgate",
+
+  // Common rear parts
+  "rear-bumper-cover": "Rear_RearBumperCover",
+  "rear-combination-lamp-lh": "Rear_RearCombinationLampLH",
+  "rear-combination-lamp-rh": "Rear_RearCombinationLampRH",
+
+  // Side parts
+  "front-fender-lh": "Side_FrontFenderLH",
+  "front-fender-rh": "Side_FrontFenderRH",
+  "front-door-lh": "Side_FrontDoorLH",
+  "front-door-rh": "Side_FrontDoorRH",
+  "rear-door-lh": "Side_RearDoorLH",
+  "rear-door-rh": "Side_RearDoorRH",
+  "tire-wheel-front-lh": "Side_Tire&Wheel(Front_LH)",
+  "tire-wheel-front-rh": "Side_Tire&Wheel(Front_RH)",
+  "tire-wheel-rear-lh": "Side_Tire&Wheel(Rear_LH)",
+  "tire-wheel-rear-rh": "Side_Tire&Wheel(Rear_RH)",
+
+  // Sedan side parts
+  "sedan-rear-quarter-panel-lh": "Side_RearQuarterPanelLH",
+  "sedan-rear-quarter-panel-rh": "Side_RearQuarterPanelRH",
+  "sedan-quarter-fixed-glass-lh": "Side_QuarterFixedGlassLH",
+  "sedan-quarter-fixed-glass-rh": "Side_QuarterFixedGlassRH",
+
+  // Hatchback side parts
+  "hatchback-rear-quarter-panel-lh": "Side_RearQuarterPanelLH",
+  "hatchback-rear-quarter-panel-rh": "Side_RearQuarterPanelRH",
+  "hatchback-quarter-glass-lh": "Side_QuarterGlassLH",
+  "hatchback-quarter-glass-rh": "Side_QuarterGlassRH",
+
+  // SUV side parts
+  "suv-rear-fender-panel-lh": "Side_RearFenderPanelLH",
+  "suv-rear-fender-panel-rh": "Side_RearFenderPanelRH",
+  "suv-quarter-fixed-glass-lh": "Side_QuarterFixedGlassLH",
+  "suv-quarter-fixed-glass-rh": "Side_QuarterFixedGlassRH",
+};
+
+/**
+ * Part ID를 3D 모델 메쉬 이름으로 변환합니다.
+ */
+export const getPartMeshName = (partId: string): string => {
+  return PART_ID_TO_MESH_NAME[partId] || partId;
 };
