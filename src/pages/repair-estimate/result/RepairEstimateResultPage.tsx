@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Header } from "@/widgets/header/Header";
 import { Footer } from "@/widgets/footer/Footer";
 import axiosInstance from "@/shared/api/axios-instance";
-import { VEHICLES, VEHICLE_PARTS_BY_TYPE } from "@/entities/vehicle";
+import { VEHICLES, normalizeBrand, normalizeVehicleType } from "@/entities/vehicle";
 import { TitleSection, EstimateCard, DamageAreaCard, ActionSection } from "@/widgets/repair-estimate-result";
 
 interface RepairEstimateResultPageProps {
@@ -53,19 +53,6 @@ export default function RepairEstimateResultPage({ id }: RepairEstimateResultPag
     return modelFileMap[vehicle.vehicleType] ?? "";
   })();
 
-  const selectedPartIds = (() => {
-    if (!result?.vehicleInfo?.vehicleType || !result.damageDetails?.length) return [];
-    const partsBySection = VEHICLE_PARTS_BY_TYPE[result.vehicleInfo.vehicleType as keyof typeof VEHICLE_PARTS_BY_TYPE];
-    const allParts = Object.values(partsBySection ?? {}).flat();
-
-    return result.damageDetails
-      .map((detail) => {
-        const matched = allParts.find((part) => part.part_name_en == detail.partNameEn);
-        return matched?.id ?? detail.partNameEn;
-      })
-      .filter(Boolean);
-  })();
-
   useEffect(() => {
     let isMounted = true;
 
@@ -78,7 +65,17 @@ export default function RepairEstimateResultPage({ id }: RepairEstimateResultPag
         console.log(response.data);
         if (!isMounted) return;
 
-        setResult(response.data);
+        // 백엔드에서 받은 한글 브랜드와 vehicleType을 영어로 정규화
+        const normalizedData = {
+          ...response.data,
+          vehicleInfo: {
+            ...response.data.vehicleInfo,
+            brand: normalizeBrand(response.data.vehicleInfo.brand),
+            vehicleType: normalizeVehicleType(response.data.vehicleInfo.vehicleType),
+          },
+        };
+
+        setResult(normalizedData);
       } catch (error) {
         if (!isMounted) return;
         setErrorMessage("견적 결과를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
@@ -118,7 +115,7 @@ export default function RepairEstimateResultPage({ id }: RepairEstimateResultPag
         </div>
 
         <div className="flex flex-col items-center justify-center pb-4 w-full">
-          <DamageAreaCard modelFileName={modelFileName} selectedPartIds={selectedPartIds} />
+          <DamageAreaCard modelFileName={modelFileName} damageDetails={result?.damageDetails} vehicleType={result?.vehicleInfo?.vehicleType} />
         </div>
 
         <ActionSection />

@@ -18,13 +18,18 @@ interface EstimateCompletedStateProps {
   damageDetails: DamageDetail[];
 }
 
+import { BRAND_LABELS } from "@/entities/vehicle";
+
 export function EstimateCompletedState({ brand, model, totalEstimate, repairItems, damageDetails }: EstimateCompletedStateProps) {
+  // 영어 브랜드를 한글로 변환
+  const displayBrand = BRAND_LABELS[brand.toLowerCase()] || brand;
+
   return (
     <>
       {/* 총 수리비 안내 */}
       <div className="flex flex-col items-center justify-center w-full">
         <p className="text-body3 text-gray-500 text-center">
-          {brand} {model}의 예상 수리비는 <span className="text-primary-700">{totalEstimate != null ? `${totalEstimate.toLocaleString()}원` : "NULL"}</span>
+          {displayBrand} {model}의 예상 수리비는 <span className="text-primary-700">{totalEstimate != null ? `${totalEstimate.toLocaleString()}원` : "NULL"}</span>
           입니다
         </p>
       </div>
