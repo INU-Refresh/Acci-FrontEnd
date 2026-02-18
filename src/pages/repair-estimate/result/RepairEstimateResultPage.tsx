@@ -1,13 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Header } from "@/widgets/header/Header";
 import { Footer } from "@/widgets/footer/Footer";
-import { Button } from "@/shared/ui/button";
 import axiosInstance from "@/shared/api/axios-instance";
-import { CarModelViewer } from "@/widgets/car-model-viewer/CarModelViewer";
 import { VEHICLES, VEHICLE_PARTS_BY_TYPE } from "@/entities/vehicle";
+import { TitleSection, EstimateCard, DamageAreaCard, ActionSection } from "@/widgets/repair-estimate-result";
 
 interface RepairEstimateResultPageProps {
   id: string;
@@ -22,7 +20,6 @@ interface RepairEstimateResultResponse {
     partNameKr: string;
     partNameEn: string;
   }>;
-  // estimateId : string;
   repairItems?: Array<{
     cost: number;
     partName: string;
@@ -105,121 +102,26 @@ export default function RepairEstimateResultPage({ id }: RepairEstimateResultPag
       <Header />
 
       <main className="flex-1 flex flex-col items-center">
-        {/* 제목 섹션 */}
-        <div className="flex flex-col items-center px-0 py-10 w-full">
-          <div className="flex flex-col items-center px-6 py-0 w-full">
-            <h1 className="text-title2 text-gray-900 text-center">예상 수리비</h1>
-          </div>
-        </div>
+        <TitleSection />
 
-        {/* 예상 수리비 카드 */}
         <div className="flex flex-col items-center pb-4 w-full">
-          <div className="bg-white flex flex-col gap-6 p-6 rounded-2xl w-full max-w-[840px] mx-6">
-            {isLoading && (
-              <div className="flex items-center justify-center w-full py-10">
-                <p className="text-body4 text-gray-500">견적 결과를 불러오는 중입니다...</p>
-              </div>
-            )}
-
-            {!isLoading && errorMessage && (
-              <div className="flex items-center justify-center w-full py-10">
-                <p className="text-body4 text-red-500">{errorMessage}</p>
-              </div>
-            )}
-
-            {!isLoading && !errorMessage && (result?.status === "PENDING" || result?.status === "PROCESSING") && (
-              <div className="flex flex-col items-center justify-center w-full py-10 gap-2">
-                <p className="text-body4 text-gray-700">견적을 계산 중입니다.</p>
-                <p className="text-body9 text-gray-500">잠시만 기다려주세요.</p>
-              </div>
-            )}
-
-            {!isLoading && !errorMessage && result?.status === "FAILED" && (
-              <div className="flex flex-col items-center justify-center w-full py-10 gap-2">
-                <p className="text-body4 text-red-500">견적 계산에 실패했습니다.</p>
-                <p className="text-body9 text-gray-500">다시 시도하거나 고객센터에 문의해주세요.</p>
-              </div>
-            )}
-
-            {!isLoading && !errorMessage && result?.status === "COMPLETED" && (
-              <>
-                {/* 총 수리비 안내 */}
-                <div className="flex flex-col items-center justify-center w-full">
-                  <p className="text-body3 text-gray-500 text-center">
-                    {result.vehicleInfo?.brand} {result.vehicleInfo?.model}의 예상 수리비는{" "}
-                    <span className="text-primary-700">{result.totalEstimate != null ? `${result.totalEstimate.toLocaleString()}원` : "NULL"}</span>
-                    입니다
-                  </p>
-                </div>
-
-                {/* 세부 비용 표 */}
-                <div className="flex flex-col gap-3 w-full">
-                  <div className="overflow-hidden rounded-lg border border-gray-100">
-                    <div className="grid grid-cols-4 bg-gray-50 px-4 py-3 text-body7 text-gray-500">
-                      <p className="text-left">파손 부위</p>
-                      <p className="text-center">파손 정도</p>
-                      <p className="text-center">수리 방법</p>
-                      <p className="text-right">수리 견적</p>
-                    </div>
-                    <div className="divide-y divide-gray-100">
-                      {result.repairItems && result.repairItems.length > 0 ? (
-                        result.repairItems.map((item, index) => (
-                          <div key={`${item.partName}-${index}`} className="grid grid-cols-4 px-4 py-3 text-body7 text-gray-900">
-                            <p className="text-left">{item.partName}</p>
-                            <p className="text-center">{result.damageDetails?.[index]?.damageSeverity ?? "-"}</p>
-                            <p className="text-center">{item.repairMethod}</p>
-                            <p className="text-right">{`${item.cost.toLocaleString()}원`}</p>
-                          </div>
-                        ))
-                      ) : (
-                        <div className="grid grid-cols-4 px-4 py-3 text-body7 text-gray-400">
-                          <p className="text-left">파손 부위</p>
-                          <p className="text-center">파손 정도</p>
-                          <p className="text-center">수리 방법</p>
-                          <p className="text-right">-</p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </>
-            )}
-
-            {!isLoading && !errorMessage && !result?.status && (
-              <div className="flex items-center justify-center w-full py-10">
-                <p className="text-body4 text-gray-500">견적 상태를 확인할 수 없습니다.</p>
-              </div>
-            )}
-          </div>
+          <EstimateCard
+            isLoading={isLoading}
+            errorMessage={errorMessage}
+            status={result?.status}
+            brand={result?.vehicleInfo?.brand}
+            model={result?.vehicleInfo?.model}
+            totalEstimate={result?.totalEstimate}
+            repairItems={result?.repairItems}
+            damageDetails={result?.damageDetails}
+          />
         </div>
 
-        {/* 파손 부위 카드 */}
         <div className="flex flex-col items-center justify-center pb-4 w-full">
-          <div className="bg-white flex flex-col gap-6 p-6 rounded-2xl w-full max-w-[840px] mx-6">
-            <div className="flex items-center w-full">
-              <p className="text-body3 text-gray-900">파손 부위</p>
-            </div>
-            {/* 파손 부위 이미지 플레이스홀더 */}
-            <div className="aspect-3/2 bg-gray-50 rounded-lg w-full">
-              {modelFileName ? (
-                <CarModelViewer modelName={modelFileName} className="w-full h-full" selectedPartIds={selectedPartIds} interactive={false} />
-              ) : (
-                <div className="flex items-center justify-center w-full h-full">
-                  <p className="text-body9 text-gray-400">차량 정보를 확인할 수 없습니다.</p>
-                </div>
-              )}
-            </div>
-          </div>
+          <DamageAreaCard modelFileName={modelFileName} selectedPartIds={selectedPartIds} />
         </div>
 
-        {/* 다시 계산하기 버튼 */}
-        <div className="flex flex-col items-center pb-10 w-full">
-          <Link href="/repair-estimate" className="w-full max-w-[840px] mx-6 ">
-            <Button size="lg" className="h-14 bg-gray-900 hover:bg-gray-800 text-white px-8 py-4 rounded-lg w-full">
-              예상 수리비 다시 계산하기
-            </Button>
-          </Link>
-        </div>
+        <ActionSection />
       </main>
 
       <Footer />
