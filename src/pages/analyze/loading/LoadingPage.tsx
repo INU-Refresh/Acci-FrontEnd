@@ -1,11 +1,16 @@
 "use client";
 
+import type { UserInfo } from "@/entities/user/model/user-info";
 import { AnalyzeLoadingSection } from "@/widgets/analyze-loading/AnalyzeLoadingSection";
 import { Header } from "@/widgets/header/Header";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function LoadingPage() {
+type LoadingPageProps = {
+  initialUserInfo?: UserInfo | null;
+};
+
+export default function LoadingPage({ initialUserInfo = null }: LoadingPageProps) {
   const router = useRouter();
   const [remainingSeconds, setRemainingSeconds] = useState(10);
 
@@ -29,7 +34,7 @@ export default function LoadingPage() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       {/* 공통 헤더 */}
-      <Header />
+      <Header initialUserInfo={initialUserInfo} />
       <main className="flex flex-1 items-center justify-center px-4 py-24 md:py-40">
         {/* 분석 로딩 섹션 */}
         <AnalyzeLoadingSection remainingSeconds={remainingSeconds} />

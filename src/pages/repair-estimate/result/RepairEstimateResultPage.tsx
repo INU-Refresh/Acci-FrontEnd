@@ -1,5 +1,6 @@
 "use client";
 
+import type { UserInfo } from "@/entities/user/model/user-info";
 import { useEffect, useState } from "react";
 import { Header } from "@/widgets/header/Header";
 import { Footer } from "@/widgets/footer/Footer";
@@ -9,6 +10,7 @@ import { TitleSection, EstimateCard, DamageAreaCard, ActionSection } from "@/wid
 
 interface RepairEstimateResultPageProps {
   id: string;
+  initialUserInfo?: UserInfo | null;
 }
 
 type RepairEstimateStatus = "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED";
@@ -36,7 +38,7 @@ interface RepairEstimateResultResponse {
   };
 }
 
-export default function RepairEstimateResultPage({ id }: RepairEstimateResultPageProps) {
+export default function RepairEstimateResultPage({ id, initialUserInfo = null }: RepairEstimateResultPageProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [result, setResult] = useState<RepairEstimateResultResponse | null>(null);
@@ -96,7 +98,7 @@ export default function RepairEstimateResultPage({ id }: RepairEstimateResultPag
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      <Header />
+      <Header initialUserInfo={initialUserInfo} />
 
       <main className="flex-1 flex flex-col items-center">
         <TitleSection />
