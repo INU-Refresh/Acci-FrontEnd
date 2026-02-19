@@ -1,5 +1,6 @@
 "use client";
 
+import type { UserInfo } from "@/entities/user/model/user-info";
 import { cn } from "@/shared/lib/utils";
 import { useAuthStore } from "@/shared/store/auth-store";
 import { Button } from "@/shared/ui/button";
@@ -8,11 +9,17 @@ import type { Route } from "next";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export function Header() {
+type HeaderProps = {
+  initialUserInfo?: UserInfo | null;
+};
+
+export function Header({ initialUserInfo = null }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [headerVisible, setHeaderVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const { user, isAuthenticated } = useAuthStore();
+  const { user, setUser } = useAuthStore();
+  const displayUser = user ?? initialUserInfo;
+  const displayAuthenticated = Boolean(displayUser);
 
   // 내비게이션 경로 및 레이블 정의 (타입 안전성 확보를 위해서 수정해두었습니다.)
   const ROUTES: Record<"analyze" | "repairEstimate" | "myPage", Route> = {
@@ -20,6 +27,13 @@ export function Header() {
     repairEstimate: "/repair-estimate",
     myPage: "/my-page",
   };
+
+  // 서버에서 전달한 초기 사용자 정보를 우선 적용합니다.
+  useEffect(() => {
+    if (initialUserInfo) {
+      setUser(initialUserInfo);
+    }
+  }, [initialUserInfo, setUser]);
 
 
   // 모바일 메뉴가 열렸을 때 body 스크롤 방지
@@ -88,8 +102,8 @@ export function Header() {
               <Link href={ROUTES.myPage} className="text-body5 text-gray-900 hover:text-primary transition-colors cursor-pointer">
                 마이페이지
               </Link>
-              {isAuthenticated && user ? (
-                <LogoutButton className="text-body5 text-gray-400" />
+              {displayAuthenticated ? (
+                <LogoutButton className="text-body5 text-gray-400" userInfo={displayUser} />
               ) : (
                 <Link href="/auth" className="cursor-pointer">
                   <Button className="text-body5 bg-gray-900 text-gray-0 hover:bg-gray-800 py-2 px-4 w-20 cursor-pointer">로그인</Button>
@@ -99,10 +113,10 @@ export function Header() {
             {/* Mobile Header - visible below md */}
             <div className="md:hidden flex items-center justify-end gap-1.5 sm:gap-2 shrink-0">
               {/* Mobile User Profile Avatar - only visible when authenticated */}
-              {isAuthenticated && user && (
+              {displayAuthenticated && (
                 <Link href={ROUTES.myPage} className="flex items-center gap-1.5 cursor-pointer">
                   <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-semibold">
-                    {user.name?.[0]?.toUpperCase() || "U"}
+                    {displayUser?.name?.[0]?.toUpperCase() || "U"}
                   </div>
                 </Link>
               )}
@@ -175,7 +189,7 @@ export function Header() {
 
             {/* Sidebar Footer - Login Button */}
             <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-gray-200">
-              {!isAuthenticated ? (
+              {!displayAuthenticated ? (
                 <Link href="/auth" onClick={() => setMobileMenuOpen(false)} className="w-full cursor-pointer">
                   <Button className="w-full bg-gray-900 text-white hover:bg-gray-800 py-2 font-medium cursor-pointer">로그인</Button>
                 </Link>
@@ -183,14 +197,14 @@ export function Header() {
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 px-2 py-1">
                     <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-semibold flex-shrink-0 text-xs">
-                      {user?.name?.[0]?.toUpperCase() || "U"}
+                      {displayUser?.name?.[0]?.toUpperCase() || "U"}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-body5 font-medium text-gray-900 truncate">{user?.name}</p>
-                      <p className="text-xs text-gray-500 truncate">{user?.email}</p>
+                      <p className="text-body5 font-medium text-gray-900 truncate">{displayUser?.name}</p>
+                      <p className="text-xs text-gray-500 truncate">{displayUser?.email}</p>
                     </div>
                   </div>
-                  <LogoutButton className="w-full justify-start" />
+                  <LogoutButton className="w-full justify-start" userInfo={displayUser} />
                 </div>
               )}
             </div>

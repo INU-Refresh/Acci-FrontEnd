@@ -1,5 +1,6 @@
 "use client";
 
+import type { UserInfo } from "@/entities/user/model/user-info";
 import { useRouter } from "next/navigation";
 
 import { requestLogout } from "@/features/auth/logout/api/logout";
@@ -8,17 +9,18 @@ import { useAuthStore } from "@/shared/store/auth-store";
 
 type LogoutButtonProps = {
   className?: string;
+  userInfo?: UserInfo | null;
 };
 
-export function LogoutButton({ className }: LogoutButtonProps) {
+export function LogoutButton({ className, userInfo = null }: LogoutButtonProps) {
   const router = useRouter();
-  const { user, logout } = useAuthStore();
+  const { logout } = useAuthStore();
 
   const handleLogout = async () => {
     try {
       await requestLogout();
       console.log("[Auth] logout 성공");
-    } catch (error) {
+    } catch {
       console.log("[Auth] logout 실패");
     } finally {
       logout();
@@ -26,7 +28,7 @@ export function LogoutButton({ className }: LogoutButtonProps) {
     }
   };
 
-  const userInitial = user?.name?.[0]?.toUpperCase() || "U";
+  const userInitial = userInfo?.name?.[0]?.toUpperCase() || "U";
 
   return (
     <button
