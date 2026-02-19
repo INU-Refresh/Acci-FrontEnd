@@ -1,7 +1,8 @@
 import Link from "next/link";
 import type { Metadata, Viewport } from "next";
 import { Button } from "@/shared/ui/button";
-import HeaderWithUserInfo from "@/widgets/header/HeaderWithUserInfo";
+import { getUserInfo } from "@/entities/user/api/get-user-info";
+import { Header } from "@/widgets/header/Header";
 import { Footer } from "@/widgets/footer/Footer";
 
 export const metadata: Metadata = {
@@ -14,11 +15,13 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function NotFound() {
+export default async function NotFound() {
+  const initialUserInfo = await getUserInfo();
+
   return (
     <div className="min-h-screen flex flex-col bg-white">
       {/* Header */}
-      <HeaderWithUserInfo />
+      <Header initialUserInfo={initialUserInfo} />
 
       {/* 404 Content */}
       <main className="flex-1 flex items-center justify-center px-3 sm:px-4 md:px-6 lg:px-8 py-12 sm:py-16 md:py-20 lg:py-24">
