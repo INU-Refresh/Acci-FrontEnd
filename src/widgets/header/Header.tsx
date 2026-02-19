@@ -1,5 +1,6 @@
 "use client";
 
+import type { UserInfo } from "@/entities/user/model/user-info";
 import { cn } from "@/shared/lib/utils";
 import { useAuthStore } from "@/shared/store/auth-store";
 import { Button } from "@/shared/ui/button";
@@ -9,12 +10,16 @@ import type { Route } from "next";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export function Header() {
+type HeaderProps = {
+  initialUserInfo?: UserInfo | null;
+};
+
+export function Header({ initialUserInfo = null }: HeaderProps) {
   useSyncUser();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [headerVisible, setHeaderVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const { user, isAuthenticated } = useAuthStore();
+  const { user, isAuthenticated, setUser } = useAuthStore();
 
   // 내비게이션 경로 및 레이블 정의 (타입 안전성 확보를 위해서 수정해두었습니다.)
   const ROUTES: Record<"analyze" | "repairEstimate" | "myPage", Route> = {
@@ -22,6 +27,13 @@ export function Header() {
     repairEstimate: "/repair-estimate",
     myPage: "/my-page",
   };
+
+  // 서버에서 전달한 초기 사용자 정보를 우선 적용합니다.
+  useEffect(() => {
+    if (initialUserInfo) {
+      setUser(initialUserInfo);
+    }
+  }, [initialUserInfo, setUser]);
 
 
   // 모바일 메뉴가 열렸을 때 body 스크롤 방지
