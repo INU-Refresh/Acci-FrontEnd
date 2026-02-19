@@ -18,6 +18,8 @@ export function Header({ initialUserInfo = null }: HeaderProps) {
   const [headerVisible, setHeaderVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const { user, isAuthenticated, setUser } = useAuthStore();
+  const displayUser = user ?? initialUserInfo;
+  const displayAuthenticated = Boolean(displayUser);
 
   // 내비게이션 경로 및 레이블 정의 (타입 안전성 확보를 위해서 수정해두었습니다.)
   const ROUTES: Record<"analyze" | "repairEstimate" | "myPage", Route> = {
@@ -100,8 +102,8 @@ export function Header({ initialUserInfo = null }: HeaderProps) {
               <Link href={ROUTES.myPage} className="text-body5 text-gray-900 hover:text-primary transition-colors cursor-pointer">
                 마이페이지
               </Link>
-              {isAuthenticated && user ? (
-                <LogoutButton className="text-body5 text-gray-400" />
+              {displayAuthenticated ? (
+                <LogoutButton className="text-body5 text-gray-400" userInfo={displayUser} />
               ) : (
                 <Link href="/auth" className="cursor-pointer">
                   <Button className="text-body5 bg-gray-900 text-gray-0 hover:bg-gray-800 py-2 px-4 w-20 cursor-pointer">로그인</Button>
@@ -111,10 +113,10 @@ export function Header({ initialUserInfo = null }: HeaderProps) {
             {/* Mobile Header - visible below md */}
             <div className="md:hidden flex items-center justify-end gap-1.5 sm:gap-2 shrink-0">
               {/* Mobile User Profile Avatar - only visible when authenticated */}
-              {isAuthenticated && user && (
+              {displayAuthenticated && (
                 <Link href={ROUTES.myPage} className="flex items-center gap-1.5 cursor-pointer">
                   <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-semibold">
-                    {user.name?.[0]?.toUpperCase() || "U"}
+                    {displayUser?.name?.[0]?.toUpperCase() || "U"}
                   </div>
                 </Link>
               )}
@@ -187,7 +189,7 @@ export function Header({ initialUserInfo = null }: HeaderProps) {
 
             {/* Sidebar Footer - Login Button */}
             <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-gray-200">
-              {!isAuthenticated ? (
+              {!displayAuthenticated ? (
                 <Link href="/auth" onClick={() => setMobileMenuOpen(false)} className="w-full cursor-pointer">
                   <Button className="w-full bg-gray-900 text-white hover:bg-gray-800 py-2 font-medium cursor-pointer">로그인</Button>
                 </Link>
@@ -195,14 +197,14 @@ export function Header({ initialUserInfo = null }: HeaderProps) {
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 px-2 py-1">
                     <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-semibold flex-shrink-0 text-xs">
-                      {user?.name?.[0]?.toUpperCase() || "U"}
+                      {displayUser?.name?.[0]?.toUpperCase() || "U"}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-body5 font-medium text-gray-900 truncate">{user?.name}</p>
-                      <p className="text-xs text-gray-500 truncate">{user?.email}</p>
+                      <p className="text-body5 font-medium text-gray-900 truncate">{displayUser?.name}</p>
+                      <p className="text-xs text-gray-500 truncate">{displayUser?.email}</p>
                     </div>
                   </div>
-                  <LogoutButton className="w-full justify-start" />
+                  <LogoutButton className="w-full justify-start" userInfo={displayUser} />
                 </div>
               )}
             </div>
