@@ -1,18 +1,14 @@
 import { ProfileCard } from "@/features/my-page/ProfileCard";
 import { RecordListCard } from "@/features/my-page/RecordListCard";
 import type { UserInfo } from "@/entities/user/model/user-info";
+import type { AnalysisRecordItem } from "@/entities/analysis/api/get-recent-analysis-records";
 
 type MyPageSectionProps = {
   initialUserInfo?: UserInfo | null;
+  analysisRecords?: AnalysisRecordItem[];
 };
 
-export function MyPageSection({ initialUserInfo = null }: MyPageSectionProps) {
-  // TODO [Minjun]: 최근 분석 기록 API 연동
-  const analysisRecords = [
-    { id: "1", title: "교차로 충돌 사고", date: "2026.01.01", detail: "과실비율 30:70", href: "/analyze/result/1" },
-    { id: "2", title: "교차로 충돌 사고", date: "2026.01.01", detail: "과실비율 30:70", href: "/analyze/result/2" },
-    { id: "3", title: "교차로 충돌 사고", date: "2026.01.01", detail: "과실비율 30:70", href: "/analyze/result/3" },
-  ];
+export function MyPageSection({ initialUserInfo = null, analysisRecords = [] }: MyPageSectionProps) {
 
   // TODO [Minjun]: 최근 수리비 견적 기록 API 연동
   const repairRecords = [
