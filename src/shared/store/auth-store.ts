@@ -12,7 +12,6 @@ interface User {
 interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
-  authEpoch: number;
   setUser: (user: User | null) => void;
   logout: () => void;
 }
@@ -23,10 +22,9 @@ export const useAuthStore = create<AuthState>()(
     (set) => ({
       user: null,
       isAuthenticated: false,
-      authEpoch: 0,
       setUser: (user) => set({ user, isAuthenticated: !!user }),
       logout: () => {
-        set((state) => ({ user: null, isAuthenticated: false, authEpoch: state.authEpoch + 1 }));
+        set({ user: null, isAuthenticated: false });
       },
     }),
     { name: "AuthStore" }
