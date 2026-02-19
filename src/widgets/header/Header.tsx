@@ -17,7 +17,7 @@ export function Header({ initialUserInfo = null }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [headerVisible, setHeaderVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const { user, isAuthenticated, setUser } = useAuthStore();
+  const { user, setUser } = useAuthStore();
   const displayUser = user ?? initialUserInfo;
   const displayAuthenticated = Boolean(displayUser);
 

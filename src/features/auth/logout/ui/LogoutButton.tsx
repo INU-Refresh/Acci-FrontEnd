@@ -20,7 +20,7 @@ export function LogoutButton({ className, userInfo = null }: LogoutButtonProps) 
     try {
       await requestLogout();
       console.log("[Auth] logout 성공");
-    } catch (error) {
+    } catch {
       console.log("[Auth] logout 실패");
     } finally {
       logout();
