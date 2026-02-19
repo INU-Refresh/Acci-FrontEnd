@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata, Viewport } from "next";
 import { Button } from "@/shared/ui/button";
-import { Header } from "@/widgets/header/Header";
+import HeaderWithUserInfo from "@/widgets/header/HeaderWithUserInfo";
 import { Footer } from "@/widgets/footer/Footer";
 
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ export default function NotFound() {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       {/* Header */}
-      <Header />
+      <HeaderWithUserInfo />
 
       {/* 404 Content */}
       <main className="flex-1 flex items-center justify-center px-3 sm:px-4 md:px-6 lg:px-8 py-12 sm:py-16 md:py-20 lg:py-24">

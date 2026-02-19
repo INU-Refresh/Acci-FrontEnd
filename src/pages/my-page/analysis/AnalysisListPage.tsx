@@ -1,5 +1,5 @@
 import { Footer } from "@/widgets/footer/Footer";
-import { Header } from "@/widgets/header/Header";
+import HeaderWithUserInfo from "@/widgets/header/HeaderWithUserInfo";
 import { RecordListPageSection } from "@/widgets/my-page/RecordListPageSection";
 
 export default function AnalysisListPage() {
@@ -14,7 +14,7 @@ export default function AnalysisListPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      <Header />
+      <HeaderWithUserInfo />
       <main className="flex flex-1 justify-center px-4 pb-10 pt-4 md:pb-16 md:pt-10">
         <RecordListPageSection title="최근 분석 기록" items={records} />
       </main>

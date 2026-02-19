@@ -1,5 +1,6 @@
 "use client";
 
+import type { UserInfo } from "@/entities/user/model/user-info";
 import { Footer } from "@/widgets/footer/Footer";
 import { Header } from "@/widgets/header/Header";
 import { useToast } from "@/features/repair-estimate/hooks";
@@ -9,7 +10,11 @@ import { VEHICLES } from "@/entities/vehicle";
 import { TitleSection, RepairEstimateFormSection, OptionalInputSection, SubmitSection, ToastMessage } from "@/widgets/repair-estimate";
 import { useRouter } from "next/navigation";
 
-export default function RepairEstimatePage() {
+type RepairEstimatePageProps = {
+  initialUserInfo?: UserInfo | null;
+};
+
+export default function RepairEstimatePage({ initialUserInfo = null }: RepairEstimatePageProps) {
   const { toast, showToast } = useToast();
   const router = useRouter();
   const selectedBrand = useRepairEstimateStore((state) => state.selectedBrand);
@@ -66,7 +71,7 @@ export default function RepairEstimatePage() {
     <div className="min-h-screen flex flex-col bg-gray-50">
       <ToastMessage message={toast.message} visible={toast.visible} />
 
-      <Header />
+      <Header initialUserInfo={initialUserInfo} />
 
       <main className="flex-1">
         <TitleSection title="수리비 견적" description="파손 사진을 업로드하면 Acci가 예상 수리비 견적을 제공합니다" />
