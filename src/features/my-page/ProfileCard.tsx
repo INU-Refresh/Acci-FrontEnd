@@ -3,15 +3,19 @@ import { Card } from "@/shared/ui/card";
 type ProfileCardProps = {
   name: string;
   email: string;
+  profileImage?: string | null;
 };
 
-export function ProfileCard({ name, email }: ProfileCardProps) {
+export function ProfileCard({ name, email, profileImage }: ProfileCardProps) {
   return (
     <Card className="w-full max-w-xl rounded-lg border-0 bg-white p-6 shadow-none md:rounded-2xl">
       <div className="flex items-center gap-4">
-        <div className="h-16 w-16 rounded-full bg-gray-100" aria-hidden="true" />
+        {profileImage ? (
+          <img src={profileImage} alt={`${name} 프로필 이미지`} className="h-16 w-16 rounded-full object-cover" />
+        ) : (
+          <div className="h-16 w-16 rounded-full bg-gray-100" aria-hidden="true" />
+        )}
         <div className="flex flex-col">
-          {/* TODO [Minjun]: 사용자 프로필 API 연동 */}
           <p className="text-body3 text-gray-900">{name}</p>
           <p className="text-body8 text-gray-500">{email}</p>
         </div>
