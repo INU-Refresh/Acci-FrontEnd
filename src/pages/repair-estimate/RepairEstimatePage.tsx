@@ -49,7 +49,7 @@ export default function RepairEstimatePage() {
       formData.append("request", requestBlob);
 
       uploadedImages.forEach((image) => {
-        formData.append("image", image);
+        formData.append("images", image);
       });
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/repair-estimates`, {
