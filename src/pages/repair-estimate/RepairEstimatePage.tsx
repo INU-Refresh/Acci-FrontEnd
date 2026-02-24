@@ -39,7 +39,7 @@ export default function RepairEstimatePage() {
         partNameKr: detail.part_name_kr,
         partNameEn: detail.part_name_en,
         damageSeverity: detail.damage_severity,
-        // description: detail.damage_label || "", // 백엔드 요구사항 이슈로 임시 비활성화
+        userDescription: detail.damage_label || "",
       })),
     };
 

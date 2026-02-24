@@ -50,5 +50,5 @@ export type RepairEstimateRequest = {
   request_type: "repair_estimate";
   vehicle_info: VehicleInfoForRepair;
   damage_details: DamageDetail[];
-  user_description?: string;
+  userDescription?: string;
 };
