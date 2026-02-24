@@ -5,7 +5,6 @@ import { Footer } from "@/widgets/footer/Footer";
 import { Header } from "@/widgets/header/Header";
 import { useToast } from "@/features/repair-estimate/hooks";
 import { useRepairEstimateStore } from "@/shared/store/repair-estimate-store";
-import axiosInstance from "@/shared/api/axios-instance";
 import { VEHICLES } from "@/entities/vehicle";
 import { TitleSection, RepairEstimateFormSection, OptionalInputSection, SubmitSection, ToastMessage } from "@/widgets/repair-estimate";
 import { useRouter } from "next/navigation";
@@ -21,7 +20,7 @@ export default function RepairEstimatePage({ initialUserInfo = null }: RepairEst
   const selectedModel = useRepairEstimateStore((state) => state.selectedModel);
   const selectedYear = useRepairEstimateStore((state) => state.selectedYear);
   const damageDetails = useRepairEstimateStore((state) => state.damageDetails);
-  const userDescription = useRepairEstimateStore((state) => state.userDescription);
+  const uploadedImages = useRepairEstimateStore((state) => state.uploadedImages);
 
   const handleSubmit = async () => {
     if (!selectedBrand || !selectedModel || !selectedYear) {
@@ -45,16 +44,33 @@ export default function RepairEstimatePage({ initialUserInfo = null }: RepairEst
         partNameKr: detail.part_name_kr,
         partNameEn: detail.part_name_en,
         damageSeverity: detail.damage_severity,
-        description: detail.damage_label || "",
+        userDescription: detail.damage_label || "",
       })),
     };
 
     try {
-      const response = await axiosInstance.post("/api/v1/repair-estimates", payload);
-      const estimateId =
-        response.data?.id ?? response.data?.estimateId ?? response.data?.resultId ?? response.data?.data?.id ?? response.data?.data?.estimateId ?? response.data?.data?.resultId;
+      const formData = new FormData();
+      const requestBlob = new Blob([JSON.stringify(payload)], { type: "application/json" });
+      formData.append("request", requestBlob);
 
-      console.log(response.data);
+      uploadedImages.forEach((image) => {
+        formData.append("images", image);
+      });
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/repair-estimates`, {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const estimateId = data?.id ?? data?.estimateId ?? data?.resultId ?? data?.data?.id ?? data?.data?.estimateId ?? data?.data?.resultId;
+
+      console.log(data);
       if (!estimateId) {
         showToast("견적 결과 ID를 찾을 수 없습니다. 잠시 후 다시 시도해주세요.");
         return;

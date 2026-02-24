@@ -36,7 +36,7 @@ interface RepairEstimateState {
   addSelectedPartId: (partId: string) => void;
   removeSelectedPartId: (partId: string) => void;
   clearSelectedPartIds: () => void;
-  setUserDescription: (description: string) => void;
+  setUserDescription: (userDescription: string) => void;
   removeImage: (index: number) => void;
   clearImages: () => void;
   reset: () => void;
@@ -143,8 +143,8 @@ export const useRepairEstimateStore = create<RepairEstimateState>()(
         set({ selectedPartIds: [] });
       },
 
-      setUserDescription: (description) => {
-        set({ userDescription: description });
+      setUserDescription: (userDescription) => {
+        set({ userDescription });
       },
 
       removeImage: (index) => {

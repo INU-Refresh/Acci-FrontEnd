@@ -6,7 +6,7 @@ import { Header } from "@/widgets/header/Header";
 import { Footer } from "@/widgets/footer/Footer";
 import axiosInstance from "@/shared/api/axios-instance";
 import { VEHICLES, normalizeBrand, normalizeVehicleType } from "@/entities/vehicle";
-import { TitleSection, EstimateCard, DamageAreaCard, ActionSection } from "@/widgets/repair-estimate-result";
+import { TitleSection, EstimateCard, DamageAreaCard, AttachedImagesCard, ActionSection } from "@/widgets/repair-estimate-result";
 
 interface RepairEstimateResultPageProps {
   id: string;
@@ -36,12 +36,14 @@ interface RepairEstimateResultResponse {
     vehicleType: string;
     year: number;
   };
+  images?: string[];
 }
 
 export default function RepairEstimateResultPage({ id, initialUserInfo = null }: RepairEstimateResultPageProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [result, setResult] = useState<RepairEstimateResultResponse | null>(null);
+  const [isInitialFetch, setIsInitialFetch] = useState(true);
 
   const modelFileName = (() => {
     if (!result?.vehicleInfo) return "";
@@ -57,9 +59,13 @@ export default function RepairEstimateResultPage({ id, initialUserInfo = null }:
 
   useEffect(() => {
     let isMounted = true;
+    let timeoutId: NodeJS.Timeout | null = null;
 
     const fetchResult = async () => {
-      setIsLoading(true);
+      // 초기 요청일 때만 로딩 상태 업데이트
+      if (isInitialFetch) {
+        setIsLoading(true);
+      }
       setErrorMessage(null);
 
       try {
@@ -78,12 +84,29 @@ export default function RepairEstimateResultPage({ id, initialUserInfo = null }:
         };
 
         setResult(normalizedData);
+
+        // 초기 요청 후에는 로딩 완료 처리
+        if (isInitialFetch) {
+          setIsLoading(false);
+          setIsInitialFetch(false);
+        }
+
+        // status가 PENDING 또는 PROCESSING이면 5초 뒤에 재요청
+        if (response.data.status === "PENDING" || response.data.status === "PROCESSING") {
+          timeoutId = setTimeout(() => {
+            if (isMounted) {
+              fetchResult();
+            }
+          }, 5000);
+        }
       } catch (error) {
         if (!isMounted) return;
         setErrorMessage("견적 결과를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
-      } finally {
-        if (!isMounted) return;
-        setIsLoading(false);
+        // 에러 발생했을 때도 초기 로딩 완료 처리
+        if (isInitialFetch) {
+          setIsLoading(false);
+          setIsInitialFetch(false);
+        }
       }
     };
 
@@ -93,8 +116,11 @@ export default function RepairEstimateResultPage({ id, initialUserInfo = null }:
 
     return () => {
       isMounted = false;
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
     };
-  }, [id]);
+  }, [id, isInitialFetch]);
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
@@ -114,6 +140,10 @@ export default function RepairEstimateResultPage({ id, initialUserInfo = null }:
             repairItems={result?.repairItems}
             damageDetails={result?.damageDetails}
           />
+        </div>
+
+        <div className="flex flex-col items-center pb-4 w-full">
+          <AttachedImagesCard images={result?.images} />
         </div>
 
         <div className="flex flex-col items-center justify-center pb-4 w-full">
