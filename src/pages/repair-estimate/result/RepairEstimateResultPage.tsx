@@ -141,21 +141,21 @@ export default function RepairEstimateResultPage({ id }: RepairEstimateResultPag
           />
         </div>
 
-        {/* 첨부된 이미지 표시
+        {/* 첨부된 이미지 표시 */}
         {result?.images && result.images.length > 0 && (
-          <section className="w-full flex flex-col items-center px-4 sm:px-0 pt-10">
-            <div className="w-full max-w-[840px] pb-6 flex flex-col gap-4">
-              <h2 className="text-body7 sm:text-body1 text-gray-700 text-left">첨부 이미지</h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {result.images.map((imageUrl, index) => (
-                  <div key={index} className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden">
-                    <Image src={imageUrl} alt={`첨부 이미지 ${index + 1}`} fill className="object-cover" />
-                  </div>
-                ))}
-              </div>
+          <div className="bg-white flex flex-col gap-6 p-6 rounded-2xl w-full max-w-[840px] mx-6">
+            <div className="flex items-center w-full">
+              <p className="text-body3 text-gray-900">첨부 이미지</p>
             </div>
-          </section>
-        )} */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {result.images.map((imageUrl, index) => (
+                <div key={index} className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden">
+                  <Image src={imageUrl} alt={`첨부 이미지 ${index + 1}`} fill className="object-cover" />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="flex flex-col items-center justify-center pb-4 w-full">
           <DamageAreaCard modelFileName={modelFileName} damageDetails={result?.damageDetails} vehicleType={result?.vehicleInfo?.vehicleType} />
