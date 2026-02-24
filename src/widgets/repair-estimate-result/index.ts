@@ -7,4 +7,5 @@ export { EstimateFailedState } from "./EstimateFailedState";
 export { EstimateCompletedState } from "./EstimateCompletedState";
 export { EstimateUnavailableState } from "./EstimateUnavailableState";
 export { DamageAreaCard } from "./DamageAreaCard";
+export { AttachedImagesCard } from "./AttachedImagesCard";
 export { ActionSection } from "./ActionSection";

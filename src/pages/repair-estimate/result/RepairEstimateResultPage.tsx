@@ -1,12 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { Header } from "@/widgets/header/Header";
 import { Footer } from "@/widgets/footer/Footer";
 import axiosInstance from "@/shared/api/axios-instance";
 import { VEHICLES, normalizeBrand, normalizeVehicleType } from "@/entities/vehicle";
-import { TitleSection, EstimateCard, DamageAreaCard, ActionSection } from "@/widgets/repair-estimate-result";
+import { TitleSection, EstimateCard, DamageAreaCard, AttachedImagesCard, ActionSection } from "@/widgets/repair-estimate-result";
 
 interface RepairEstimateResultPageProps {
   id: string;
@@ -141,21 +140,9 @@ export default function RepairEstimateResultPage({ id }: RepairEstimateResultPag
           />
         </div>
 
-        {/* 첨부된 이미지 표시 */}
-        {result?.images && result.images.length > 0 && (
-          <div className="bg-white flex flex-col gap-6 p-6 rounded-2xl w-full max-w-[840px] mx-6">
-            <div className="flex items-center w-full">
-              <p className="text-body3 text-gray-900">첨부 이미지</p>
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              {result.images.map((imageUrl, index) => (
-                <div key={index} className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden">
-                  <Image src={imageUrl} alt={`첨부 이미지 ${index + 1}`} fill className="object-cover" />
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        <div className="flex flex-col items-center pb-4 w-full">
+          <AttachedImagesCard images={result?.images} />
+        </div>
 
         <div className="flex flex-col items-center justify-center pb-4 w-full">
           <DamageAreaCard modelFileName={modelFileName} damageDetails={result?.damageDetails} vehicleType={result?.vehicleInfo?.vehicleType} />
