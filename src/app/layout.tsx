@@ -4,25 +4,12 @@ import localFont from "next/font/local";
 import { Geist_Mono } from "next/font/google";
 import "./globals.css";
 
+// 실제 사용하는 폰트 weight만 로드하여 초기 로딩 속도 개선
 const pretendard = localFont({
   variable: "--font-pretendard",
   display: "swap",
+  preload: true, // 폰트 프리로드 활성화
   src: [
-    {
-      path: "../../public/fonts/pretendard/Pretendard-Thin.woff2",
-      weight: "100",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/pretendard/Pretendard-ExtraLight.woff2",
-      weight: "200",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/pretendard/Pretendard-Light.woff2",
-      weight: "300",
-      style: "normal",
-    },
     {
       path: "../../public/fonts/pretendard/Pretendard-Regular.woff2",
       weight: "400",
@@ -36,21 +23,6 @@ const pretendard = localFont({
     {
       path: "../../public/fonts/pretendard/Pretendard-SemiBold.woff2",
       weight: "600",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/pretendard/Pretendard-Bold.woff2",
-      weight: "700",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/pretendard/Pretendard-ExtraBold.woff2",
-      weight: "800",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/pretendard/Pretendard-Black.woff2",
-      weight: "900",
       style: "normal",
     },
   ],
@@ -95,6 +67,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className="font-sans">
+      <head>
+        {/* DNS Prefetch 및 Preconnect로 외부 리소스 로딩 최적화 */}
+        <link rel="preconnect" href="https://acci-s3.s3.ap-northeast-2.amazonaws.com" />
+        <link rel="dns-prefetch" href="https://acci-s3.s3.ap-northeast-2.amazonaws.com" />
+      </head>
       <body className={`${pretendard.variable} ${geistMono.variable} antialiased font-sans`}>
         <ReactQueryProvider>{children}</ReactQueryProvider>
       </body>
