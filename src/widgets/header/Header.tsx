@@ -35,7 +35,6 @@ export function Header({ initialUserInfo = null }: HeaderProps) {
     }
   }, [initialUserInfo, setUser]);
 
-
   // 모바일 메뉴가 열렸을 때 body 스크롤 방지
   useEffect(() => {
     if (mobileMenuOpen) {
