@@ -6,7 +6,7 @@
 
 ## 🔗 Acci 바로가기
 
-<a href="https://acci-ai.vercel.app/"><b>https://acci-ai.vercel.app/</b></a>
+<a href="https://acci-ai.site/"><b>https://acci-ai.site/</b></a>
 
 <br>
 
@@ -73,25 +73,57 @@
 ## 📁 프로젝트 구조 (FSD)
 
 ```
-src/
-├── app/                    # Next.js App Router
-│   ├── layout.tsx
-│   ├── page.tsx
-│   └── globals.css
-├── pages/                  # 페이지 레이어
-│   └── home/
-├── widgets/                # 위젯 레이어
-│   ├── header/
-│   └── footer/
-├── features/               # 기능 레이어
-│   └── auth/
-├── entities/               # 엔티티 레이어
-│   └── user/
-└── shared/                 # 공유 레이어
-    ├── ui/                  # 공통 UI 컴포넌트
-    ├── lib/                 # 유틸리티 함수
-    ├── api/                 # API 클라이언트
-    └── config/              # 설정 파일
+Acci-FrontEnd/
+├── app/                    # NextJS App Router 폴더 (라우팅 진입점)
+│   ├── page.tsx           # 라우트 페이지들
+│   ├── layout.tsx         # @/app/providers를 사용
+│   ├── globals.css        # 전역 스타일
+│   ├── admin/
+│   │   └── page.tsx
+│   ├── auth/
+│   │   └── page.tsx
+│   ├── analyze/
+│   │   ├── page.tsx
+│   │   ├── upload/
+│   │   ├── loading/
+│   │   └── result/
+│   ├── repair-estimate/
+│   ├── my-page/
+│   ├── policies/
+│   └── oauth2/
+├── pages/                  # NextJS Pages Router 호환성 폴더 (빈 폴더)
+│   └── README.md          # ⚠️ 라우팅 파일 추가 금지
+└── src/
+    ├── app/               # FSD app layer (providers, config만)
+    │   └── providers.tsx  # 전역 providers (ReactQuery 등)
+    ├── pages/             # FSD pages layer (페이지 컴포넌트)
+    │   ├── home/
+    │   ├── admin/
+    │   ├── analyze/
+    │   ├── repair-estimate/
+    │   ├── my-page/
+    │   ├── policies/
+    │   └── auth/
+    ├── widgets/           # FSD widgets layer
+    │   ├── header/
+    │   ├── footer/
+    │   ├── home/
+    │   └── ...
+    ├── features/          # FSD features layer
+    │   ├── auth/
+    │   ├── analyze/
+    │   └── repair-estimate/
+    ├── entities/          # FSD entities layer
+    │   ├── user/
+    │   ├── analysis/
+    │   ├── repair-estimate/
+    │   └── vehicle/
+    └── shared/            # FSD shared layer
+        ├── api/
+        ├── ui/
+        ├── lib/
+        ├── store/
+        └── icons/
 ```
 
 <br>

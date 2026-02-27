@@ -1,9 +1,9 @@
 ---
 name: Acci Issue
 about: Acci 프론트엔드 이슈를 작성합니다
-labels: 'bug, enhancement, question, task'
-title: '✨ feat : 이슈 제목'
-assignees: ''
+labels: "bug, enhancement, question, task"
+title: "✨ feat : 이슈 제목"
+assignees: ""
 ---
 
 ## ✅ TODO
@@ -31,7 +31,7 @@ assignees: ''
 
 ## 🔗 참고
 
-- https://acci-ai.vercel.app
+- https://acci-ai.site
 
 <br>
 
