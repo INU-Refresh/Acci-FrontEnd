@@ -24,12 +24,12 @@ export function HeroSection() {
 
         <div className="w-full sm:flex-3/5 rounded-lg items-center justify-center sm:order-last max-h-[330px] mx-auto">
           <Image
-            src="/images/balance-car.png"
+            src="/images/balance-car.webp"
             alt="과실비율 균형"
             width={500}
             height={330}
             priority
-            quality={85} // 품질 최적화 (기본 75보다 약간 높게)
+            quality={85}
             sizes="(max-width: 640px) 100vw, 500px" // 반응형 크기 지정
             className="w-full h-auto"
           />
