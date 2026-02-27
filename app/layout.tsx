@@ -1,4 +1,4 @@
-import { ReactQueryProvider } from "@/shared/lib/react-query";
+import { Providers } from "@/app/providers";
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Geist_Mono } from "next/font/google";
@@ -11,17 +11,17 @@ const pretendard = localFont({
   preload: true, // 폰트 프리로드 활성화
   src: [
     {
-      path: "../../public/fonts/pretendard/Pretendard-Regular.woff2",
+      path: "../public/fonts/pretendard/Pretendard-Regular.woff2",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../../public/fonts/pretendard/Pretendard-Medium.woff2",
+      path: "../public/fonts/pretendard/Pretendard-Medium.woff2",
       weight: "500",
       style: "normal",
     },
     {
-      path: "../../public/fonts/pretendard/Pretendard-SemiBold.woff2",
+      path: "../public/fonts/pretendard/Pretendard-SemiBold.woff2",
       weight: "600",
       style: "normal",
     },
@@ -73,7 +73,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://acci-s3.s3.ap-northeast-2.amazonaws.com" />
       </head>
       <body className={`${pretendard.variable} ${geistMono.variable} antialiased font-sans`}>
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
