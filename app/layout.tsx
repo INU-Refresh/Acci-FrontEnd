@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 // 실제 사용하는 폰트 weight만 로드하여 초기 로딩 속도 개선
 const pretendard = localFont({
@@ -74,6 +75,7 @@ export default function RootLayout({
       </head>
       <body className={`${pretendard.variable} ${geistMono.variable} antialiased font-sans`}>
         <Providers>{children}</Providers>
+        <SpeedInsights />
       </body>
     </html>
   );
