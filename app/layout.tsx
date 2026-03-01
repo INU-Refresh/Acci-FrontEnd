@@ -42,9 +42,9 @@ export const metadata: Metadata = {
     icon: "/ACCI_Logo_v1.svg",
   },
   verification: {
-    google: "y_egnBGXVEkUBQg6bOPRj8Mtz2p-DY4y7Rcd486fxVE",
+    google: "J6t0ha3OcpDTeNzMPMqUtfqipnWi-6GAqxv6JQ0U43U",
     other: {
-      "naver-site-verification": "3585ca81373ada8434143f3ad6e2563bec4d341a",
+      "naver-site-verification": "bbc5e33279c4088787e7ca859a4676ea62d6201b",
     },
   },
   openGraph: {
