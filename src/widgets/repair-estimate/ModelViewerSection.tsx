@@ -1,3 +1,5 @@
+"use client";
+
 import { useCallback } from "react";
 import { useRepairEstimateStore } from "@/shared/store/repair-estimate-store";
 import { CarModelViewer } from "@/widgets/car-model-viewer/CarModelViewer";

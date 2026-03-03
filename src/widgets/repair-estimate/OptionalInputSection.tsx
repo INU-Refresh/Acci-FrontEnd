@@ -1,3 +1,5 @@
+"use client";
+
 import { ImageUploadSection } from "./ImageUploadSection";
 import { ModelViewerSection } from "./ModelViewerSection";
 
