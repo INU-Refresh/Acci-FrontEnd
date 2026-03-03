@@ -2,6 +2,14 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+  // 프로젝트 루트 명시 (Turbopack 경고 해결)
+  turbopack: {
+    root: __dirname,
+  },
+
+  // 개발 환경에서 HTTPS 도메인 허용
+  allowedDevOrigins: ["local.acci-ai.site"],
+
   // FSD 아키텍처를 위한 절대경로 설정
   typedRoutes: true,
 
