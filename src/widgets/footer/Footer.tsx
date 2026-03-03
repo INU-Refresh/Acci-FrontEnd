@@ -9,7 +9,7 @@ export function Footer() {
           {/* 로고 영역 */}
           <div className="space-y-4 flex-1">
             <Link href="/" className="flex items-center gap-2 cursor-pointer">
-              <Image src="/ACCI_Logo_v1.svg" alt="Acci Logo" width={64} height={64} className="w-16" />
+              <Image src="/ACCI_Logo_v1.svg" alt="Acci Logo" width={64} height={64} className="w-16 h-16" />
             </Link>
           </div>
 

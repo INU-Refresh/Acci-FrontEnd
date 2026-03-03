@@ -6,6 +6,7 @@ import { useAuthStore } from "@/shared/store/auth-store";
 import { Button } from "@/shared/ui/button";
 import { LogoutButton } from "@/features/auth/logout/ui/LogoutButton";
 import type { Route } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -87,8 +88,7 @@ export function Header({ initialUserInfo = null }: HeaderProps) {
           <div className="flex items-center justify-between gap-2 my-auto h-12.5 sm:h-19">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-1.5 sm:gap-2 shrink-0 min-w-0 cursor-pointer">
-              {/* 민준 Comment : 이부분 LCP 경고가 뜨는데 확인 한 번 해주시면 감사하겠습니다. </Image> 사용을 권장한다고 하네요. */}
-              <img src="/ACCI_Logo_v2.svg" alt="Acci Logo" className="w-8 h-8 sm:w-12 sm:h-12 shrink-0" />
+              <Image src="/ACCI_Logo_v2.svg" alt="Acci Logo" width={32} height={32} className="w-8 h-8 sm:w-12 sm:h-12 shrink-0" priority />
             </Link>
             {/* PC Navigation - visible on md and above */}
             <nav className="hidden md:flex items-center gap-6">

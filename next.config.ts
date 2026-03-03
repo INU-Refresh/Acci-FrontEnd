@@ -12,10 +12,16 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "acci-s3.s3.ap-northeast-2.amazonaws.com",
       },
+      {
+        protocol: "https",
+        hostname: "local.acci-ai.site",
+        port: "3001",
+      },
     ],
     formats: ["image/avif", "image/webp"], // 최신 포맷 우선 사용
     deviceSizes: [640, 750, 828, 1080, 1200, 1920], // 반응형 이미지 크기
     minimumCacheTTL: 60, // 이미지 캐시 시간 (초)
+    qualities: [75, 85], // 지원하는 품질 수준
   },
 
   // 성능 최적화
