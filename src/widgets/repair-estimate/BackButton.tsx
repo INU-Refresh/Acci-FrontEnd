@@ -2,10 +2,11 @@
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import type { Route } from "next";
 import { ChevronLeftIcon } from "@/shared/icons";
 
 interface BackButtonProps {
-  href?: string;
+  href?: Route<string>;
 }
 
 export function BackButton({ href }: BackButtonProps) {
