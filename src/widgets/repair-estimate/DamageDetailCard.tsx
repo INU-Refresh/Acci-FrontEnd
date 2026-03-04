@@ -1,3 +1,5 @@
+"use client";
+
 import { type ChangeEvent, useMemo, useState } from "react";
 
 import { DAMAGE_SEVERITY_LABELS } from "@/entities/vehicle";

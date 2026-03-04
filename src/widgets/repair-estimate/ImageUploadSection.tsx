@@ -1,3 +1,5 @@
+"use client";
+
 import { ChangeEvent } from "react";
 import { CloseIcon } from "@/shared/icons";
 import { useRepairEstimateStore } from "@/shared/store/repair-estimate-store";

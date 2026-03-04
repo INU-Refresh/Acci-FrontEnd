@@ -1,3 +1,5 @@
+"use client";
+
 import { useMemo } from "react";
 
 import { VEHICLE_PARTS_BY_TYPE, VEHICLES } from "@/entities/vehicle";

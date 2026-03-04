@@ -1,3 +1,5 @@
+"use client";
+
 import { ChangeEvent } from "react";
 import { useRepairEstimateStore, selectBrandOptions, selectModelOptions, selectYearOptions } from "@/shared/store/repair-estimate-store";
 import { SelectField } from "@/features/repair-estimate/ui/SelectField";
