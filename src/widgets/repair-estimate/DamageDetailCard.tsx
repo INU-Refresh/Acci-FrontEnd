@@ -2,6 +2,7 @@ import { type ChangeEvent, useMemo, useState } from "react";
 
 import { DAMAGE_SEVERITY_LABELS } from "@/entities/vehicle";
 import type { DamageSeverity, PartInfo } from "@/entities/vehicle/types";
+import { CloseIcon } from "@/shared/icons";
 import { useRepairEstimateStore } from "@/shared/store/repair-estimate-store";
 import { Select } from "@/shared/ui/select";
 import { Textarea } from "@/shared/ui/textarea";
@@ -56,14 +57,19 @@ export function DamageDetailCard({ part, onClose }: DamageDetailCardProps) {
     upsertDetail(damageSeverity, nextLabel);
   };
 
+  const handleDelete = () => {
+    setDamageDetails(damageDetails.filter((detail) => detail.part_name_en !== part.part_name_en));
+    onClose();
+  };
+
   return (
     <div className="w-full bg-white rounded-2xl p-6 mt-4 border border-gray-100">
       <div className="flex items-start justify-between">
         <div>
           <p className="text-body7 sm:text-body5 text-gray-900">{part.part_name_kr}</p>
         </div>
-        <button type="button" onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-colors" aria-label="선택 해제">
-          ×
+        <button type="button" onClick={handleDelete} className="text-gray-400 hover:text-gray-600 transition-colors" aria-label="선택 해제">
+          <CloseIcon />
         </button>
       </div>
 
