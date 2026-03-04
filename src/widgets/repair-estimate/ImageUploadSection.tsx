@@ -1,4 +1,5 @@
 import { ChangeEvent } from "react";
+import { CloseIcon } from "@/shared/icons";
 import { useRepairEstimateStore } from "@/shared/store/repair-estimate-store";
 import { Button } from "@/shared/ui/button";
 
@@ -9,6 +10,7 @@ interface ImageUploadSectionProps {
 export function ImageUploadSection({ onExceedLimit }: ImageUploadSectionProps) {
   const uploadedImages = useRepairEstimateStore((state) => state.uploadedImages);
   const setUploadedImages = useRepairEstimateStore((state) => state.setUploadedImages);
+  const removeImage = useRepairEstimateStore((state) => state.removeImage);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -59,6 +61,14 @@ export function ImageUploadSection({ onExceedLimit }: ImageUploadSectionProps) {
                 <span className="text-gray-400">{index + 1}.</span>
                 <span className="truncate flex-1">{file.name}</span>
                 <span className="text-gray-400 text-xs">{(file.size / 1024).toFixed(1)}KB</span>
+                <button
+                  type="button"
+                  onClick={() => removeImage(index)}
+                  aria-label="파일 삭제"
+                  className="shrink-0 hover:scale-110 active:scale-95 transition-transform duration-150 cursor-pointer [&>svg>path]:hover:fill-gray-500 [&>svg>path]:active:fill-gray-700 [&>svg>path]:transition-colors"
+                >
+                  <CloseIcon />
+                </button>
               </div>
             ))}
           </div>
