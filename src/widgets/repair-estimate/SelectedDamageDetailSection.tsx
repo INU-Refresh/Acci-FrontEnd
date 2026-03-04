@@ -135,7 +135,7 @@ export function SelectedDamageDetailSection() {
 
     const vehicle = VEHICLES.find((item) => item.brand === selectedBrand && item.model === selectedModel);
     if (!vehicle) {
-      return selectedPartIds.map((partId) => createFallbackPart(partId));
+      return selectedPartIds.map((partId) => ({ part: createFallbackPart(partId), originalPartId: partId }));
     }
 
     const parts = Object.values(VEHICLE_PARTS_BY_TYPE[vehicle.vehicleType]).flat();
@@ -145,12 +145,12 @@ export function SelectedDamageDetailSection() {
     return selectedPartIds.map((partId) => {
       const resolvedPartId = resolvePartId(partId, vehicle.vehicleType);
       const directMatch = partsById.get(resolvedPartId);
-      if (directMatch) return directMatch;
+      if (directMatch) return { part: directMatch, originalPartId: partId };
 
       const normalizedMatch = partsByEnName.get(normalizeKey(partId));
-      if (normalizedMatch) return normalizedMatch;
+      if (normalizedMatch) return { part: normalizedMatch, originalPartId: partId };
 
-      return createFallbackPart(partId);
+      return { part: createFallbackPart(partId), originalPartId: partId };
     });
   }, [selectedBrand, selectedModel, selectedPartIds]);
 
@@ -158,8 +158,8 @@ export function SelectedDamageDetailSection() {
 
   return (
     <div className="w-full flex flex-col items-center gap-4">
-      {selectedParts.map((part) => (
-        <DamageDetailCard key={part.id} part={part} onClose={() => removeSelectedPartId(part.id)} />
+      {selectedParts.map(({ part, originalPartId }) => (
+        <DamageDetailCard key={part.id} part={part} onClose={() => removeSelectedPartId(originalPartId)} />
       ))}
     </div>
   );
