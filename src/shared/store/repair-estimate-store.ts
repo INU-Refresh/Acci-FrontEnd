@@ -39,6 +39,7 @@ interface RepairEstimateState {
   setUserDescription: (userDescription: string) => void;
   removeImage: (index: number) => void;
   clearImages: () => void;
+  prefillVehicleInfo: (brand: string, model: string, year: string) => void;
   reset: () => void;
 }
 
@@ -156,6 +157,20 @@ export const useRepairEstimateStore = create<RepairEstimateState>()(
 
       clearImages: () => {
         set({ uploadedImages: [] });
+      },
+
+      prefillVehicleInfo: (brand, model, year) => {
+        set({
+          selectedBrand: brand,
+          selectedModel: model,
+          selectedYear: year,
+          modelFileName: getModelFileName(brand, model),
+          modelSelectOptions: getModelOptions(brand),
+          damageDetails: [],
+          selectedPartIds: [],
+          uploadedImages: [],
+          userDescription: "",
+        });
       },
 
       reset: () => {

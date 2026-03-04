@@ -1,3 +1,5 @@
+"use client";
+
 import { useRepairEstimateStore, selectIsFormValid } from "@/shared/store/repair-estimate-store";
 import { Button } from "@/shared/ui/button";
 

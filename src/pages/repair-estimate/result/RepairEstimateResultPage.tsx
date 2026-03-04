@@ -150,7 +150,7 @@ export default function RepairEstimateResultPage({ id, initialUserInfo = null }:
           <DamageAreaCard modelFileName={modelFileName} damageDetails={result?.damageDetails} vehicleType={result?.vehicleInfo?.vehicleType} />
         </div>
 
-        <ActionSection />
+        <ActionSection brand={result?.vehicleInfo?.brand} model={result?.vehicleInfo?.model} year={result?.vehicleInfo?.year} />
       </main>
 
       <Footer />

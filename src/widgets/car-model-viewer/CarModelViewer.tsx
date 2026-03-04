@@ -171,7 +171,38 @@ interface CarModelViewerProps {
  * maxPolarAngle : 카메라의 최대 세로 각도 (라디안)
  */
 export function CarModelViewer({ modelName, className = "", onSelectPart, selectedPartIds, interactive = true }: CarModelViewerProps) {
+  const [isClientReady, setIsClientReady] = useState(false);
+  const [webGLError, setWebGLError] = useState<string | null>(null);
   const modelPath = `/models/${modelName}.glb`;
+
+  // 클라이언트 사이드에서만 렌더링되도록 보장
+  useEffect(() => {
+    setIsClientReady(true);
+  }, []);
+
+  // WebGL 지원 여부 확인
+  useEffect(() => {
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("webgl") || canvas.getContext("webgl2");
+    if (!context) {
+      setWebGLError("WebGL이 지원되지 않습니다. 브라우저 설정을 확인해주세요.");
+    }
+  }, []);
+
+  if (!isClientReady) {
+    return null;
+  }
+
+  if (webGLError) {
+    return (
+      <div className={`w-full h-full flex items-center justify-center bg-gray-100 rounded-lg ${className}`}>
+        <div className="text-center">
+          <p className="text-gray-600 text-sm sm:text-base">{webGLError}</p>
+          <p className="text-gray-500 text-xs sm:text-sm mt-2">3D 모델을 표시할 수 없습니다.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`w-full h-full ${className}`}>

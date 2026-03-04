@@ -6,11 +6,13 @@
 
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/card";
+import { BackButton } from "@/widgets/repair-estimate/BackButton";
 
 export default function PoliciesPage() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <h1 className="text-3xl font-bold mb-8">정책</h1>
+      <BackButton href="/" />
+      <h1 className="text-3xl font-bold mb-8 mt-4">정책</h1>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <Link href="/policies/terms-of-service">
           <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">

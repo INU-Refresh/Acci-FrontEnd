@@ -6,7 +6,7 @@ import { Header } from "@/widgets/header/Header";
 import { useToast } from "@/features/repair-estimate/hooks";
 import { useRepairEstimateStore } from "@/shared/store/repair-estimate-store";
 import { VEHICLES } from "@/entities/vehicle";
-import { TitleSection, RepairEstimateFormSection, OptionalInputSection, SubmitSection, ToastMessage } from "@/widgets/repair-estimate";
+import { BackButton, TitleSection, RepairEstimateFormSection, OptionalInputSection, SubmitSection, ToastMessage } from "@/widgets/repair-estimate";
 import { useRouter } from "next/navigation";
 
 type RepairEstimatePageProps = {
@@ -21,6 +21,7 @@ export default function RepairEstimatePage({ initialUserInfo = null }: RepairEst
   const selectedYear = useRepairEstimateStore((state) => state.selectedYear);
   const damageDetails = useRepairEstimateStore((state) => state.damageDetails);
   const uploadedImages = useRepairEstimateStore((state) => state.uploadedImages);
+  const reset = useRepairEstimateStore((state) => state.reset);
 
   const handleSubmit = async () => {
     if (!selectedBrand || !selectedModel || !selectedYear) {
@@ -76,6 +77,7 @@ export default function RepairEstimatePage({ initialUserInfo = null }: RepairEst
         return;
       }
 
+      reset();
       showToast("수리비 견적 요청을 전송했습니다.");
       router.push(`/repair-estimate/result/${estimateId}`);
     } catch (error) {
@@ -90,6 +92,8 @@ export default function RepairEstimatePage({ initialUserInfo = null }: RepairEst
       <Header initialUserInfo={initialUserInfo} />
 
       <main className="flex-1">
+        <BackButton />
+
         <TitleSection title="수리비 견적" description="파손 사진을 업로드하면 Acci가 예상 수리비 견적을 제공합니다" />
 
         <RepairEstimateFormSection />

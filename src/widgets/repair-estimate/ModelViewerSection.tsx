@@ -1,10 +1,12 @@
+"use client";
+
 import { useCallback } from "react";
 import { useRepairEstimateStore } from "@/shared/store/repair-estimate-store";
 import { CarModelViewer } from "@/widgets/car-model-viewer/CarModelViewer";
 import { SelectedDamageDetailSection } from "./SelectedDamageDetailSection";
 
 export function ModelViewerSection() {
-  const { selectedBrand, selectedModel, selectedYear, modelFileName, addSelectedPartId, removeSelectedPartId } = useRepairEstimateStore();
+  const { selectedBrand, selectedModel, selectedYear, modelFileName, selectedPartIds, addSelectedPartId, removeSelectedPartId } = useRepairEstimateStore();
   const isReady = selectedBrand && selectedModel && selectedYear && modelFileName;
 
   const handleSelectPart = useCallback(
@@ -30,7 +32,7 @@ export function ModelViewerSection() {
 
       <div className="bg-gray-50 rounded-lg p-6 flex items-center justify-center h-[600px]">
         {isReady ? (
-          <CarModelViewer modelName={modelFileName} className="w-full h-full" onSelectPart={handleSelectPart} />
+          <CarModelViewer modelName={modelFileName} className="w-full h-full" onSelectPart={handleSelectPart} selectedPartIds={selectedPartIds} />
         ) : (
           <p className="text-body9 sm:text-body7 text-gray-400">브랜드, 모델명, 연식을 모두 선택해주세요</p>
         )}
