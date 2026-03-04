@@ -21,6 +21,7 @@ export default function RepairEstimatePage({ initialUserInfo = null }: RepairEst
   const selectedYear = useRepairEstimateStore((state) => state.selectedYear);
   const damageDetails = useRepairEstimateStore((state) => state.damageDetails);
   const uploadedImages = useRepairEstimateStore((state) => state.uploadedImages);
+  const reset = useRepairEstimateStore((state) => state.reset);
 
   const handleSubmit = async () => {
     if (!selectedBrand || !selectedModel || !selectedYear) {
@@ -76,6 +77,7 @@ export default function RepairEstimatePage({ initialUserInfo = null }: RepairEst
         return;
       }
 
+      reset();
       showToast("수리비 견적 요청을 전송했습니다.");
       router.push(`/repair-estimate/result/${estimateId}`);
     } catch (error) {
