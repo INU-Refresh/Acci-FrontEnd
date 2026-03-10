@@ -14,6 +14,39 @@ type HeaderProps = {
   initialUserInfo?: UserInfo | null;
 };
 
+type ProfileAvatarProps = {
+  user: UserInfo | null;
+  sizeClassName: string;
+  textClassName: string;
+};
+
+function ProfileAvatar({ user, sizeClassName, textClassName }: ProfileAvatarProps) {
+  const [imageError, setImageError] = useState(false);
+  const hasProfileImage = Boolean(user?.profileImage) && !imageError;
+  const userInitial = user?.name?.[0]?.toUpperCase() || "U";
+
+  if (!hasProfileImage) {
+    return (
+      <div className={cn("rounded-full bg-primary flex items-center justify-center text-primary-foreground font-semibold", sizeClassName, textClassName)}>
+        {userInitial}
+      </div>
+    );
+  }
+
+  return (
+    <div className={cn("relative overflow-hidden rounded-full bg-gray-100", sizeClassName)}>
+      <Image
+        src={user?.profileImage || ""}
+        alt={`${user?.name ?? "사용자"} 프로필 이미지`}
+        fill
+        sizes="48px"
+        className="object-cover"
+        onError={() => setImageError(true)}
+      />
+    </div>
+  );
+}
+
 export function Header({ initialUserInfo = null }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [headerVisible, setHeaderVisible] = useState(true);
@@ -114,9 +147,7 @@ export function Header({ initialUserInfo = null }: HeaderProps) {
               {/* Mobile User Profile Avatar - only visible when authenticated */}
               {displayAuthenticated && (
                 <Link href={ROUTES.myPage} className="flex items-center gap-1.5 cursor-pointer">
-                  <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-semibold">
-                    {displayUser?.name?.[0]?.toUpperCase() || "U"}
-                  </div>
+                  <ProfileAvatar user={displayUser} sizeClassName="h-7 w-7" textClassName="text-xs" />
                 </Link>
               )}
               {/* Mobile Menu Toggle Button */}
@@ -195,9 +226,7 @@ export function Header({ initialUserInfo = null }: HeaderProps) {
               ) : (
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 px-2 py-1">
-                    <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-semibold flex-shrink-0 text-xs">
-                      {displayUser?.name?.[0]?.toUpperCase() || "U"}
-                    </div>
+                    <ProfileAvatar user={displayUser} sizeClassName="h-8 w-8 flex-shrink-0" textClassName="text-xs" />
                     <div className="min-w-0 flex-1">
                       <p className="text-body5 font-medium text-gray-900 truncate">{displayUser?.name}</p>
                       <p className="text-xs text-gray-500 truncate">{displayUser?.email}</p>
