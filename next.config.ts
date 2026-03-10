@@ -22,6 +22,18 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+      },
+      {
+        protocol: "https",
+        hostname: "k.kakaocdn.net",
+      },
+      {
+        protocol: "https",
+        hostname: "phinf.pstatic.net",
+      },
+      {
+        protocol: "https",
         hostname: "local.acci-ai.site",
         port: "3001",
       },
