@@ -1,0 +1,16 @@
+---
+description: 테스트 파일은 소스 파일 옆에 배치
+alwaysApply: true
+---
+
+# Test File Placement
+
+- 테스트 파일은 대상 소스 파일과 같은 디렉터리에 둔다.
+- 파일명은 `<source>.test.ts` 또는 `<source>.test.tsx` 형식을 사용한다.
+- 공용 규칙: 테스트 전용 폴더(`src/__tests__` 등)로 분리하지 않는다.
+
+## Examples
+
+- `src/pages/home/HomePage.tsx` -> `src/pages/home/HomePage.test.tsx`
+- `src/shared/lib/date.ts` -> `src/shared/lib/date.test.ts`
+

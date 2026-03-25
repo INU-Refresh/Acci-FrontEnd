@@ -8,7 +8,11 @@
     "dev:ssl": "concurrently \"next dev\" \"local-ssl-proxy --source 3001 --target 3000 --cert local.acci-ai.site.pem --key local.acci-ai.site-key.pem\" \"echo '\\n🔒 HTTPS 서버 접속: https://local.acci-ai.site:3001\\n'\"",
     "build": "next build --webpack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "jest --watch=false --coverage",
+    "test:e2e": "playwright test --config playwright.config.ts",
+    "test:e2e:ui": "playwright test --config playwright.config.ts --ui",
+    "test:watch": "jest"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.1",
@@ -33,7 +37,12 @@
     "zustand": "^5.0.8"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
     "@tailwindcss/postcss": "^4",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^30.0.0",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -42,8 +51,12 @@
     "concurrently": "^9.2.1",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.3.0",
     "local-ssl-proxy": "^2.0.5",
     "tailwindcss": "^4",
+    "ts-jest": "^29.4.6",
     "typescript": "^5"
   }
 }

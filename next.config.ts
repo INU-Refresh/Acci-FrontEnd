@@ -25,6 +25,10 @@ const nextConfig: NextConfig = {
         hostname: "lh3.googleusercontent.com",
       },
       {
+        protocol: "http", // 추가
+        hostname: "k.kakaocdn.net",
+      },
+      {
         protocol: "https",
         hostname: "k.kakaocdn.net",
       },
