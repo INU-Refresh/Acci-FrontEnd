@@ -12,7 +12,7 @@ jest.mock("next/dynamic", () => {
   let index = 0;
   const ids = ["estimate-section", "reviews-section", "cta-section"];
 
-  return (_loader: unknown, _options?: unknown) => {
+  return () => {
     const testId = ids[index] ?? `dynamic-section-${index}`;
     index += 1;
     return function DynamicMockSection() {
@@ -73,4 +73,3 @@ describe("HomePage", () => {
     expect(screen.getByText("header-with-user")).toBeInTheDocument();
   });
 });
-
