@@ -59,11 +59,52 @@ export default function RepairEstimateResultPage({ id, initialUserInfo = null }:
 
   useEffect(() => {
     let isMounted = true;
-    let timeoutId: NodeJS.Timeout | null = null;
+    let eventSource: EventSource | null = null;
 
-    const fetchResult = async () => {
+    const connectSSE = () => {
+      if (!isMounted || eventSource) return;
+
+      const sseUrl = `${
+        process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000"
+      }/api/v1/repair-estimates/${id}/events`;
+
+      eventSource = new EventSource(sseUrl, { withCredentials: true });
+
+      eventSource.addEventListener("status", (event: MessageEvent) => {
+        if (!isMounted) return;
+
+        let newStatus = event.data;
+        try {
+          const parsed = JSON.parse(newStatus);
+          if (parsed.status) {
+            newStatus = parsed.status;
+          }
+        } catch (e) {
+          // JSON이 아닌 일반 문자열인 경우 그대로 사용
+        }
+
+        setResult((prev) => {
+          if (!prev) return prev;
+          return { ...prev, status: newStatus as RepairEstimateStatus };
+        });
+
+        if (newStatus === "COMPLETED" || newStatus === "FAILED") {
+          eventSource?.close();
+          eventSource = null;
+          fetchResult(false);
+        }
+      });
+
+      eventSource.onerror = (error) => {
+        console.error("SSE connection error", error);
+        eventSource?.close();
+        eventSource = null;
+      };
+    };
+
+    const fetchResult = async (isInitial = true) => {
       // 초기 요청일 때만 로딩 상태 업데이트
-      if (isInitialFetch) {
+      if (isInitial) {
         setIsLoading(true);
       }
       setErrorMessage(null);
@@ -86,24 +127,20 @@ export default function RepairEstimateResultPage({ id, initialUserInfo = null }:
         setResult(normalizedData);
 
         // 초기 요청 후에는 로딩 완료 처리
-        if (isInitialFetch) {
+        if (isInitial) {
           setIsLoading(false);
           setIsInitialFetch(false);
         }
 
-        // status가 PENDING 또는 PROCESSING이면 5초 뒤에 재요청
+        // status가 PENDING 또는 PROCESSING이면 SSE 연결 시작
         if (response.data.status === "PENDING" || response.data.status === "PROCESSING") {
-          timeoutId = setTimeout(() => {
-            if (isMounted) {
-              fetchResult();
-            }
-          }, 5000);
+          connectSSE();
         }
       } catch (error) {
         if (!isMounted) return;
         setErrorMessage("견적 결과를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
         // 에러 발생했을 때도 초기 로딩 완료 처리
-        if (isInitialFetch) {
+        if (isInitial) {
           setIsLoading(false);
           setIsInitialFetch(false);
         }
@@ -116,11 +153,11 @@ export default function RepairEstimateResultPage({ id, initialUserInfo = null }:
 
     return () => {
       isMounted = false;
-      if (timeoutId) {
-        clearTimeout(timeoutId);
+      if (eventSource) {
+        eventSource.close();
       }
     };
-  }, [id, isInitialFetch]);
+  }, [id]);
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
