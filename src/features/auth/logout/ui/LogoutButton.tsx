@@ -38,7 +38,10 @@ export function LogoutButton({ className, userInfo = null }: LogoutButtonProps) 
     <button
       type="button"
       onClick={handleLogout}
-      className={cn("flex items-center gap-2 text-body7 font-medium text-gray-400", className)}
+      className={cn(
+        "flex items-center gap-2 rounded-md px-2 py-1 text-body7 font-medium text-gray-400 transition-colors duration-150 hover:underline underline-offset-4 decoration-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20",
+        className
+      )}
     >
       {hasProfileImage ? (
         <div className="relative size-9 overflow-hidden rounded-full bg-gray-100">

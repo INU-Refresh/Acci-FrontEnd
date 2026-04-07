@@ -13,9 +13,12 @@ type RecordItem = {
 type RecordListPageSectionProps = {
   title: string;
   items: RecordItem[];
+  currentPage: number;
+  totalPages: number;
+  basePath: string;
 };
 
-export function RecordListPageSection({ title, items }: RecordListPageSectionProps) {
+export function RecordListPageSection({ title, items, currentPage, totalPages, basePath }: RecordListPageSectionProps) {
   return (
     <section className="flex w-full max-w-xl flex-col items-center gap-6 py-10 md:gap-8">
       <Card className="w-full rounded-lg border-0 bg-white p-6 shadow-none md:rounded-2xl">
@@ -27,8 +30,7 @@ export function RecordListPageSection({ title, items }: RecordListPageSectionPro
           ))}
         </div>
         <div className="mt-6">
-          {/* TODO [Minjun]: 페이지네이션 동작 구현 필요 */}
-          <Pagination currentPage={1} pages={[1, 2, 3, 4, 5]} />
+          <Pagination currentPage={currentPage} totalPages={totalPages} basePath={basePath} />
         </div>
       </Card>
     </section>

@@ -7,14 +7,16 @@ import type { AnalysisRecordItem } from "@/entities/analysis/api/get-recent-anal
 type AnalysisListPageProps = {
   initialUserInfo?: UserInfo | null;
   records?: AnalysisRecordItem[];
+  currentPage?: number;
+  totalPages?: number;
 };
 
-export default function AnalysisListPage({ initialUserInfo = null, records = [] }: AnalysisListPageProps) {
+export default function AnalysisListPage({ initialUserInfo = null, records = [], currentPage = 1, totalPages = 0 }: AnalysisListPageProps) {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Header initialUserInfo={initialUserInfo} />
       <main className="flex flex-1 justify-center px-4 pb-10 pt-4 md:pb-16 md:pt-10">
-        <RecordListPageSection title="최근 분석 기록" items={records} />
+        <RecordListPageSection title="최근 분석 기록" items={records} currentPage={currentPage} totalPages={totalPages} basePath="/my-page/analysis" />
       </main>
       <Footer />
     </div>

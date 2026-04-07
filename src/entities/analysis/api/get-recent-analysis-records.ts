@@ -23,6 +23,13 @@ export type AnalysisRecordItem = {
   detail: string;
   href: string;
 };
+export type AnalysisRecordPage = {
+  items: AnalysisRecordItem[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+};
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "";
 
@@ -57,6 +64,11 @@ function mapStatusToDetail(status?: string, ratio?: string) {
 }
 
 export async function getRecentAnalysisRecords(page = 0, size = 5): Promise<AnalysisRecordItem[]> {
+  const data = await getAnalysisRecordPage(page, size);
+  return data.items;
+}
+
+export async function getAnalysisRecordPage(page = 0, size = 5): Promise<AnalysisRecordPage> {
   try {
     const cookieStore = await cookies();
     const cookieHeader = cookieStore.toString();
@@ -70,11 +82,11 @@ export async function getRecentAnalysisRecords(page = 0, size = 5): Promise<Anal
     });
 
     if (!response.ok) {
-      return [];
+      return { items: [], page, size, totalElements: 0, totalPages: 0 };
     }
 
     const data = (await response.json()) as AnalysisHistoryResponse;
-    return data.content.map((item, index) => {
+    const items = data.content.map((item, index) => {
       const analysisId = item.analysisId ?? item.id ?? String(index);
       const ratio = item.faultRatio ?? item.negligenceRatio;
       return {
@@ -85,7 +97,14 @@ export async function getRecentAnalysisRecords(page = 0, size = 5): Promise<Anal
         href: `/analyze/result/${analysisId}`,
       };
     });
+    return {
+      items,
+      page: data.page,
+      size: data.size,
+      totalElements: data.totalElements,
+      totalPages: data.totalPages,
+    };
   } catch {
-    return [];
+    return { items: [], page, size, totalElements: 0, totalPages: 0 };
   }
 }

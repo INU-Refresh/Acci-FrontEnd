@@ -1,12 +1,14 @@
 import { CheckIcon } from "@/shared/ui/icons";
+import Image from "next/image";
 
 export default function AuthPageLeftSide() {
   return (
     <aside className="hidden w-full bg-gray-50 md:flex md:min-h-screen md:flex-1 md:flex-col md:justify-center md:px-0 md:py-0">
       <div className="flex w-full flex-col items-center justify-center gap-10 md:h-full">
         <div className="flex w-full flex-col items-center gap-2 text-center">
-          <div className="h-20 w-20 rounded-full bg-gray-900" aria-hidden />
-          <p className="text-3xl font-semibold leading-12 text-gray-900">Acci</p>
+          <div className="flex h-20 w-20 items-center justify-center">
+            <Image src="/ACCI_Logo_v2.svg" alt="Acci Logo" width={64} height={64} priority />
+          </div>
           <p className="text-sm font-normal leading-5 text-gray-900">
             법률 전문가의 지식을 AI로,
             <br />

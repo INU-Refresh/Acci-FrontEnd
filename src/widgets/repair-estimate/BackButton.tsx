@@ -4,12 +4,14 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import type { Route } from "next";
 import { ChevronLeftIcon } from "@/shared/icons";
+import { cn } from "@/shared/lib/utils";
 
 interface BackButtonProps {
   href?: Route<string>;
+  className?: string;
 }
 
-export function BackButton({ href }: BackButtonProps) {
+export function BackButton({ href, className }: BackButtonProps) {
   const router = useRouter();
 
   const content = (
@@ -20,7 +22,7 @@ export function BackButton({ href }: BackButtonProps) {
   );
 
   return (
-    <section className="flex flex-col items-center w-full px-4 sm:px-0 pt-6">
+    <section className={cn("flex flex-col items-center w-full px-4 sm:px-0 pt-6", className)}>
       <div className="w-full max-w-[840px]">
         {href ? (
           <Link
