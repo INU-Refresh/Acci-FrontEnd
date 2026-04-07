@@ -1,7 +1,8 @@
 "use client";
 
 import type { UserInfo } from "@/entities/user/model/user-info";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Header } from "@/widgets/header/Header";
 import { Footer } from "@/widgets/footer/Footer";
 import axiosInstance from "@/shared/api/axios-instance";
@@ -40,14 +41,31 @@ interface RepairEstimateResultResponse {
 }
 
 export default function RepairEstimateResultPage({ id, initialUserInfo = null }: RepairEstimateResultPageProps) {
-  const [isLoading, setIsLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [result, setResult] = useState<RepairEstimateResultResponse | null>(null);
-  const [isInitialFetch, setIsInitialFetch] = useState(true);
+  const queryClient = useQueryClient();
 
-  const modelFileName = (() => {
+  const { data: result, isLoading, isError, refetch } = useQuery<RepairEstimateResultResponse>({
+    queryKey: ["repair-estimate", id],
+    queryFn: async () => {
+      const response = await axiosInstance.get(`/api/v1/repair-estimates/${id}`);
+      return {
+        ...response.data,
+        vehicleInfo: {
+          ...response.data.vehicleInfo,
+          brand: normalizeBrand(response.data.vehicleInfo.brand),
+          vehicleType: normalizeVehicleType(response.data.vehicleInfo.vehicleType),
+        },
+      };
+    },
+    staleTime: 1000 * 60 * 5, // 5분
+  });
+
+  const errorMessage = isError ? "견적 결과를 불러오지 못했습니다. 잠시 후 다시 시도해주세요." : null;
+
+  const modelFileName = useMemo(() => {
     if (!result?.vehicleInfo) return "";
-    const vehicle = VEHICLES.find((item) => item.brand === result.vehicleInfo.brand && item.model === result.vehicleInfo.model);
+    const vehicle = VEHICLES.find(
+      (item) => item.brand === result.vehicleInfo?.brand && item.model === result.vehicleInfo?.model
+    );
     if (!vehicle) return "";
     const modelFileMap: Record<string, string> = {
       sedan: "Sedan",
@@ -55,72 +73,58 @@ export default function RepairEstimateResultPage({ id, initialUserInfo = null }:
       suv: "SUV",
     };
     return modelFileMap[vehicle.vehicleType] ?? "";
-  })();
+  }, [result?.vehicleInfo]);
 
   useEffect(() => {
+    if (result?.status !== "PENDING" && result?.status !== "PROCESSING") return;
+
     let isMounted = true;
-    let timeoutId: NodeJS.Timeout | null = null;
+    let eventSource: EventSource | null = null;
 
-    const fetchResult = async () => {
-      // 초기 요청일 때만 로딩 상태 업데이트
-      if (isInitialFetch) {
-        setIsLoading(true);
-      }
-      setErrorMessage(null);
+    const sseUrl = `${
+      process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000"
+    }/api/v1/repair-estimates/${id}/events`;
 
+    eventSource = new EventSource(sseUrl, { withCredentials: true });
+
+    eventSource.addEventListener("status", (event: MessageEvent) => {
+      if (!isMounted) return;
+
+      let newStatus = event.data;
       try {
-        const response = await axiosInstance.get(`/api/v1/repair-estimates/${id}`);
-        console.log(response.data);
-        if (!isMounted) return;
-
-        // 백엔드에서 받은 한글 브랜드와 vehicleType을 영어로 정규화
-        const normalizedData = {
-          ...response.data,
-          vehicleInfo: {
-            ...response.data.vehicleInfo,
-            brand: normalizeBrand(response.data.vehicleInfo.brand),
-            vehicleType: normalizeVehicleType(response.data.vehicleInfo.vehicleType),
-          },
-        };
-
-        setResult(normalizedData);
-
-        // 초기 요청 후에는 로딩 완료 처리
-        if (isInitialFetch) {
-          setIsLoading(false);
-          setIsInitialFetch(false);
+        const parsed = JSON.parse(newStatus);
+        if (parsed.status) {
+          newStatus = parsed.status;
         }
-
-        // status가 PENDING 또는 PROCESSING이면 5초 뒤에 재요청
-        if (response.data.status === "PENDING" || response.data.status === "PROCESSING") {
-          timeoutId = setTimeout(() => {
-            if (isMounted) {
-              fetchResult();
-            }
-          }, 5000);
-        }
-      } catch (error) {
-        if (!isMounted) return;
-        setErrorMessage("견적 결과를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
-        // 에러 발생했을 때도 초기 로딩 완료 처리
-        if (isInitialFetch) {
-          setIsLoading(false);
-          setIsInitialFetch(false);
-        }
+      } catch {
+        // 일반 문자열인 경우 그대로 사용
       }
-    };
 
-    if (id) {
-      fetchResult();
-    }
+      queryClient.setQueryData<RepairEstimateResultResponse>(["repair-estimate", id], (old) => {
+        if (!old) return old;
+        return { ...old, status: newStatus as RepairEstimateStatus };
+      });
+
+      if (newStatus === "COMPLETED" || newStatus === "FAILED") {
+        eventSource?.close();
+        eventSource = null;
+        refetch();
+      }
+    });
+
+    eventSource.onerror = (error) => {
+      console.error("SSE connection error", error);
+      eventSource?.close();
+      eventSource = null;
+    };
 
     return () => {
       isMounted = false;
-      if (timeoutId) {
-        clearTimeout(timeoutId);
+      if (eventSource) {
+        eventSource.close();
       }
     };
-  }, [id, isInitialFetch]);
+  }, [id, result?.status, queryClient, refetch]);
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">

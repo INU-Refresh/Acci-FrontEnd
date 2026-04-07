@@ -15,7 +15,8 @@ interface CarModelProps {
 type ClickState = 0 | 1; // 0: 선택 안함, 1: 선택됨
 
 function CarModel({ modelPath, onSelectPart, selectedPartIds, interactive = true }: CarModelProps) {
-  const { scene } = useGLTF(modelPath);
+  const { scene: gltfScene } = useGLTF(modelPath);
+  const scene = useMemo(() => gltfScene.clone(), [gltfScene]);
   const [hoveredMesh, setHoveredMesh] = useState<THREE.Mesh | null>(null);
   const [clickStateMaps] = useState(() => new Map<THREE.Mesh, ClickState>());
   const originalColors = useMemo(() => new Map<THREE.Mesh, THREE.Color>(), []);

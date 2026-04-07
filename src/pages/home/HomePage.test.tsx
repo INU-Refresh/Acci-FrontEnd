@@ -8,19 +8,6 @@ const mockHeader = jest.fn(({ initialUserInfo }: { initialUserInfo?: unknown }) 
 
 const mockFooter = jest.fn(() => <div data-testid="footer">footer</div>);
 
-jest.mock("next/dynamic", () => {
-  let index = 0;
-  const ids = ["estimate-section", "reviews-section", "cta-section"];
-
-  return (_loader: unknown, _options?: unknown) => {
-    const testId = ids[index] ?? `dynamic-section-${index}`;
-    index += 1;
-    return function DynamicMockSection() {
-      return <section data-testid={testId} />;
-    };
-  };
-});
-
 jest.mock("@/widgets/header/Header", () => ({
   Header: (props: { initialUserInfo?: unknown }) => mockHeader(props),
 }));
@@ -43,15 +30,18 @@ describe("HomePage", () => {
     mockFooter.mockClear();
   });
 
-  it("기본 섹션들과 레이아웃 컴포넌트를 렌더링한다", () => {
+  it("기본 섹션들과 레이아웃 컴포넌트를 렌더링한다", async () => {
     render(<HomePage />);
 
     expect(screen.getByTestId("header")).toBeInTheDocument();
     expect(screen.getByTestId("hero-section")).toBeInTheDocument();
     expect(screen.getByTestId("features-section")).toBeInTheDocument();
-    expect(screen.getByTestId("estimate-section")).toBeInTheDocument();
-    expect(screen.getByTestId("reviews-section")).toBeInTheDocument();
-    expect(screen.getByTestId("cta-section")).toBeInTheDocument();
+    
+    // next/dynamic 으로 비동기 로딩되는 컴포넌트들 대기
+    expect(await screen.findByTestId("estimate-direct")).toBeInTheDocument();
+    expect(await screen.findByTestId("reviews-direct")).toBeInTheDocument();
+    expect(await screen.findByTestId("cta-direct")).toBeInTheDocument();
+    
     expect(screen.getByTestId("footer")).toBeInTheDocument();
   });
 
@@ -73,4 +63,3 @@ describe("HomePage", () => {
     expect(screen.getByText("header-with-user")).toBeInTheDocument();
   });
 });
-
