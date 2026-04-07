@@ -7,6 +7,13 @@ export type RepairRecordItem = {
   detail: string;
   href: string;
 };
+export type RepairRecordPage = {
+  items: RepairRecordItem[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+};
 
 type RepairHistoryResponse = {
   content: Array<{
@@ -61,6 +68,11 @@ function mapStatusToDetail(status?: string) {
 }
 
 export async function getRecentRepairRecords(page = 0, size = 5): Promise<RepairRecordItem[]> {
+  const data = await getRepairRecordPage(page, size);
+  return data.items;
+}
+
+export async function getRepairRecordPage(page = 0, size = 5): Promise<RepairRecordPage> {
   try {
     const cookieStore = await cookies();
     const cookieHeader = cookieStore.toString();
@@ -74,11 +86,11 @@ export async function getRecentRepairRecords(page = 0, size = 5): Promise<Repair
     });
 
     if (!response.ok) {
-      return [];
+      return { items: [], page, size, totalElements: 0, totalPages: 0 };
     }
 
     const data = (await response.json()) as RepairHistoryResponse;
-    return data.content.map((item, index) => {
+    const items = data.content.map((item, index) => {
       const estimateId = item.estimateId ?? item.id ?? String(index);
       const detail = formatCurrency(item.totalEstimate) ?? item.damageSummary ?? mapStatusToDetail(item.status);
       return {
@@ -89,7 +101,14 @@ export async function getRecentRepairRecords(page = 0, size = 5): Promise<Repair
         href: `/repair-estimate/result/${estimateId}`,
       };
     });
+    return {
+      items,
+      page: data.page,
+      size: data.size,
+      totalElements: data.totalElements,
+      totalPages: data.totalPages,
+    };
   } catch {
-    return [];
+    return { items: [], page, size, totalElements: 0, totalPages: 0 };
   }
 }

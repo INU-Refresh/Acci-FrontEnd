@@ -12,7 +12,7 @@ type MyPageSectionProps = {
 
 export function MyPageSection({ initialUserInfo = null, analysisRecords = [], repairRecords = [] }: MyPageSectionProps) {
   return (
-    <section className="flex w-full max-w-xl flex-col items-center gap-6 py-10 md:gap-8">
+    <section className="flex w-full max-w-xl flex-col items-center gap-6 pb-10 pt-4 md:gap-8">
       <ProfileCard
         name={initialUserInfo?.name ?? "사용자"}
         email={initialUserInfo?.email ?? "이메일 정보 없음"}
