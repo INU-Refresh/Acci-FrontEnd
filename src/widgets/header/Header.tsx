@@ -54,6 +54,8 @@ export function Header({ initialUserInfo = null }: HeaderProps) {
   const { user, setUser } = useAuthStore();
   const displayUser = user ?? initialUserInfo;
   const displayAuthenticated = Boolean(displayUser);
+  const headerInteractiveClassName =
+    "rounded-md transition-colors duration-150 hover:bg-black/5 active:bg-black/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20";
 
   // 내비게이션 경로 및 레이블 정의 (타입 안전성 확보를 위해서 수정해두었습니다.)
   const ROUTES: Record<"analyze" | "repairEstimate" | "myPage", Route> = {
@@ -120,18 +122,18 @@ export function Header({ initialUserInfo = null }: HeaderProps) {
         <div className="container mx-auto px-4 sm:px-10 max-w-7xl">
           <div className="flex items-center justify-between gap-2 my-auto h-12.5 sm:h-19">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-1.5 sm:gap-2 shrink-0 min-w-0 cursor-pointer">
+            <Link href="/" className={cn("flex items-center gap-1.5 sm:gap-2 shrink-0 min-w-0 cursor-pointer px-1.5 py-1", headerInteractiveClassName)}>
               <Image src="/ACCI_Logo_v2.svg" alt="Acci Logo" width={32} height={32} className="w-8 h-8 sm:w-12 sm:h-12 shrink-0" priority />
             </Link>
             {/* PC Navigation - visible on md and above */}
             <nav className="hidden md:flex items-center gap-6">
-              <Link href={ROUTES.analyze} className="text-body5 text-gray-900 hover:text-primary transition-colors cursor-pointer">
+              <Link href={ROUTES.analyze} className={cn("text-body5 text-gray-900 hover:text-primary cursor-pointer px-2 py-1", headerInteractiveClassName)}>
                 분석
               </Link>
-              <Link href={ROUTES.repairEstimate} className="text-body5 text-gray-900 hover:text-primary transition-colors cursor-pointer">
+              <Link href={ROUTES.repairEstimate} className={cn("text-body5 text-gray-900 hover:text-primary cursor-pointer px-2 py-1", headerInteractiveClassName)}>
                 수리비 견적
               </Link>
-              <Link href={ROUTES.myPage} className="text-body5 text-gray-900 hover:text-primary transition-colors cursor-pointer">
+              <Link href={ROUTES.myPage} className={cn("text-body5 text-gray-900 hover:text-primary cursor-pointer px-2 py-1", headerInteractiveClassName)}>
                 마이페이지
               </Link>
               {displayAuthenticated ? (
@@ -146,12 +148,16 @@ export function Header({ initialUserInfo = null }: HeaderProps) {
             <div className="md:hidden flex items-center justify-end gap-1.5 sm:gap-2 shrink-0">
               {/* Mobile User Profile Avatar - only visible when authenticated */}
               {displayAuthenticated && (
-                <Link href={ROUTES.myPage} className="flex items-center gap-1.5 cursor-pointer">
+                <Link href={ROUTES.myPage} className={cn("flex items-center gap-1.5 cursor-pointer p-1", headerInteractiveClassName)}>
                   <ProfileAvatar user={displayUser} sizeClassName="h-7 w-7" textClassName="text-xs" />
                 </Link>
               )}
               {/* Mobile Menu Toggle Button */}
-              <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="p-1.5 sm:p-2 text-gray-900 shrink-0 cursor-pointer" aria-label="메뉴">
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className={cn("p-1.5 sm:p-2 text-gray-900 shrink-0 cursor-pointer", headerInteractiveClassName)}
+                aria-label="메뉴"
+              >
                 {mobileMenuOpen ? (
                   <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
