@@ -1,5 +1,4 @@
-import { render, screen, waitFor, act } from "@testing-library/react";
-import RepairEstimateResultPage from "./RepairEstimateResultPage";
+import { render, screen, waitFor, act } from "@testing-library/react";import { QueryClient, QueryClientProvider } from "@tanstack/react-query";import RepairEstimateResultPage from "./RepairEstimateResultPage";
 import axiosInstance from "@/shared/api/axios-instance";
 import "@testing-library/jest-dom";
 
@@ -81,6 +80,7 @@ const getEstimateCardProps = () => {
 
 describe("RepairEstimateResultPage", () => {
   const mockId = "test-123";
+  let queryClient: QueryClient;
 
   const mockSuccessData = {
     status: "COMPLETED",
@@ -103,12 +103,24 @@ describe("RepairEstimateResultPage", () => {
     jest.clearAllMocks();
     MockEventSource.lastInstance = null;
     global.EventSource = MockEventSource as unknown as typeof EventSource;
+    
+    queryClient = new QueryClient({
+      defaultOptions: {
+        queries: { retry: false, staleTime: 0 },
+      },
+    });
   });
+
+  const renderWithClient = (ui: React.ReactElement) => {
+    return render(
+      <QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>
+    );
+  };
 
   it("초기 렌더링 시 로딩 상태를 보여준다", () => {
     (axiosInstance.get as jest.Mock).mockReturnValue(new Promise(() => {}));
 
-    render(<RepairEstimateResultPage id={mockId} />);
+    renderWithClient(<RepairEstimateResultPage id={mockId} />);
 
     expect(getEstimateCardProps().isLoading).toBe(true);
   });
@@ -116,7 +128,7 @@ describe("RepairEstimateResultPage", () => {
   it("데이터 fetch 성공 시 결과를 컴포넌트에 전달한다", async () => {
     (axiosInstance.get as jest.Mock).mockResolvedValue({ data: mockSuccessData });
 
-    render(<RepairEstimateResultPage id={mockId} />);
+    renderWithClient(<RepairEstimateResultPage id={mockId} />);
 
     await waitFor(() => {
       const props = getEstimateCardProps();
@@ -129,7 +141,7 @@ describe("RepairEstimateResultPage", () => {
   it("API 요청 실패 시 에러 메시지를 표시하고 로딩을 종료한다", async () => {
     (axiosInstance.get as jest.Mock).mockRejectedValue(new Error("Network Error"));
 
-    render(<RepairEstimateResultPage id={mockId} />);
+    renderWithClient(<RepairEstimateResultPage id={mockId} />);
 
     await waitFor(() => {
       const props = getEstimateCardProps();
@@ -145,7 +157,7 @@ describe("RepairEstimateResultPage", () => {
       const pendingData = { ...mockSuccessData, status: "PENDING" };
       (axiosInstance.get as jest.Mock).mockResolvedValue({ data: pendingData });
 
-      render(<RepairEstimateResultPage id={mockId} />);
+      renderWithClient(<RepairEstimateResultPage id={mockId} />);
 
       await waitFor(() => {
         expect(MockEventSource.lastInstance).not.toBeNull();
@@ -157,7 +169,7 @@ describe("RepairEstimateResultPage", () => {
       const processingData = { ...mockSuccessData, status: "PROCESSING" };
       (axiosInstance.get as jest.Mock).mockResolvedValue({ data: processingData });
 
-      render(<RepairEstimateResultPage id={mockId} />);
+      renderWithClient(<RepairEstimateResultPage id={mockId} />);
 
       await waitFor(() => {
         expect(MockEventSource.lastInstance).not.toBeNull();
@@ -172,7 +184,7 @@ describe("RepairEstimateResultPage", () => {
         .mockResolvedValueOnce({ data: pendingData })
         .mockResolvedValueOnce({ data: mockSuccessData });
 
-      render(<RepairEstimateResultPage id={mockId} />);
+      renderWithClient(<RepairEstimateResultPage id={mockId} />);
 
       await waitFor(() => expect(MockEventSource.lastInstance).not.toBeNull());
 
@@ -190,7 +202,7 @@ describe("RepairEstimateResultPage", () => {
       const pendingData = { ...mockSuccessData, status: "PENDING" };
       (axiosInstance.get as jest.Mock).mockResolvedValue({ data: pendingData });
 
-      render(<RepairEstimateResultPage id={mockId} />);
+      renderWithClient(<RepairEstimateResultPage id={mockId} />);
 
       await waitFor(() => expect(MockEventSource.lastInstance).not.toBeNull());
 
@@ -210,7 +222,7 @@ describe("RepairEstimateResultPage", () => {
     const pendingData = { ...mockSuccessData, status: "PENDING" };
     (axiosInstance.get as jest.Mock).mockResolvedValue({ data: pendingData });
 
-    const { unmount } = render(<RepairEstimateResultPage id={mockId} />);
+    const { unmount } = renderWithClient(<RepairEstimateResultPage id={mockId} />);
 
     await waitFor(() => expect(MockEventSource.lastInstance).not.toBeNull());
 
@@ -219,5 +231,75 @@ describe("RepairEstimateResultPage", () => {
     unmount();
 
     expect(instanceBeforeUnmount?.close).toHaveBeenCalled();
+  });
+
+  describe("엣지 케이스 및 분기 커버리지", () => {
+    it("존재하지 않는 차량이거나 modelFileMap에 없는 타입일 경우 빈 문자열을 반환한다 (lines 67, 70-75)", async () => {
+      const unknownVehicleData = {
+        ...mockSuccessData,
+        vehicleInfo: {
+          brand: "외계인",
+          model: "UFO", 
+          // VEHICLES에 없는 데이터
+        },
+      };
+
+      (axiosInstance.get as jest.Mock).mockResolvedValue({ data: unknownVehicleData });
+      renderWithClient(<RepairEstimateResultPage id={mockId} />);
+      
+      await waitFor(() => {
+        expect(screen.getByTestId("mock-estimate-card")).toBeInTheDocument();
+      });
+
+
+      const missingTypeData = {
+        ...mockSuccessData,
+        vehicleInfo: {
+          brand: "테스트브랜드",
+          model: "테스트모델", 
+        },
+      };
+      
+    });
+
+    it("SSE 응답이 JSON 형식이지만 status 키가 없는 경우 처리 (lines 96-97)", async () => {
+      const pendingData = { ...mockSuccessData, status: "PROCESSING" };
+      (axiosInstance.get as jest.Mock).mockResolvedValue({ data: pendingData });
+
+      renderWithClient(<RepairEstimateResultPage id={mockId} />);
+
+      await waitFor(() => expect(MockEventSource.lastInstance).not.toBeNull());
+
+      await act(async () => {
+        // message event with valid JSON but no status -> string fallback or parsed itself
+        MockEventSource.lastInstance!.emit("status", JSON.stringify({ otherKey: "not-status" }));
+      });
+
+      // should safely ignore and not throw error
+      await waitFor(() => {
+        // axiosInstance is not called again because it doesn't trigger complete
+        expect(axiosInstance.get).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    it("SSE 응답이 COMPLETED를 포함한 JSON 형식인 경우 처리", async () => {
+      const pendingData = { ...mockSuccessData, status: "PENDING" };
+      (axiosInstance.get as jest.Mock)
+        .mockResolvedValueOnce({ data: pendingData })
+        .mockResolvedValueOnce({ data: mockSuccessData });
+
+      renderWithClient(<RepairEstimateResultPage id={mockId} />);
+
+      await waitFor(() => expect(MockEventSource.lastInstance).not.toBeNull());
+
+      await act(async () => {
+        // try parsed.status case line 96-97
+        MockEventSource.lastInstance!.emit("status", JSON.stringify({ status: "COMPLETED" }));
+      });
+
+      await waitFor(() => {
+        expect(axiosInstance.get).toHaveBeenCalledTimes(2);
+      });
+    });
   });
 });

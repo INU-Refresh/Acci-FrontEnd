@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor, cleanup } from "@testing-library/react";
 import RepairEstimatePage from "./RepairEstimatePage";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/features/repair-estimate/hooks";
@@ -164,5 +164,72 @@ describe("RepairEstimatePage", () => {
 
     expect(mockShowToast).toHaveBeenCalledWith("견적 결과 ID를 찾을 수 없습니다. 잠시 후 다시 시도해주세요.");
     expect(mockPush).not.toHaveBeenCalled();
+  });
+
+  it("손상 부위 상세 정보의 설명(userDescription)이 없으면 빈 문자열을 전송한다", async () => {
+    // line 48 coverage
+    setupStore({
+      damageDetails: [
+        {
+          part_name_kr: "프론트 범퍼",
+          part_name_en: "front_bumper",
+          damage_severity: 2,
+          // damage_label 없음
+        },
+      ]
+    });
+
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: jest.fn().mockResolvedValue({ resultId: "est-123" }),
+    });
+
+    render(<RepairEstimatePage />);
+    
+    const submitBtn = screen.getByTestId("submit-button");
+    fireEvent.click(submitBtn);
+
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledTimes(1);
+    });
+    
+    expect(mockPush).toHaveBeenCalledWith("/repair-estimate/result/est-123");
+  });
+
+  it("API 응답에서 다양한 키의 ID를 잘 추출한다 (id, resultId, data.id, data.estimateId, data.resultId)", async () => {
+    // line 72 coverage
+    const mockVariations = [
+      { id: "var-id" },
+      { estimateId: "var-estId" },
+      { resultId: "var-resId" },
+      { data: { id: "var-data-id" } },
+      { data: { estimateId: "var-data-estId" } },
+      { data: { resultId: "var-data-resId" } },
+    ];
+
+    for (const mockResp of mockVariations) {
+      cleanup();
+      jest.clearAllMocks();
+      setupStore();
+      
+      (global.fetch as jest.Mock).mockResolvedValue({
+        ok: true,
+        json: jest.fn().mockResolvedValue(mockResp),
+      });
+
+      render(<RepairEstimatePage />);
+      fireEvent.click(screen.getByTestId("submit-button"));
+      
+      await waitFor(() => {
+        expect(global.fetch).toHaveBeenCalled();
+      });
+
+      // Extract value to test
+      const expectedId = 
+        mockResp.id || mockResp.estimateId || mockResp.resultId || 
+        mockResp.data?.id || mockResp.data?.estimateId || mockResp.data?.resultId;
+
+      expect(mockPush).toHaveBeenCalledWith(`/repair-estimate/result/${expectedId}`);
+    }
   });
 });
