@@ -36,10 +36,10 @@ export function Pagination({ currentPage, totalPages, basePath }: PaginationProp
           </>
         ) : (
           <>
-            <Link href={buildPageHref(basePath, 1)} className="h-6 w-6 text-gray-300 hover:text-gray-500" aria-label="첫 페이지">
+            <Link href={buildPageHref(basePath, 1) as never} className="h-6 w-6 text-gray-300 hover:text-gray-500" aria-label="첫 페이지">
               «
             </Link>
-            <Link href={buildPageHref(basePath, currentPage - 1)} className="h-6 w-6 text-gray-300 hover:text-gray-500" aria-label="이전 페이지">
+            <Link href={buildPageHref(basePath, currentPage - 1) as never} className="h-6 w-6 text-gray-300 hover:text-gray-500" aria-label="이전 페이지">
               ‹
             </Link>
           </>
@@ -49,7 +49,7 @@ export function Pagination({ currentPage, totalPages, basePath }: PaginationProp
         {pages.map((page) => (
           <Link
             key={page}
-            href={buildPageHref(basePath, page)}
+            href={buildPageHref(basePath, page) as never}
             className={page === currentPage ? "text-gray-600" : "text-gray-300"}
             aria-current={page === currentPage ? "page" : undefined}
           >
@@ -69,10 +69,10 @@ export function Pagination({ currentPage, totalPages, basePath }: PaginationProp
           </>
         ) : (
           <>
-            <Link href={buildPageHref(basePath, currentPage + 1)} className="h-6 w-6 text-gray-300 hover:text-gray-500" aria-label="다음 페이지">
+            <Link href={buildPageHref(basePath, currentPage + 1) as never} className="h-6 w-6 text-gray-300 hover:text-gray-500" aria-label="다음 페이지">
               ›
             </Link>
-            <Link href={buildPageHref(basePath, totalPages)} className="h-6 w-6 text-gray-300 hover:text-gray-500" aria-label="마지막 페이지">
+            <Link href={buildPageHref(basePath, totalPages) as never} className="h-6 w-6 text-gray-300 hover:text-gray-500" aria-label="마지막 페이지">
               »
             </Link>
           </>
