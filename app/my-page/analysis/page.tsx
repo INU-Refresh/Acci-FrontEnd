@@ -3,17 +3,13 @@ import { getUserInfo } from "@/entities/user/api/get-user-info";
 import { getAnalysisRecordPage } from "@/entities/analysis/api/get-recent-analysis-records";
 
 type AnalysisPageProps = {
-  searchParams?:
-    | {
-        page?: string;
-      }
-    | Promise<{
-        page?: string;
-      }>;
+  searchParams?: Promise<{
+    page?: string;
+  }>;
 };
 
 export default async function Page({ searchParams }: AnalysisPageProps) {
-  const resolvedSearchParams = searchParams instanceof Promise ? await searchParams : searchParams;
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
   const parsedPage = Number(resolvedSearchParams?.page ?? "1");
   const currentPage = Number.isInteger(parsedPage) && parsedPage > 0 ? parsedPage : 1;
   const initialUserInfo = await getUserInfo();
