@@ -123,7 +123,7 @@ export function Header({ initialUserInfo = null }: HeaderProps) {
           <div className="flex items-center justify-between gap-2 my-auto h-12.5 sm:h-19">
             {/* Logo */}
             <Link href="/" className={cn("flex items-center gap-1.5 sm:gap-2 shrink-0 min-w-0 cursor-pointer px-1.5 py-1", headerInteractiveClassName)}>
-              <Image src="/ACCI_Logo_v2.svg" alt="Acci Logo" width={32} height={32} className="w-8 h-8 sm:w-12 sm:h-12 shrink-0" priority />
+              <Image src="/ACCI_Logo_v2.svg" alt="Acci Logo" width={32} height={32} className="w-12 sm:w-12 sm:h-12 shrink-0" priority />
             </Link>
             {/* PC Navigation - visible on md and above */}
             <nav className="hidden md:flex items-center gap-6">
