@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Card, CardContent, CardDescription, CardHeader } from "@/shared/ui/card";
 import { StarIcon } from "@/shared/icons";
 
@@ -7,18 +8,21 @@ const REVIEWS = [
     comment: "교수님 차량과의 교통사고 후 과실 비율이 궁금했는데, Acci가 자세하고 정확하게 사고를 분석해주어서 큰 도움이 되었습니다.",
     name: "성*준",
     age: "20대 남자",
+    profile: "/images/profile1.png",
   },
   {
     rating: 5,
     comment: "보험사의 과실 비율 판정 기다리기 힘들었는데, Acci 덕분에 빠르게 대응할 수 있었어요. ",
     name: "정*환",
     age: "20대 남자",
+    profile: "/images/profile2.png",
   },
   {
     rating: 5,
     comment: "제가 겪은 상황과 비슷한 판례들을 알 수 있어서 좋았어요",
     name: "유*영",
     age: "20대 여자",
+    profile: "/images/profile3.png",
   },
 ];
 
@@ -42,7 +46,11 @@ export function ReviewsSection() {
             </CardHeader>
             <CardContent>
               <div className="flex items-center gap-3">
-                <div className="w-16 h-16 rounded-full bg-[#d9d9d9] flex items-center justify-center text-lg">{/* 프사가 들어가면 되지 않을까...? */}</div>
+                {review.profile ? (
+                  <Image src={review.profile} alt="프로필" width={64} height={64} className="rounded-full object-cover aspect-square" />
+                ) : (
+                  <div className="w-16 h-16 rounded-full bg-[#d9d9d9] flex items-center justify-center text-lg" />
+                )}
                 <div>
                   <p className="text-body5">{review.name}</p>
                   <p className="text-body8 text-muted-foreground">{review.age}</p>
